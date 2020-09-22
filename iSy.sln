@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30503.244
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iSy", "iSy\iSy.csproj", "{2196A66E-36B5-484F-BB9B-400D3B23B348}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iSy.Shared", "iSy.Shared\iSy.Shared.csproj", "{1B8F219A-7D52-4AB3-BFCF-CE9A5A208D06}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Weather", "Weather\Weather.csproj", "{23055BA0-7150-4DE9-9C64-1EC59B836534}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2196A66E-36B5-484F-BB9B-400D3B23B348}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2196A66E-36B5-484F-BB9B-400D3B23B348}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2196A66E-36B5-484F-BB9B-400D3B23B348}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2196A66E-36B5-484F-BB9B-400D3B23B348}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B8F219A-7D52-4AB3-BFCF-CE9A5A208D06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B8F219A-7D52-4AB3-BFCF-CE9A5A208D06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B8F219A-7D52-4AB3-BFCF-CE9A5A208D06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B8F219A-7D52-4AB3-BFCF-CE9A5A208D06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23055BA0-7150-4DE9-9C64-1EC59B836534}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23055BA0-7150-4DE9-9C64-1EC59B836534}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23055BA0-7150-4DE9-9C64-1EC59B836534}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23055BA0-7150-4DE9-9C64-1EC59B836534}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3BC2224A-730A-4271-B305-D11EB01CC6E3}
+	EndGlobalSection
+EndGlobal
