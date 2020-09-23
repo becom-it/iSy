@@ -7,6 +7,7 @@ namespace Weather.Models
     public class WeatherConfig
     {
         public string AppId { get; set; }
+        public string Link { get; set; }
         public Company[]  Companies { get; set; }
     }
 

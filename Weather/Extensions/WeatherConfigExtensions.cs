@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using Weather.Models;
+using Weather.Services;
 
 namespace Weather.Extensions
 {
@@ -13,14 +14,20 @@ namespace Weather.Extensions
     {
         public static void AddWeatherConfig(this IServiceCollection services, IConfiguration configuration)
         {
-            //var path = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot\\assets\\weatherconfig\\weather.json");
-            //var json = System.IO.File.ReadAllText(path);
-            //var wconfig = JsonSerializer.Deserialize<WeatherConfig>(json);
-
             var wconfig = new WeatherConfig();
             configuration.GetSection("WeatherConfig").Bind(wconfig);
 
-            services.TryAddSingleton<WeatherConfig>(wconfig);
+            services.TryAddSingleton(wconfig);
+
+            services.TryAddSingleton<WeatherCache>();
+
+            services.TryAddTransient<OWMHandler>();
+            services.AddHttpClient("owm", c => {
+                c.BaseAddress = new Uri(wconfig.Link);
+            
+            }).ConfigurePrimaryHttpMessageHandler<OWMHandler>();
+
+            services.TryAddTransient<IWeatherService, WeatherService>();
         }
     }
 }

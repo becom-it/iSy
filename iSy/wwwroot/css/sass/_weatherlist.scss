@@ -1,0 +1,53 @@
+﻿@import "variables";
+
+.weather-list-container {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+
+	.wl-company-container {
+		display: flex;
+		flex-direction: column;
+		width: 20%;
+		text-align: center;
+
+		.wl-c-desc {
+			color: $lightblue;
+			font-weight: bold;
+			font-size: 1.2em;
+		}
+
+		.wl-c-temp-row {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-evenly;
+			align-items: center;
+
+			img {
+				height: 47px;
+				width: 47px;
+			}
+
+			.wl-c-temp {
+				font-size: 2em;
+			}
+		}
+
+		.wl-c-time {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-evenly;
+
+			.wl-c-t-city {
+				img {
+					height: 12px;
+					width: 12px;
+				}
+			}
+		}
+	}
+}
+
+.cache {
+	background-color: $lightgray;
+}

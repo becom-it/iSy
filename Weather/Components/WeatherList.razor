@@ -1,7 +1,23 @@
-﻿<h3>WeatherList</h3>
-<div>
-    @foreach(var w in WeatherConfig.Companies)
+﻿<div class="weather-list-container @(FromCache ? "cache" : "")">
+    @if (WeatherData != null)
     {
-        <div>@w.Description</div>
+
+        @foreach (var w in WeatherData)
+        {
+            <div class="wl-company-container">
+                <div class="wl-c-desc">@w.Description</div>
+                <div class="wl-c-temp-row">
+                    <div><img src="_content/Weather/assets/weather/@w.WeatherIcon" /></div>
+                    <div class="wl-c-temp">@Math.Round(w.Temperature, 0) °C</div>
+                </div>
+                <div class="wl-c-time">
+                    <div class="wl-c-t-city">
+                        <img src="_content/Weather/assets/location-pin.png" />
+                        @w.City
+                    </div>
+                    <div>@DateTime.Now.ToShortTimeString()</div>
+                </div>
+            </div>
+        }
     }
 </div>
