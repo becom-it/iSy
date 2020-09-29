@@ -1,13 +1,18 @@
-﻿@inject EmployeeInfo.Services.IEmployeeService empService
+﻿@using  EmployeeInfo.Models
+@inject EmployeeInfo.Services.IEmployeeService empService
 
 <div class="emp-search">
-    <CoolInputAutoComplete InputChanged="InpChanged" SearchResult="FoundEmployees"/>
-    <p>@Found</p>
+    <CoolInputAutoComplete InputChanged="InpChanged" SearchResult="FoundEmployeesDisplay" />
 </div>
 
 @code {
 
-    public List<string> FoundEmployees { get; set; } = new List<string>();
+
+    [Parameter]
+    public EventCallback<LdapEmployee> EmployeeSelected { get; set; }
+
+    public List<LdapEmployee> FoundEmployees { get; set; } = new List<LdapEmployee>();
+    public List<string> FoundEmployeesDisplay { get; set; } = new List<string>();
 
     public string Found { get; set; }
 
@@ -15,15 +20,17 @@
     {
         if (string.IsNullOrEmpty(text) || text.Length < 3) return;
 
-        if (FoundEmployees.Contains(text)) {
-            Found = text;
+        if (FoundEmployeesDisplay.Contains(text))
+        {
+            var emp = FoundEmployees.Where(x => x.DisplayName == text).FirstOrDefault();
+            await EmployeeSelected.InvokeAsync(emp);
             return;
         }
 
-        if (FoundEmployees.Count == 0)
-        {
-            var user = await empService.SearchEmployee(text);
-            FoundEmployees = user.Select(x => x.DisplayName).ToList();
-        }
+        FoundEmployeesDisplay.Clear();
+        FoundEmployees.Clear();
+        FoundEmployees = await empService.SearchEmployee(text);
+        FoundEmployeesDisplay = FoundEmployees.Select(x => x.DisplayName).ToList();
+
     }
 }

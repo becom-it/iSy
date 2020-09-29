@@ -64,7 +64,7 @@ namespace FlintSoft.Ldap
                 }
                 catch(KeyNotFoundException kex)
                 {
-                    logger.LogWarning($"Attribute {a} not found in directory entry!");
+                    logger.LogWarning($"Attribute {a} not found in directory entry! ({kex.Message})");
                     continue;
                 }
                 catch (Exception ex)

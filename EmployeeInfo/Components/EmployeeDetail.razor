@@ -1,5 +1,11 @@
-﻿<h3>EmployeeDetail</h3>
+﻿@using EmployeeInfo.Models
+
+@if (Employee != null)
+{
+<p>@Employee.DisplayName</p>
+}
 
 @code {
-
+    [Parameter]
+    public LdapEmployee Employee { get; set; }
 }
