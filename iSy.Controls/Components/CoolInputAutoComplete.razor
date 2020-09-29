@@ -1,0 +1,40 @@
+﻿<div class="cool-input">
+    <label>
+        <input required @bind-value="SearchTerm" @bind-value:event="oninput" list="cool-input-list" />
+        <span class="placeholder">@Placeholder</span>
+        <i class="fa fa-user icon"></i>
+        <datalist id="cool-input-list">
+            @foreach (var r in SearchResult)
+            {
+                <option>@r</option>
+            }
+        </datalist>
+    </label>
+</div>
+@code {
+    [Parameter]
+    public string Placeholder { get; set; }
+
+    [Parameter]
+    public EventCallback<string> InputChanged { get; set; }
+
+    [Parameter]
+    public List<string> SearchResult { get; set; }
+
+    private string _searchTerm = "";
+    public string SearchTerm
+    {
+        get { return _searchTerm; }
+        set
+        {
+            _searchTerm = value;
+            InputChanged.InvokeAsync(value);
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (SearchResult.Count == 0) return;
+        Console.WriteLine("a parameter has changed");
+    }
+}

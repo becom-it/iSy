@@ -1,6 +1,11 @@
-﻿@import "sass/variables";
+﻿@import "fa/fontawesome.scss";
+@import "fa/solid.scss";
+@import "fa/brands.scss";
+@import "sass/variables";
 @import "sass/top";
 @import "sass/weatherlist";
+
+$fa-font-path: "../webfonts";
 
 * {
     box-sizing: border-box;
@@ -67,7 +72,7 @@ body {
 
     .center {
         margin: 10px;
-        background-color: $white;
+        //background-color: $white;
         flex: 1;
         padding: 10px;
         overflow: auto;

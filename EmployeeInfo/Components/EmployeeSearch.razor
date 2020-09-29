@@ -1,1 +1,29 @@
-﻿
+﻿@inject EmployeeInfo.Services.IEmployeeService empService
+
+<div class="emp-search">
+    <CoolInputAutoComplete InputChanged="InpChanged" SearchResult="FoundEmployees"/>
+    <p>@Found</p>
+</div>
+
+@code {
+
+    public List<string> FoundEmployees { get; set; } = new List<string>();
+
+    public string Found { get; set; }
+
+    async Task InpChanged(string text)
+    {
+        if (string.IsNullOrEmpty(text) || text.Length < 3) return;
+
+        if (FoundEmployees.Contains(text)) {
+            Found = text;
+            return;
+        }
+
+        if (FoundEmployees.Count == 0)
+        {
+            var user = await empService.SearchEmployee(text);
+            FoundEmployees = user.Select(x => x.DisplayName).ToList();
+        }
+    }
+}

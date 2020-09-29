@@ -1,0 +1,1 @@
+﻿.employee-container{display:flex;flex-direction:row;height:100%;}.employee-container .ec-left{display:flex;flex-direction:column;width:20%;background-color:#fff;padding:20px;}.employee-container .ec-left .ecl-detail{flex:1;}.employee-container .ec-right{display:flex;flex-direction:column;margin-left:20px;flex:1;background-color:#fff;padding:20px;}

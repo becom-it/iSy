@@ -14,6 +14,8 @@ using Weather.Models;
 using iSy.Extensions;
 using Weather.Extensions;
 using Microsoft.Extensions.Options;
+using EmployeeInfo.Extensions;
+using FlintSoft.Ldap.Extensions;
 
 namespace iSy
 {
@@ -35,6 +37,8 @@ namespace iSy
             services.AddSingleton<WeatherForecastService>();
 
             services.AddWeatherConfig(Configuration);
+            services.AddLdap(Configuration);
+            services.AddEmployeeInfo();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,9 +1,28 @@
 ﻿<div class="cool-input">
     <label>
-        <input required />
-        <span class="placeholder">Mitarbeiter</span>
+        <input required @bind-value="BindingValue"/>
+        <span class="placeholder">@Placeholder</span>
+        <i class="fa fa-user icon"></i>
     </label>
 </div>
 @code {
+    [Parameter]
+    public string Placeholder { get; set; }
 
+    private string _value;
+
+    [Parameter]
+    public string BindingValue
+    {
+        get => _value;
+        set
+        {
+            if (_value == value) return;
+            _value = value;
+            BindingValueChanged.InvokeAsync(value);
+        }
+    }
+
+    [Parameter]
+    public EventCallback<string> BindingValueChanged { get; set; }
 }

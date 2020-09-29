@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>776787da-c993-4e95-a723-e16c6cbc6057</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,6 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EmployeeInfo\EmployeeInfo.csproj" />
+    <ProjectReference Include="..\FlintSoft.Ldap\FlintSoft.Ldap.csproj" />
+    <ProjectReference Include="..\iSy.Controls\iSy.Controls.csproj" />
     <ProjectReference Include="..\iSy.Shared\iSy.Shared.csproj" />
     <ProjectReference Include="..\Weather\Weather.csproj" />
   </ItemGroup>
