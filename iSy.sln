@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iSy.Shared", "iSy.Shared\iS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weather", "Weather\Weather.csproj", "{23055BA0-7150-4DE9-9C64-1EC59B836534}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeInfo", "EmployeeInfo\EmployeeInfo.csproj", "{6B4F6BDB-A9A5-46E1-835E-7DDC14480A0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeInfo", "EmployeeInfo\EmployeeInfo.csproj", "{6B4F6BDB-A9A5-46E1-835E-7DDC14480A0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iSy.Controls", "iSy.Controls\iSy.Controls.csproj", "{6F4114ED-096B-462B-BE3D-D2FDF262BBCD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{6B4F6BDB-A9A5-46E1-835E-7DDC14480A0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B4F6BDB-A9A5-46E1-835E-7DDC14480A0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B4F6BDB-A9A5-46E1-835E-7DDC14480A0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F4114ED-096B-462B-BE3D-D2FDF262BBCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F4114ED-096B-462B-BE3D-D2FDF262BBCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F4114ED-096B-462B-BE3D-D2FDF262BBCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F4114ED-096B-462B-BE3D-D2FDF262BBCD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
