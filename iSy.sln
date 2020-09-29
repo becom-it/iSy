@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iSy", "iSy\iSy.csproj", "{2196A66E-36B5-484F-BB9B-400D3B23B348}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iSy", "iSy\iSy.csproj", "{2196A66E-36B5-484F-BB9B-400D3B23B348}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iSy.Shared", "iSy.Shared\iSy.Shared.csproj", "{1B8F219A-7D52-4AB3-BFCF-CE9A5A208D06}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iSy.Shared", "iSy.Shared\iSy.Shared.csproj", "{1B8F219A-7D52-4AB3-BFCF-CE9A5A208D06}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Weather", "Weather\Weather.csproj", "{23055BA0-7150-4DE9-9C64-1EC59B836534}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weather", "Weather\Weather.csproj", "{23055BA0-7150-4DE9-9C64-1EC59B836534}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeInfo", "EmployeeInfo\EmployeeInfo.csproj", "{6B4F6BDB-A9A5-46E1-835E-7DDC14480A0E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{23055BA0-7150-4DE9-9C64-1EC59B836534}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23055BA0-7150-4DE9-9C64-1EC59B836534}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23055BA0-7150-4DE9-9C64-1EC59B836534}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B4F6BDB-A9A5-46E1-835E-7DDC14480A0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B4F6BDB-A9A5-46E1-835E-7DDC14480A0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B4F6BDB-A9A5-46E1-835E-7DDC14480A0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B4F6BDB-A9A5-46E1-835E-7DDC14480A0E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
