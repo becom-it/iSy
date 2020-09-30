@@ -1,0 +1,28 @@
+﻿.employee-details {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .ed-row {
+        display: flex;
+        flex-direction: row;
+
+        .ed-pic {
+        }
+
+        .ed-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ed-info {
+            display: flex;
+            flex-direction: column;
+
+            .edi2-row {
+                display: flex;
+                flex-direction: row;
+            }
+        }
+    }
+}
