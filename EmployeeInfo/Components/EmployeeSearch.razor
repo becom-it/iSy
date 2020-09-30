@@ -14,6 +14,8 @@
     public List<LdapEmployee> FoundEmployees { get; set; } = new List<LdapEmployee>();
     public List<string> FoundEmployeesDisplay { get; set; } = new List<string>();
 
+    public LdapEmployee CurrentEmployee { get; set; } = null;
+
     public string Found { get; set; }
 
     async Task InpChanged(string text)
@@ -22,8 +24,8 @@
 
         if (FoundEmployeesDisplay.Contains(text))
         {
-            var emp = FoundEmployees.Where(x => x.DisplayName == text).FirstOrDefault();
-            await EmployeeSelected.InvokeAsync(emp);
+            CurrentEmployee = FoundEmployees.Where(x => x.DisplayName == text).FirstOrDefault();
+            await EmployeeSelected.InvokeAsync(CurrentEmployee);
             return;
         }
 
@@ -32,5 +34,17 @@
         FoundEmployees = await empService.SearchEmployee(text);
         FoundEmployeesDisplay = FoundEmployees.Select(x => x.DisplayName).ToList();
 
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if(CurrentEmployee == null)
+        {
+            //Aktuellen Mitarbeiter ermitteln
+            var uname = "MPRATTINGE";
+            //Aktuellen User laden
+            CurrentEmployee = await empService.LoadEmployee(uname);
+            await EmployeeSelected.InvokeAsync(CurrentEmployee);
+        }
     }
 }

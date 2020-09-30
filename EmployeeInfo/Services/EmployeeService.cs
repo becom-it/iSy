@@ -4,6 +4,7 @@ using FlintSoft.Ldap.Services;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,6 +13,7 @@ namespace EmployeeInfo.Services
     public interface IEmployeeService
     {
         Task<List<LdapEmployee>> SearchEmployee(string searchText);
+        Task<LdapEmployee> LoadEmployee(string employeeId);
     }
 
     public class EmployeeService : IEmployeeService
@@ -38,6 +40,30 @@ namespace EmployeeInfo.Services
                 return new List<LdapEmployee>();
             }
             
+        } 
+
+        public async Task<LdapEmployee> LoadEmployee(string employeeId)
+        {
+            try
+            {
+                var filter = $"(&(objectCategory=person)(|(samaccountname={employeeId})";
+                var foundEmp = await _ldapService.Search<LdapEmployee>("OU=BECOM AT,DC=ad,DC=becom,DC=at", filter);
+                if(foundEmp.Count == 0)
+                {
+                    throw new Exception("No employee found!");
+                } else if(foundEmp.Count > 1)
+                {
+                    throw new Exception($"Found {foundEmp.Count} employees! Expected to find only 1 result.");
+                } else
+                {
+                    return foundEmp.First();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error loading ldap employee with id {employeeId}: {ex.Message}");
+                return null;
+            }
         } 
     }
 }
