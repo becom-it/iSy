@@ -2,7 +2,7 @@
 @inject EmployeeInfo.Services.IEmployeeService empService
 
 <div class="emp-search">
-    <CoolInputAutoComplete InputChanged="InpChanged" SearchResult="FoundEmployeesDisplay" />
+    <CoolInputAutoComplete InputChanged="InpChanged" SearchResult="FoundEmployeesDisplay" DebounceTime="500"/>
 </div>
 
 @code {
