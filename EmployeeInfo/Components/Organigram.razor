@@ -1,5 +1,26 @@
-﻿<h3>Organigram</h3>
+﻿@using EmployeeInfo.Extensions
+
+@inject Microsoft.JSInterop.IJSRuntime jsRuntime
+
+<canvas id="@Id" width="@Width" height="@Height" @ref="CanvasRef"></canvas>
 
 @code {
 
+    [Parameter]
+    public string Id { get; set; } = Guid.NewGuid().ToString();
+
+    [Parameter]
+    public long Height { get; set; } = 300;
+
+    [Parameter]
+    public long Width { get; set; } = 200;
+
+    [Parameter]
+    public ElementReference CanvasRef { get; set; }
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await jsRuntime.InitializeOrgCanvas(Id);
+    }
 }
