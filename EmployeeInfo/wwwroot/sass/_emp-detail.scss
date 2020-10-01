@@ -8,20 +8,50 @@
         flex-direction: row;
 
         .ed-pic {
+
+            img {
+                max-height: 120px
+            }
         }
 
         .ed-info {
             display: flex;
             flex-direction: column;
+            margin-left: 20px;
+            margin-top: 10px;
+
+            .edi-name {
+                font-size: 1.5rem;
+                font-weight: bold;
+            }
+
+            .edi-jtitle {
+                font-size: 1rem;
+            }
+
+            .edi-phone {
+            }
+
+            .edi-mail {
+            }
         }
 
-        .ed-info {
+        .ed-info2 {
             display: flex;
             flex-direction: column;
+            margin-top: 10px;
 
             .edi2-row {
                 display: flex;
                 flex-direction: row;
+
+                .edi2-label {
+                    margin-right: 10px;
+                }
+
+                .edi2-text {
+                    font-weight: bold;
+                }
             }
         }
     }

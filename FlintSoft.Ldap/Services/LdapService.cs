@@ -24,7 +24,7 @@ namespace FlintSoft.Ldap.Services
             return await Task.Run(() =>
             {
                 var ldapConn = getLdapConnection(_config);
-                var search = ldapConn.Search(path, LdapConnection.ScopeSub, filter, LdapHelper.GetLdapAttributes<LdapUser>().ToArray(), false);
+                var search = ldapConn.Search(path, LdapConnection.ScopeSub, filter, LdapHelper.GetLdapAttributes<T>().ToArray(), false);
 
                 return LdapHelper.ConvertLdapResult<T>(_logger, search, (propName, attr) =>
                 {

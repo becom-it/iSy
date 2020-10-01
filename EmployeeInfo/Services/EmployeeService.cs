@@ -46,7 +46,7 @@ namespace EmployeeInfo.Services
         {
             try
             {
-                var filter = $"(&(objectCategory=person)(|(samaccountname={employeeId})";
+                var filter = $"(samaccountname={employeeId})";
                 var foundEmp = await _ldapService.Search<LdapEmployee>("OU=BECOM AT,DC=ad,DC=becom,DC=at", filter);
                 if(foundEmp.Count == 0)
                 {

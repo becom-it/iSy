@@ -1,6 +1,6 @@
 ﻿<div class="cool-input">
     <label>
-        <input required @bind-value="SearchTerm" @bind-value:event="oninput" list="cool-input-list" />
+        <input required list="cool-input-list" value="@CurrentText" @oninput="inputChanged" />
         <span class="placeholder">@Placeholder</span>
         <i class="fa fa-user icon"></i>
         <datalist id="cool-input-list">
@@ -16,6 +16,9 @@
     public string Placeholder { get; set; }
 
     [Parameter]
+    public string CurrentText { get; set; }
+
+    [Parameter]
     public EventCallback<string> InputChanged { get; set; }
 
     [Parameter]
@@ -26,24 +29,12 @@
 
     private DateTime lastFired = default;
 
-    private string _searchTerm = "";
-    public string SearchTerm
+    private void inputChanged(ChangeEventArgs e)
     {
-        get { return _searchTerm; }
-        set
+        if (string.IsNullOrEmpty(e.Value as string)) return;
+        if (DateTime.Now.Subtract(lastFired) >= TimeSpan.FromMilliseconds(DebounceTime))
         {
-            _searchTerm = value;
-            if (DateTime.Now.Subtract(lastFired) >= TimeSpan.FromMilliseconds(DebounceTime))
-            {
-                InputChanged.InvokeAsync(value);
-            }
-            lastFired = DateTime.Now;
+            InputChanged.InvokeAsync(e.Value as string);
         }
-    }
-
-    protected override void OnParametersSet()
-    {
-        if (SearchResult.Count == 0) return;
-        Console.WriteLine("a parameter has changed");
     }
 }

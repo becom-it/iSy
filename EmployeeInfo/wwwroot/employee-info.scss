@@ -1,4 +1,5 @@
 ﻿@import "sass/emp-search";
+@import "sass/emp-detail";
 
 .employee-container {
     display: flex;
@@ -8,7 +9,7 @@
     .ec-left {
         display: flex;
         flex-direction: column;
-        width: 20%;
+        width: 30%;
         background-color: white;
         padding: 20px;
 
