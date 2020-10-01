@@ -2,7 +2,7 @@
 @inject EmployeeInfo.Services.IEmployeeService empService
 
 <div class="emp-search">
-    <CoolInputAutoComplete2 Placeholder="Mitarbeiter" CurrentText="@SearchTerm" InputChanged="InpChanged" SearchResult="FoundEmployeesDisplay" DebounceTime="500" />
+    <InputAutoComplete Placeholder="Mitarbeiter" CurrentText="@SearchTerm" InputChanged="InpChanged" SearchResult="FoundEmployeesDisplay" DebounceTime="500" />
 </div>
 
 @code {
@@ -11,11 +11,12 @@
     [Parameter]
     public EventCallback<LdapEmployee> EmployeeSelected { get; set; }
 
+    [Parameter]
+    public LdapEmployee CurrentEmployee { get; set; } = null;
+
     public List<LdapEmployee> FoundEmployees { get; set; } = new List<LdapEmployee>();
 
     public List<string> FoundEmployeesDisplay { get; set; } = new List<string>();
-
-    public LdapEmployee CurrentEmployee { get; set; } = null;
 
     public string SearchTerm { get; set; }
 
@@ -26,7 +27,7 @@
         if (FoundEmployeesDisplay.Contains(text))
         {
             CurrentEmployee = FoundEmployees.Where(x => $"{x.FirstName} {x.LastName}" == text).FirstOrDefault();
-            await EmployeeSelected.InvokeAsync(CurrentEmployee);
+            //await EmployeeSelected.InvokeAsync(CurrentEmployee);
             return;
         }
 
