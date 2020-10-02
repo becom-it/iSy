@@ -27,7 +27,7 @@
         if (FoundEmployeesDisplay.Contains(text))
         {
             CurrentEmployee = FoundEmployees.Where(x => $"{x.FirstName} {x.LastName}" == text).FirstOrDefault();
-            //await EmployeeSelected.InvokeAsync(CurrentEmployee);
+            await EmployeeSelected.InvokeAsync(CurrentEmployee);
             return;
         }
 

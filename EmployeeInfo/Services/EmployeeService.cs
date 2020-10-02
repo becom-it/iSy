@@ -14,6 +14,7 @@ namespace EmployeeInfo.Services
     {
         Task<List<LdapEmployee>> SearchEmployee(string searchText);
         Task<LdapEmployee> LoadEmployee(string employeeId);
+        Task<List<LdapEmployee>> SearchWithFilter(string filter, string path = "");
     }
 
     public class EmployeeService : IEmployeeService
@@ -32,7 +33,7 @@ namespace EmployeeInfo.Services
             try
             {
                 var filter = $"(&(objectCategory=person)(|(samaccountname=*{searchText}*)(givenname=*{searchText}*)(sn=*{searchText}*)(cn=*{searchText}*)))";
-                return await _ldapService.Search<LdapEmployee>("OU=BECOM AT,DC=ad,DC=becom,DC=at", filter);
+                return await _ldapService.Search<LdapEmployee>(filter);
             }
             catch (Exception ex)
             {
@@ -47,7 +48,7 @@ namespace EmployeeInfo.Services
             try
             {
                 var filter = $"(samaccountname={employeeId})";
-                var foundEmp = await _ldapService.Search<LdapEmployee>("OU=BECOM AT,DC=ad,DC=becom,DC=at", filter);
+                var foundEmp = await _ldapService.Search<LdapEmployee>(filter);
                 if(foundEmp.Count == 0)
                 {
                     throw new Exception("No employee found!");
@@ -64,6 +65,20 @@ namespace EmployeeInfo.Services
                 _logger.LogError($"Error loading ldap employee with id {employeeId}: {ex.Message}");
                 return null;
             }
-        } 
+        }
+
+        public async Task<List<LdapEmployee>> SearchWithFilter(string filter, string path = "")
+        {
+            try
+            { 
+                return await _ldapService.Search<LdapEmployee>(filter, path);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error searching for employee with filter {filter}: {ex.Message}");
+                return new List<LdapEmployee>();
+            }
+
+        }
     }
 }

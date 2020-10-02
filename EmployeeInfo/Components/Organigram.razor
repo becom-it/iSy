@@ -1,26 +1,51 @@
 ﻿@using EmployeeInfo.Extensions
+@using EmployeeInfo.Models
 
 @inject Microsoft.JSInterop.IJSRuntime jsRuntime
+@inject EmployeeInfo.Services.IEmployeeService empService
 
 <canvas id="@Id" width="@Width" height="@Height" @ref="CanvasRef"></canvas>
 
 @code {
 
     [Parameter]
+    public LdapEmployee Employee { get; set; } = null;
+
     public string Id { get; set; } = Guid.NewGuid().ToString();
 
-    [Parameter]
     public long Height { get; set; } = 300;
 
-    [Parameter]
     public long Width { get; set; } = 200;
 
-    [Parameter]
     public ElementReference CanvasRef { get; set; }
+
 
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await jsRuntime.InitializeOrgCanvas(Id);
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Employee != null)
+        {
+            var vm = new OrganigramViewModel();
+            //Load Manager
+            if (!String.IsNullOrEmpty(Employee.Manager))
+            {
+                vm.Manager = (await empService.SearchWithFilter("(objectclass=*)", Employee.Manager)).FirstOrDefault();
+            }
+
+            //Load Employees
+            if(Employee.DirectReports.Count > 0)
+            {
+                foreach(var e in Employee.DirectReports)
+                {
+                    var rep = (await empService.SearchWithFilter("(objectclass=*)", e)).FirstOrDefault();
+                    vm.Employees.Add(rep);
+                }
+            }
+        }
     }
 }
