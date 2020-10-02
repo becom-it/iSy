@@ -32,4 +32,9 @@
     <ProjectReference Include="..\iSy.Controls\iSy.Controls.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="jsLib\" />
+  </ItemGroup>
+
 </Project>
