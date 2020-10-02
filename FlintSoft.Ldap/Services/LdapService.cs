@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Novell.Directory.Ldap;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FlintSoft.Ldap.Services
@@ -19,12 +20,24 @@ namespace FlintSoft.Ldap.Services
             _config = config;
         }
 
-        public async Task<List<T>> Search<T>(string path, string filter)
+        //public async Task LoadData()
+        //{
+
+        //}
+
+        public async Task<List<T>> Search<T>(string filter, string path = "")
         {
             return await Task.Run(() =>
             {
                 var ldapConn = getLdapConnection(_config);
-                var search = ldapConn.Search(path, LdapConnection.ScopeSub, filter, LdapHelper.GetLdapAttributes<T>().ToArray(), false);
+                var searchPath = string.Empty;
+                if(string.IsNullOrEmpty(path)) {
+                    searchPath = _config.Path;
+                } else
+                {
+                    searchPath = path;
+                }
+                var search = ldapConn.Search(searchPath, LdapConnection.ScopeSub, filter, LdapHelper.GetLdapAttributes<T>().ToArray(), false);
 
                 return LdapHelper.ConvertLdapResult<T>(_logger, search, (propName, attr) =>
                 {
@@ -35,7 +48,14 @@ namespace FlintSoft.Ldap.Services
                     }
                     else
                     {
-                        return attr.StringValue;
+                        if (attr.StringValueArray.Length > 1)
+                        {
+                            return attr.StringValueArray.ToList();
+                        }
+                        else
+                        {
+                            return attr.StringValue;
+                        }
                     }
                 });
             });
@@ -65,6 +85,6 @@ namespace FlintSoft.Ldap.Services
 
     public interface ILdapService
     {
-        Task<List<T>> Search<T>(string path, string filter);
+        Task<List<T>> Search<T>(string filter, string path = "");
     }
 }

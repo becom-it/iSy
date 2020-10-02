@@ -5,5 +5,6 @@
         public string Server { get; set; }
         public string UName { get; set; }
         public string Password { get; set; }
+        public string Path { get; set; }
     }
 }

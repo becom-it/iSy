@@ -1,4 +1,5 @@
 ﻿using FlintSoft.Ldap;
+using System.Collections.Generic;
 
 namespace EmployeeInfo.Models
 {
@@ -28,7 +29,7 @@ namespace EmployeeInfo.Models
         public string Manager { get; set; }
 
         [LdapUser("directreports")]
-        public string DirectReports { get; set; }
+        public List<string> DirectReports { get; set; }
 
         [LdapUser("title")]
         public string JobTitle { get; set; }
