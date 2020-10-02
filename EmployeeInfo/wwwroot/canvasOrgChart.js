@@ -1,6 +1,12 @@
-﻿window.canvasOrgChartJSInterop = {
-    Initialize: canvasId => {
-        let canv = document.getElementById(canvasId);
+﻿class CanvasHandler {
+    Initialize(canvasId) {
+        this.canvasId = canvasId;
+        window.addEventListener("resize", (e) => { this.resize(); }, false);
+        this.resize();
+    }
+
+    resize() {
+        let canv = document.getElementById(this.canvasId);
         if (canv !== null) {
             console.log("Canvas found! Fit to parent...");
             canv.style.width = '100%';
@@ -12,3 +18,5 @@
         }
     }
 }
+
+window.canvasOrgChartJSInterop = new CanvasHandler();
