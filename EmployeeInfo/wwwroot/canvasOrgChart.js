@@ -1,19 +1,28 @@
 ﻿class CanvasHandler {
-    Initialize(canvasId) {
+    Initialize(canvasId, clickInvoker) {
         this.canvasId = canvasId;
+        this.clickInvoker = clickInvoker;
+        this.canvas = document.getElementById(this.canvasId);
+
+        this.canvas.addEventListener("click", (e) => {
+            this.clickInvoker.invokeMethodAsync('iSy', 'EmployeeClicked');
+            this.clickInvoker.dispose();
+            e.stopPropagation();
+        });
+
         window.addEventListener("resize", (e) => { this.resize(); }, false);
         this.resize();
     }
 
     resize() {
-        let canv = document.getElementById(this.canvasId);
-        if (canv !== null) {
+        
+        if (this.canvas !== null) {
             console.log("Canvas found! Fit to parent...");
-            canv.style.width = '100%';
-            canv.style.height = '100%';
+            this.canvas.style.width = '100%';
+            this.canvas.style.height = '100%';
             // ...then set the internal size to match
-            canv.width = canv.offsetWidth;
-            canv.height = canv.offsetHeight;
+            this.canvas.width = this.canvas.offsetWidth;
+            this.canvas.height = this.canvas.offsetHeight;
             console.log("Done!");
         }
     }

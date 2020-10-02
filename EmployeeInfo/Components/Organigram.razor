@@ -19,11 +19,19 @@
 
     public ElementReference CanvasRef { get; set; }
 
+    private EmployeeInfo.Services.CanvasClickInvoker clickInvoker;
 
+    protected override void OnInitialized()
+    {
+        clickInvoker = new Services.CanvasClickInvoker(() =>
+        {
+            Console.WriteLine("Clicked");
+        });
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await jsRuntime.InitializeOrgCanvas(Id);
+        await jsRuntime.InitializeOrgCanvas(Id, Microsoft.JSInterop.DotNetObjectReference.Create(clickInvoker));
     }
 
     protected override async Task OnParametersSetAsync()
@@ -38,12 +46,15 @@
             }
 
             //Load Employees
-            if(Employee.DirectReports.Count > 0)
+            if (Employee.DirectReports != null)
             {
-                foreach(var e in Employee.DirectReports)
+                if (Employee.DirectReports.Count > 0)
                 {
-                    var rep = (await empService.SearchWithFilter("(objectclass=*)", e)).FirstOrDefault();
-                    vm.Employees.Add(rep);
+                    foreach (var e in Employee.DirectReports)
+                    {
+                        var rep = (await empService.SearchWithFilter("(objectclass=*)", e)).FirstOrDefault();
+                        vm.Employees.Add(rep);
+                    }
                 }
             }
         }

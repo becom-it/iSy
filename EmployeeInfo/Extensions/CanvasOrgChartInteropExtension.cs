@@ -1,4 +1,5 @@
-﻿using Microsoft.JSInterop;
+﻿using EmployeeInfo.Services;
+using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,11 +9,11 @@ namespace EmployeeInfo.Extensions
 {
     public static class CanvasOrgChartInteropExtension
     {
-        public static async Task InitializeOrgCanvas(this IJSRuntime jsRuntime, string id)
+        public static async Task InitializeOrgCanvas(this IJSRuntime jsRuntime, string id, DotNetObjectReference<CanvasClickInvoker> clickRef)
         {
             try
             {
-                await jsRuntime.InvokeVoidAsync("canvasOrgChartJSInterop.Initialize", id);
+                await jsRuntime.InvokeVoidAsync("canvasOrgChartJSInterop.Initialize", id, clickRef);
             }
             catch (Exception ex)
             {
