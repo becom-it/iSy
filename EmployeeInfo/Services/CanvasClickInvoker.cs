@@ -7,17 +7,17 @@ namespace EmployeeInfo.Services
 {
     public class CanvasClickInvoker
     {
-        private Action _action;
+        private Action<string> _action;
 
-        public CanvasClickInvoker(Action callBack)
+        public CanvasClickInvoker(Action<string> callBack)
         {
             _action = callBack;
         }
 
         [JSInvokable("iSy")]
-        public void EmployeeClicked()
+        public void EmployeeClicked(string path)
         {
-            _action.Invoke();
+            _action.Invoke(path);
         }
     }
 }

@@ -45,7 +45,7 @@
             //Aktuellen Mitarbeiter ermitteln
             var uname = "MPRATTINGE";
             //Aktuellen User laden
-            CurrentEmployee = await empService.LoadEmployee(uname);
+            CurrentEmployee = await empService.LoadEmployeeWithId(uname);
             await EmployeeSelected.InvokeAsync(CurrentEmployee);
             SearchTerm = $"{CurrentEmployee.FirstName} {CurrentEmployee.LastName}";
         }

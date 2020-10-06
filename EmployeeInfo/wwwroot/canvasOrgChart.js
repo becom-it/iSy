@@ -1,22 +1,40 @@
-﻿class CanvasHandler {
+﻿import { OrgChartService } from "./orgChart/orgChartService.js";
+import { OrgChartVm } from "./orgChart/models/orgChartModels.js";
+
+class CanvasHandler {
     Initialize(canvasId, clickInvoker) {
+        this.isDrawing = false;
         this.canvasId = canvasId;
         this.clickInvoker = clickInvoker;
         this.canvas = document.getElementById(this.canvasId);
+        this.viewModel = null;
 
-        this.canvas.addEventListener("click", (e) => {
-            this.clickInvoker.invokeMethodAsync('iSy', 'EmployeeClicked');
-            this.clickInvoker.dispose();
-            e.stopPropagation();
-        });
+        //this.canvas.addEventListener("click", (e) => {
+        //    this.clickInvoker.invokeMethodAsync('iSy', 'EmployeeClicked');
+        //    this.clickInvoker.dispose();
+        //    e.stopPropagation();
+        //});
 
         window.addEventListener("resize", (e) => { this.resize(); }, false);
         this.resize();
+
+        this.service = new OrgChartService();
+        this.service.initialize(this.canvas, clickInvoker);
+    }
+
+    /**
+     * @param {OrgChartVm} viewModel
+     */
+    DrawOrg(viewModel) {
+        this.isDrawing = true;
+        this.viewModel = viewModel;
+        this.service.drawOrg(viewModel);
+        this.isDrawing = false;
     }
 
     resize() {
         
-        if (this.canvas !== null) {
+        if (this.canvas !== null && this.isDrawing === false) {
             console.log("Canvas found! Fit to parent...");
             this.canvas.style.width = '100%';
             this.canvas.style.height = '100%';
@@ -24,6 +42,9 @@
             this.canvas.width = this.canvas.offsetWidth;
             this.canvas.height = this.canvas.offsetHeight;
             console.log("Done!");
+
+            if (this.viewModel !== null)
+                this.DrawOrg(this.viewModel);
         }
     }
 }

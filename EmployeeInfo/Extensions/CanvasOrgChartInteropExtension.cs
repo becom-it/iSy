@@ -1,4 +1,5 @@
-﻿using EmployeeInfo.Services;
+﻿using EmployeeInfo.Models;
+using EmployeeInfo.Services;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,18 @@ namespace EmployeeInfo.Extensions
             catch (Exception ex)
             {
                 throw new Exception($"Error while initializing the org chart canvas: {ex.Message}", ex);
+            }
+        }
+
+        public static async Task DrawOrg(this IJSRuntime jsRuntime, OrganigramViewModel vm)
+        {
+            try
+            {
+                await jsRuntime.InvokeVoidAsync("canvasOrgChartJSInterop.DrawOrg", vm.PrepareForJs());
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error while drawing the org chart: {ex.Message}", ex);
             }
         }
     }

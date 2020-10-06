@@ -26,10 +26,10 @@ namespace EmployeeInfo.Models
         public string EMail { get; set; }
 
         [LdapUser("manager")]
-        public string Manager { get; set; }
+        public string ManagerPath { get; set; }
 
         [LdapUser("directreports")]
-        public List<string> DirectReports { get; set; }
+        public List<string> DirectReportPaths { get; set; } = new List<string>();
 
         [LdapUser("title")]
         public string JobTitle { get; set; }
@@ -42,5 +42,10 @@ namespace EmployeeInfo.Models
 
         [LdapUser("initials")]
         public string EmployeeId { get; set; }
+
+        public  LdapEmployee Manager { get; set; }
+
+        public List<LdapEmployee> DirectReports { get; set; } = new List<LdapEmployee>();
+
     }
 }

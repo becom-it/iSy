@@ -10,7 +10,7 @@
         </div>
     </div>
     <div class="ec-right">
-        <Organigram Employee="CurrentEmployee"/>
+        <Organigram Employee="CurrentEmployee" EmployeeChanged="EmployeeChanged"/>
     </div>
 </div>
 
@@ -19,6 +19,11 @@
     public LdapEmployee CurrentEmployee { get; set; } = null;
 
     void EmployeeFound(LdapEmployee emp)
+    {
+        CurrentEmployee = emp;
+    }
+
+    void EmployeeChanged(LdapEmployee emp)
     {
         CurrentEmployee = emp;
     }

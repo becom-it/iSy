@@ -11,6 +11,9 @@
     [Parameter]
     public LdapEmployee Employee { get; set; } = null;
 
+    [Parameter]
+    public EventCallback<LdapEmployee> EmployeeChanged { get; set; }
+
     public string Id { get; set; } = Guid.NewGuid().ToString();
 
     public long Height { get; set; } = 300;
@@ -23,15 +26,19 @@
 
     protected override void OnInitialized()
     {
-        clickInvoker = new Services.CanvasClickInvoker(() =>
+        clickInvoker = new Services.CanvasClickInvoker(async (path) =>
         {
-            Console.WriteLine("Clicked");
+            var emp = await empService.LoadEmployeeWithPath(path);
+            await EmployeeChanged.InvokeAsync(emp);
         });
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await jsRuntime.InitializeOrgCanvas(Id, Microsoft.JSInterop.DotNetObjectReference.Create(clickInvoker));
+        if (firstRender)
+        {
+            await jsRuntime.InitializeOrgCanvas(Id, Microsoft.JSInterop.DotNetObjectReference.Create(clickInvoker));
+        }
     }
 
     protected override async Task OnParametersSetAsync()
@@ -39,24 +46,22 @@
         if (Employee != null)
         {
             var vm = new OrganigramViewModel();
-            //Load Manager
-            if (!String.IsNullOrEmpty(Employee.Manager))
+
+            //Gibt es direct reports?
+            if (Employee.DirectReports.Count() == 0)
             {
-                vm.Manager = (await empService.SearchWithFilter("(objectclass=*)", Employee.Manager)).FirstOrDefault();
+                vm.Manager = Employee.Manager.Manager;
+                vm.Employee = Employee.Manager;
+                vm.Employees = Employee.Manager.DirectReports;
+            }
+            else
+            {
+                vm.Manager = Employee.Manager;
+                vm.Employee = Employee;
+                vm.Employees = Employee.DirectReports;
             }
 
-            //Load Employees
-            if (Employee.DirectReports != null)
-            {
-                if (Employee.DirectReports.Count > 0)
-                {
-                    foreach (var e in Employee.DirectReports)
-                    {
-                        var rep = (await empService.SearchWithFilter("(objectclass=*)", e)).FirstOrDefault();
-                        vm.Employees.Add(rep);
-                    }
-                }
-            }
+            await jsRuntime.DrawOrg(vm);
         }
     }
 }

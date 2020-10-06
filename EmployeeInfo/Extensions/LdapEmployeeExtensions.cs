@@ -7,10 +7,15 @@ namespace EmployeeInfo.Extensions
 {
     public static class LdapEmployeeExtensions
     {
-        public static string GetManagerUserName(this LdapEmployee emp)
+        public static OrgChargEmp MapToOrgChargEmp(this LdapEmployee emp)
         {
-            if (String.IsNullOrEmpty(emp.Manager)) return string.Empty;
-            return "";
+            return new OrgChargEmp
+            {
+                Id = emp.DistinguishedName,
+                FirstName = emp.FirstName,
+                LastName = emp.LastName,
+                Photo = emp.Photo
+            };
         }
     }
 }
