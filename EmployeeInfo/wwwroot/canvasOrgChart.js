@@ -44,6 +44,7 @@ class CanvasHandler {
             console.log("Done!");
 
             if (this.viewModel !== null)
+                this.service.calculateMaxNodes();
                 this.DrawOrg(this.viewModel);
         }
     }
