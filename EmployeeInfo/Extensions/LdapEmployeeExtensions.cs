@@ -9,13 +9,17 @@ namespace EmployeeInfo.Extensions
     {
         public static OrgChargEmp MapToOrgChargEmp(this LdapEmployee emp)
         {
-            return new OrgChargEmp
+            if (emp != null)
             {
-                Id = emp.DistinguishedName,
-                FirstName = emp.FirstName,
-                LastName = emp.LastName,
-                Photo = emp.Photo
-            };
+                return new OrgChargEmp
+                {
+                    Id = emp.DistinguishedName,
+                    FirstName = emp.FirstName,
+                    LastName = emp.LastName,
+                    Photo = emp.Photo
+                };
+            }
+            else return null;
         }
     }
 }

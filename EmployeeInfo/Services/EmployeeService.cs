@@ -103,14 +103,16 @@ namespace EmployeeInfo.Services
             try
             {
                 //Manager laden
-                var manager = await SearchWithFilter("(objectclass=*)", emp.ManagerPath);
-                if (manager.Count > 0)
-                {
-                    emp.Manager = manager.First();
-                }
-                else
-                {
-                    throw new Exception($"Error loading the manager! (Found {manager.Count})");
+                if (!string.IsNullOrEmpty(emp.ManagerPath)) {
+                    var manager = await SearchWithFilter("(objectclass=*)", emp.ManagerPath);
+                    if (manager.Count > 0)
+                    {
+                        emp.Manager = manager.First();
+                    }
+                    else
+                    {
+                        throw new Exception($"Error loading the manager! (Found {manager.Count})");
+                    }
                 }
 
                 //Surrogates laden
