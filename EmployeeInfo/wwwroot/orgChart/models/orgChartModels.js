@@ -15,6 +15,7 @@ export class OrgChartEmployee {
         this.firstName = "";
         this.lastName = "";
         this.photo = "";
+        this.jobTitle = "";
     }
 }
 
@@ -23,6 +24,7 @@ export class OrgChartEmployee {
  * @enum {{name: string}}
  * */
 export const NodeType = Object.freeze({
+    MANAGERNODE: { name: "Managernode" },
     BACKNODE: { name: "Backnode" },
     TOPNODE: { name: "Topnode" },
     CHILDNODE: { name: "Childnode" }
@@ -67,24 +69,31 @@ export class EmployeeNode {
 
         if (this.type === NodeType.CHILDNODE) this.calculateChildstartPoint(itemCount);
 
-        let node = new Rectangle(this.employee.id, this.settings.nodeWidth, this.settings.nodeHeight, this.drawPoint, this.settings.nodeBackgroundColor);
+        //let node = new Rectangle(this.employee.id, this.settings.nodeWidth, this.settings.nodeHeight, this.drawPoint, this.settings.nodeBackgroundColor);
+        let node = new Rectangle(this.employee.id, this.settings.secondaryNodeWidth, this.settings.secondaryNodeHeight, this.drawPoint, this.settings.nodeBackgroundColor);
         let img = new EmployeeImage(`${this.employee.firstName} ${this.employee.lastName}`, this.employee.photo, this.settings.imageMargin);
         node.appendChild(img);
 
-        let text = new Text(`${this.employee.firstName} ${this.employee.lastName}`, this.settings.nameFontSize, null, 50, this.settings.nodeFontColor);
-        let space = node.width - img.width - 10;
+        let text = new Text(`${this.employee.firstName} ${this.employee.lastName}`, this.settings.nameFontSize, null, 10, 0, this.settings.nodeFontColor);
+        let space = node.width;// - img.width - 10;
         let textW = Text.measureText(this.settings.context, `${this.employee.firstName} ${this.employee.lastName}`, this.settings.nameFontSize);
         if (textW.width > space) {
-            let text = new Text(this.employee.firstName, this.settings.nameFontSize, null, 45, this.settings.nodeFontColor);
+            let text = new Text(this.employee.firstName, this.settings.nameFontSize, null, 10, -10, this.settings.nodeFontColor);
             text.horizontalAlignment = HorizontalAlignment.CENTER;
             node.appendChild(text);
-            text = new Text(this.employee.lastName, this.settings.nameFontSize, null, 65, this.settings.nodeFontColor);
+            text = new Text(this.employee.lastName, this.settings.nameFontSize, null, 10, 0, this.settings.nodeFontColor);
             text.horizontalAlignment = HorizontalAlignment.CENTER;
             node.appendChild(text);
         } else {
-            text.horizontalAlignment = HorizontalAlignment.CENTER;
+            text.horizontalAlignment = HorizontalAlignment.LEFT;
             node.appendChild(text);
         }
+
+        //let jtLength = Text.measureText(this.settings.context, `${this.employee.jobTitle}`, this.settings.jobTitleFontSize);
+        //if(jtLength)
+        let text2 = new Text(`${this.employee.jobTitle}`, this.settings.jobTitleFontSize, null, 10, 15, this.settings.nodeFontColor);
+        text2.horizontalAlignment = HorizontalAlignment.LEFT;
+        node.appendChild(text2);
 
         ret.push(node);
         return ret;
@@ -127,18 +136,22 @@ export class EmployeeNode {
     calculateStartPoint(nodeCount) {
         this.drawPoint = new Point();
         switch (this.type) {
+            case NodeType.MANAGERNODE:
+                this.drawPoint.x = this.settings.canvas.width / 2 - this.settings.secondaryNodeWidth / 2;
+                this.drawPoint.y = this.settings.backNodeTop;
+                break;
             case NodeType.BACKNODE:
                 this.drawPoint.x = this.settings.backNodeLeft;
                 this.drawPoint.y = this.settings.backNodeTop;
                 break;
             case NodeType.TOPNODE:
-                this.drawPoint.x = this.settings.canvas.width / 2 - this.settings.nodeWidth / 2;
+                this.drawPoint.x = this.settings.canvas.width / 2 - this.settings.primaryNodeWidth / 2;
                 this.drawPoint.y = this.settings.offsetTop;
                 break;
             case NodeType.CHILDNODE:
-                this.settings.currentSpacing = (this.settings.canvas.width - (nodeCount * this.settings.nodeWidth)) / (nodeCount + 1);
+                this.settings.currentSpacing = (this.settings.canvas.width - (nodeCount * this.settings.secondaryNodeWidth)) / (nodeCount + 1);
                 this.drawPoint.x = this.settings.currentSpacing;
-                this.drawPoint.y = this.settings.offsetTop + this.settings.nodeHeight + this.settings.bottomLineLength + this.settings.topLineLength;
+                this.drawPoint.y = this.settings.offsetTop + this.settings.secondaryNodeHeight + this.settings.bottomLineLength + this.settings.topLineLength;
                 break;
             default:
         }
@@ -149,10 +162,21 @@ export class EmployeeNode {
      * Setting the center points (top and botton) for the current node
      */
     setCenterPoints() {
-        this.centerTop.x = this.drawPoint.x + this.settings.nodeWidth / 2;
+        let w = 0;
+        let y = 0;
+
+        if (this.type == NodeType.TOPNODE) {
+            w = this.settings.primaryNodeWidth;
+            y = this.settings.primaryNodeHeight;
+        } else {
+            w = this.settings.secondaryNodeWidth;
+            y = this.settings.secondaryNodeHeight;
+        }
+
+        this.centerTop.x = this.drawPoint.x + w / 2;
         this.centerTop.y = this.drawPoint.y;
-        this.centerBottom.x = this.drawPoint.x + this.settings.nodeWidth / 2;
-        this.centerBottom.y = this.drawPoint.y + this.settings.nodeHeight;
+        this.centerBottom.x = this.drawPoint.x + w / 2;
+        this.centerBottom.y = this.drawPoint.y + y;
     }
 
     /**

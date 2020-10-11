@@ -172,6 +172,9 @@ export class EmployeeImage extends Drawable {
     initMe() {
         super.initMe();
 
+        
+
+        //let ratio = this.image.width / this.image.height;
         let ratio = 1.465648854961832;
 
         this.startPoint = new Point();
@@ -192,11 +195,26 @@ export class EmployeeImage extends Drawable {
 
         this.image = new Image();
         this.image.src = "data:image/png;base64," + this.base64Img;
+
         this.image.onload = (ev) => {
-            this.context.drawImage(this.image, this.startPoint.x,
-                this.startPoint.y,
-                this.width,
-                this.height);
+            this.context.save();
+            this.context.beginPath();
+            this.context.arc(this.parent.startPoint.x + this.parent.width - 30, this.parent.startPoint.y + 33, 25, 0, Math.PI * 2, true);
+            this.context.closePath();
+            this.context.clip();
+
+            this.context.drawImage(this.image, this.parent.startPoint.x + this.parent.width - 55, this.parent.startPoint.y + 8, 50, 50);
+
+            //this.context.drawImage(this.image, this.startPoint.x,
+            //    this.startPoint.y,
+            //    this.width,
+            //    this.height);
+
+            this.context.beginPath();
+            this.context.arc(this.parent.startPoint.x + this.parent.width - 55, this.parent.startPoint.y + 8, 25, 0, Math.PI * 2, true);
+            this.context.clip();
+            this.context.closePath();
+            this.context.restore();
         };
 
         this.context.restore();
@@ -210,15 +228,17 @@ export class Text extends Drawable {
      * @param {string} text
      * @param {number} fontSize
      * @param {?Point} startPoint
-     * @param {?number} topOffset
+     * @param {?number} xOffset
+     * @param {?number} yOffset
      * @param {?string} fontColor
      */
-    constructor(text, fontSize, startPoint, topOffset, fontColor) {
+    constructor(text, fontSize, startPoint, xOffset, yOffset, fontColor) {
         super();
         this.text = text;
         this.fontSize = fontSize;
         this.startPoint = startPoint;
-        this.topOffset = topOffset;
+        this.xOffset = xOffset;
+        this.yOffset = yOffset;
         this.fontColor = fontColor;
         this.horizontalAlignment = HorizontalAlignment.UNDEFINED;
     }
@@ -238,11 +258,16 @@ export class Text extends Drawable {
             let tWidth = Text.measureText(context, this.text, this.fontSize);
             switch (this.horizontalAlignment) {
                 case HorizontalAlignment.LEFT:
+                    if (this.parent instanceof Rectangle) {
+                        this.startPoint = new Point();
+                        this.startPoint.y = this.parent.getCenter().y + this.yOffset;
+                        this.startPoint.x = this.parent.startPoint.x + this.xOffset;
+                    }
                     break;
                 case HorizontalAlignment.CENTER:
                     if (this.parent instanceof Rectangle) {
                         this.startPoint = new Point();
-                        this.startPoint.y = this.parent.getCenterTop().y + this.topOffset;
+                        this.startPoint.y = this.parent.getCenterTop().y + this.yOffset;
 
                         let hasImg = false;
                         let img = null;

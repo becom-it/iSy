@@ -16,7 +16,8 @@ namespace EmployeeInfo.Extensions
                     Id = emp.DistinguishedName,
                     FirstName = emp.FirstName,
                     LastName = emp.LastName,
-                    Photo = emp.Photo
+                    Photo = emp.Photo,
+                    JobTitle = emp.JobTitle
                 };
             }
             else return null;

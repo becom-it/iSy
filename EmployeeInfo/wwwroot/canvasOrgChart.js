@@ -43,9 +43,10 @@ class CanvasHandler {
             this.canvas.height = this.canvas.offsetHeight;
             console.log("Done!");
 
-            if (this.viewModel !== null)
+            if (this.viewModel !== null) {
                 this.service.calculateMaxNodes();
                 this.DrawOrg(this.viewModel);
+            }
         }
     }
 }

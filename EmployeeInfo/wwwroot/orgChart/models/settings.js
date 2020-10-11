@@ -9,8 +9,10 @@
 
 		this.offsetTop = 100;
 
-		this.nodeWidth = 200;
-		this.nodeHeight = 100;
+		this.primaryNodeWidth = 200;
+		this.primaryNodeHeight = 100;
+		this.secondaryNodeWidth = 240;
+		this.secondaryNodeHeight = 65;
 		this.nodeBackgroundColor = "#3CAADC";
 		this.nodeFontColor = "#fff";
 
@@ -18,7 +20,8 @@
 		this.currentSpacing = 0;
 		this.maxNodes = 0;
 
-		this.nameFontSize = 10;
+		this.nameFontSize = 12;
+		this.jobTitleFontSize = 8;
 		this.titleFontSize = 6;
 
 		this.topLineLength = 40;
