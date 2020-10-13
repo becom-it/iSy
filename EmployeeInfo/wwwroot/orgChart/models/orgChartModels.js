@@ -154,13 +154,13 @@ export class EmployeeNode {
             orgNodeDimensions.width = settings.primaryNodeWidth;
             orgNodeDimensions.height = settings.primaryNodeHeight;
             orgNodeDimensions.imageDiameter = settings.primaryImageDiameter;
+            orgNodeDimensions.padding = orgNodeDimensions.imageDiameter / 2;
         } else {
             orgNodeDimensions.width = settings.secondaryNodeWidth;
             orgNodeDimensions.height = settings.secondaryNodeHeight;
             orgNodeDimensions.imageDiameter = settings.secondaryImageDiameter;
+            orgNodeDimensions.padding = (orgNodeDimensions.height - orgNodeDimensions.imageDiameter) / 2;
         }
-
-        orgNodeDimensions.padding = (orgNodeDimensions.height - orgNodeDimensions.imageDiameter) / 2;
 
         orgNodeDimensions.imageCenter = new Point();
         orgNodeDimensions.imageCenter.x = orgNodeDimensions.width - (orgNodeDimensions.padding + orgNodeDimensions.imageDiameter / 2);
