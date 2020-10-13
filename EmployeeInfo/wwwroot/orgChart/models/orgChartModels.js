@@ -19,6 +19,19 @@ export class OrgChartEmployee {
     }
 }
 
+export class OrgNodeDimensions {
+    constructor() {
+        this.width = 0;
+        this.height = 0;
+        this.padding = 0;
+        this.imageDiameter = 0;
+        /**
+         * @type {Point}*/
+        this.imageCenter = null;
+        this.textMaxWidth = 0;
+    }
+}
+
 /**
  * @readonly
  * @enum {{name: string}}
@@ -30,7 +43,7 @@ export const NodeType = Object.freeze({
     CHILDNODE: { name: "Childnode" }
 });
 
-export class EmployeeNode {
+export class EmployeeNode2 {
 
     /**
      * 
@@ -188,5 +201,62 @@ export class EmployeeNode {
     calculateChildstartPoint(itemCount) {
         this.drawPoint.x = this.drawPoint.x + (itemCount * (this.settings.currentSpacing + this.settings.nodeWidth));
         this.setCenterPoints();
+    }
+}
+
+export class EmployeeNode {
+    /**
+     * 
+     * @param {OrgChartEmployee} employee
+     * @param {Settings} settings
+     * @param {NodeType} type
+     * @param {number} nodeCount
+     */
+    constructor(employee, settings, type, nodeCount) {
+        /**
+         * @type {Point}*/
+        this.drawPoint = new Point();
+        /**
+         * @type {Point}*/
+        this.centerTop = new Point();
+        /**
+         * @type {Point}*/
+        this.centerBottom = new Point();
+
+        this.employee = employee;
+        this.settings = settings;
+        this.type = type;
+        this.nodeCount = nodeCount;
+
+        this.calculateStartPoint(nodeCount);
+    }
+
+    calculateDimensions() {
+        this.drawPoint = new Point();
+
+    }
+
+    /**
+     * @param {boolean} primary
+     * @returns {OrgNodeDimensions}*/
+    calculateOrgNode(primary) {
+        if (primary) {
+            orgNodeDimensions.width = this.settings.primaryNodeWidth;
+            orgNodeDimensions.height = this.settings.primaryNodeHeight;
+            orgNodeDimensions.imageDiameter = this.settings.primaryImageDiameter;
+        } else {
+            orgNodeDimensions.width = this.settings.secondaryNodeWidth;
+            orgNodeDimensions.height = this.settings.secondaryNodeHeight;
+            orgNodeDimensions.imageDiameter = this.settings.secondaryImageDiameter;
+        }
+
+        let orgNodeDimensions = new OrgNodeDimensions();
+        orgNodeDimensions.padding = (orgNodeDimensions.height - orgNodeDimensions.imageDiameter) / s;
+
+        orgNodeDimensions.imageCenter = new Point();
+        orgNodeDimensions.imageCenter.x = orgNodeDimensions.width - (orgNodeDimensions.padding + orgNodeDimensions.imageDiameter / 2);
+        orgNodeDimensions.imageCenter.y = orgNodeDimensions.height / 2;
+
+        orgNodeDimensions.textMaxWidth = orgNodeDimensions.width - (3 * orgNodeDimensions.padding + orgNodeDimensions.imageDiameter);
     }
 }

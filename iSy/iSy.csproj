@@ -25,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\EmployeeInfo\EmployeeInfo.csproj" />
     <ProjectReference Include="..\FlintSoft.Ldap\FlintSoft.Ldap.csproj" />
+    <ProjectReference Include="..\FlintSoft.StartupTasks\FlintSoft.StartupTasks.csproj" />
     <ProjectReference Include="..\iSy.Controls\iSy.Controls.csproj" />
     <ProjectReference Include="..\iSy.Shared\iSy.Shared.csproj" />
     <ProjectReference Include="..\Weather\Weather.csproj" />

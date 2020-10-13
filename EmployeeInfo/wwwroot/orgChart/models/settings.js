@@ -9,10 +9,12 @@
 
 		this.offsetTop = 100;
 
-		this.primaryNodeWidth = 200;
-		this.primaryNodeHeight = 100;
+		this.primaryNodeWidth = 310;
+		this.primaryNodeHeight = 165;
 		this.secondaryNodeWidth = 240;
 		this.secondaryNodeHeight = 65;
+		this.primaryImageDiameter = 50;
+		this.secondaryImageDiameter = 50;
 		this.nodeBackgroundColor = "#3CAADC";
 		this.nodeFontColor = "#fff";
 
