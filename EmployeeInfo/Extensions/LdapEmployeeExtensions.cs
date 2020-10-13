@@ -17,7 +17,8 @@ namespace EmployeeInfo.Extensions
                     FirstName = emp.FirstName,
                     LastName = emp.LastName,
                     Photo = emp.Photo,
-                    JobTitle = emp.JobTitle
+                    JobTitle = emp.JobTitle,
+                    IsCurrent = emp.IsCurrent
                 };
             }
             else return null;

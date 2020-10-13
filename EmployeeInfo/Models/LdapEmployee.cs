@@ -47,5 +47,7 @@ namespace EmployeeInfo.Models
 
         public List<LdapEmployee> DirectReports { get; set; } = new List<LdapEmployee>();
 
+        public bool IsCurrent { get; set; } = false;
+
     }
 }

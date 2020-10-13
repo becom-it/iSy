@@ -43,7 +43,7 @@ namespace EmployeeInfo.Services
                     {
                         string json = sr.ReadToEnd();
                         var tCache = JsonSerializer.Deserialize<LdapEmployeeCache>(json);
-                        if(DateTime.Now.Subtract(tCache.Created) < TimeSpan.FromHours(10))
+                        if(DateTime.Now.Subtract(tCache.Created) < TimeSpan.FromDays(10))
                         {
                             _cacheService.UpdateCache(tCache);
                             return;

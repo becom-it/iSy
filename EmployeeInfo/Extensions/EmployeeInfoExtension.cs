@@ -20,27 +20,5 @@ namespace EmployeeInfo.Extensions
             services.TryAddSingleton(new LdapEmployeeCacheService());
             services.AddStartupTask<LdapEmployeeCacheStartupTask>();
         }
-
-        //public static void UseEmployeeInfo(this IApplicationBuilder app)
-        //{
-        //    var env = app.ApplicationServices.GetRequiredService<IHostEnvironment>();
-        //    var empService = app.ApplicationServices.GetRequiredService<IEmployeeService>();
-
-        //    var path = env.ContentRootPath;
-        //    if (File.Exists(Path.Combine(path, "ldap", "cache.json")))
-        //    {
-
-        //    }
-
-        //    //Kein Cache oder zu alt -> alle Ldaps laden
-        //    var emps = empService.SearchWithFilter("(&(objectCategory = person)(objectClass = user)(givenName = *)(sn = *))").Result;
-        //    var cache = new LdapEmployeeCache
-        //    {
-        //        Created = DateTime.Now,
-        //        Employees = emps
-        //    };
-
-        //    prov.
-        //}
     }
 }

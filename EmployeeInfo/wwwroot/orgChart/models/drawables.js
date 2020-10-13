@@ -1,4 +1,6 @@
-﻿/**
+﻿
+
+/**
  * @readonly
  * @enum {{name: string}}
  * */
@@ -13,6 +15,20 @@ export class Point {
     constructor() {
         this.x = 0;
         this.y = 0;
+    }
+}
+
+export class OrgNodeDimensions {
+    constructor() {
+        this.width = 0;
+        this.height = 0;
+        this.padding = 0;
+        this.imageDiameter = 0;
+        /**
+         * @type {Point}*/
+        this.imageCenter = null;
+        this.textMaxWidth = 0;
+        this.textMaxHeigth = 0;
     }
 }
 
@@ -155,6 +171,84 @@ export class Rectangle extends Drawable {
 }
 
 export class EmployeeImage extends Drawable {
+    /**
+     * 
+     * @param {string} id
+     * @param {string} base64Img
+     * @param {OrgNodeDimensions} orgNodeDimensions
+     */
+    constructor(id, base64Img, orgNodeDimensions) {
+        super();
+        this.id = id;
+        this.base64Img = base64Img;
+        this.orgNodeDimensions = orgNodeDimensions;
+    }
+
+    initMe() {
+        super.initMe();
+
+
+
+        //let ratio = this.image.width / this.image.height;
+        let ratio = 1.465648854961832;
+
+        this.startPoint = new Point();
+        this.startPoint.x = this.parent.startPoint.x + this.orgNodeDimensions.imageCenter.x;
+        this.startPoint.y = this.parent.startPoint.y + this.orgNodeDimensions.imageCenter.y;
+    }
+
+    /**
+     * 
+     * @param {CanvasRenderingContext2D} context
+     */
+    drawMe(context) {
+        super.drawMe(context);
+        this.context.save();
+
+        this.image = new Image();
+        this.image.src = "data:image/png;base64," + this.base64Img;
+
+        this.image.onload = (ev) => {
+            this.context.save();
+            this.context.beginPath();
+            this.context.arc(this.startPoint.x, this.startPoint.y, this.orgNodeDimensions.imageDiameter / 2, 0, Math.PI * 2, true);
+            this.context.fillStyle = "white";
+            this.context.fill();
+            this.context.closePath();
+            this.context.clip();
+
+            let hRatio = this.orgNodeDimensions.imageDiameter / this.image.width;
+            let vRatio = this.orgNodeDimensions.imageDiameter / this.image.height;
+            let ratio = Math.min(hRatio, vRatio);
+
+            let imgW = this.image.width * ratio;
+            let imgH = this.image.height * ratio;
+
+            this.context.drawImage(this.image
+                , this.startPoint.x - (imgW / 2)
+                , this.startPoint.y - (imgH / 2)
+                , imgW, imgH);
+                //, this.orgNodeDimensions.imageDiameter, this.orgNodeDimensions.imageDiameter);
+
+            //this.context.drawImage(this.image
+            //    , this.startPoint.x - this.orgNodeDimensions.imageDiameter / 2
+            //        , this.startPoint.y - this.orgNodeDimensions.imageDiameter / 2
+            //        , this.orgNodeDimensions.imageDiameter, this.orgNodeDimensions.imageDiameter);
+
+            this.context.beginPath();
+            //this.context.arc(this.parent.startPoint.x + this.parent.width - 55, this.parent.startPoint.y + 8, 25, 0, Math.PI * 2, true);
+            this.context.arc(this.startPoint.x - this.orgNodeDimensions.imageDiameter / 2, this.startPoint.y - this.orgNodeDimensions.imageDiameter / 2, this.orgNodeDimensions.imageDiameter / 2, 0, Math.PI * 2, true);
+            this.context.clip();
+            this.context.closePath();
+            this.context.restore();
+        };
+
+        this.context.restore();
+        super.drawChilds();
+    }
+}
+
+export class EmployeeImage2 extends Drawable {
 
     /**
      * 
@@ -172,7 +266,7 @@ export class EmployeeImage extends Drawable {
     initMe() {
         super.initMe();
 
-        
+
 
         //let ratio = this.image.width / this.image.height;
         let ratio = 1.465648854961832;
@@ -223,6 +317,52 @@ export class EmployeeImage extends Drawable {
 }
 
 export class Text extends Drawable {
+    /**
+     * 
+     * @param {string} text
+     * @param {number} fontSize
+     * @param {?Point} startPoint
+     * @param {?string} fontColor
+     */
+    constructor(text, fontSize, startPoint, fontColor) {
+        super();
+        this.text = text;
+        this.fontSize = fontSize;
+        this.startPoint = startPoint;
+        this.fontColor = fontColor;
+    }
+
+    /**
+     * 
+     * @param {CanvasRenderingContext2D} context
+     */
+    drawMe(context) {
+        super.drawMe(context);
+        this.context.save();
+
+        this.context.font = this.fontSize + "pt sans-serif";
+        if (this.fontColor !== "") this.context.fillStyle = this.fontColor;
+
+        this.context.fillText(this.text, this.startPoint.x, this.startPoint.y);
+
+        this.context.restore();
+        super.drawChilds();
+    }
+
+    /**
+     * 
+     * @param {CanvasRenderingContext2D} context
+     * @param {string} text
+     * @param {number} fontSize
+     * @returns {TextMetrics}
+     */
+    static measureText(context, text, fontSize) {
+        context.font = fontSize + "pt sans-serif";
+        return context.measureText(text);
+    }
+}
+
+export class Text2 extends Drawable {
     /**
      * 
      * @param {string} text

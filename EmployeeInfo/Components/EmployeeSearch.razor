@@ -46,6 +46,7 @@
             var uname = "MPRATTINGE";
             //Aktuellen User laden
             CurrentEmployee = await empService.LoadEmployeeWithId(uname);
+            CurrentEmployee.IsCurrent = true;
             await EmployeeSelected.InvokeAsync(CurrentEmployee);
             SearchTerm = $"{CurrentEmployee.FirstName} {CurrentEmployee.LastName}";
         }

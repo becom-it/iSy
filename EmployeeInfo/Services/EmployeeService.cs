@@ -101,9 +101,14 @@ namespace EmployeeInfo.Services
                 {
                     var emp = foundEmp.First();
                     if (noDetail)
+                    {
                         return emp;
+                    }
                     else
+                    {
+                        emp.IsCurrent = true;
                         return await loadDetails(emp);
+                    }
                 }
             }
             catch (Exception ex)
@@ -136,6 +141,7 @@ namespace EmployeeInfo.Services
                 if (emp.DirectReportPaths.Count() == 0)
                 {
                     //Der Mitarbeiter hat keine Mitarbeiter -> Die vom Manager holen
+                    emp.Manager.DirectReports.Clear();
                     foreach (var dp in emp.Manager.DirectReportPaths)
                     {
                         if (emp.DistinguishedName != dp)

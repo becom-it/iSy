@@ -24,6 +24,8 @@
 
     private EmployeeInfo.Services.CanvasClickInvoker clickInvoker;
 
+    private bool isInitalized = false;
+
     protected override void OnInitialized()
     {
         clickInvoker = new Services.CanvasClickInvoker(async (path) =>
@@ -37,7 +39,7 @@
     {
         if (firstRender)
         {
-            await jsRuntime.InitializeOrgCanvas(Id, Microsoft.JSInterop.DotNetObjectReference.Create(clickInvoker));
+            await initializeJs();
         }
     }
 
@@ -61,7 +63,16 @@
                 vm.Employees = Employee.DirectReports;
             }
 
+            await initializeJs();
+
             await jsRuntime.DrawOrg(vm);
         }
+    }
+
+    private async Task initializeJs()
+    {
+        if (isInitalized) return;
+        await jsRuntime.InitializeOrgCanvas(Id, Microsoft.JSInterop.DotNetObjectReference.Create(clickInvoker));
+        isInitalized = true;
     }
 }

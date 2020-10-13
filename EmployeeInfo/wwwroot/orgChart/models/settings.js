@@ -17,12 +17,14 @@
 		this.secondaryImageDiameter = 50;
 		this.nodeBackgroundColor = "#3CAADC";
 		this.nodeFontColor = "#fff";
+		this.nodeOffset = 50;
 
 		this.spacingMin = 20;
 		this.currentSpacing = 0;
 		this.maxNodes = 0;
 
 		this.nameFontSize = 12;
+		this.twoLineNameVerticalSpacing = 3;
 		this.jobTitleFontSize = 8;
 		this.titleFontSize = 6;
 

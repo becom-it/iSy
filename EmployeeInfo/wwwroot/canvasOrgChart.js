@@ -2,30 +2,33 @@
 import { OrgChartVm } from "./orgChart/models/orgChartModels.js";
 
 class CanvasHandler {
+
+    constructor() {
+        this.isInitialized = false;
+    }
+
     Initialize(canvasId, clickInvoker) {
+        
         this.isDrawing = false;
         this.canvasId = canvasId;
         this.clickInvoker = clickInvoker;
         this.canvas = document.getElementById(this.canvasId);
         this.viewModel = null;
 
-        //this.canvas.addEventListener("click", (e) => {
-        //    this.clickInvoker.invokeMethodAsync('iSy', 'EmployeeClicked');
-        //    this.clickInvoker.dispose();
-        //    e.stopPropagation();
-        //});
-
         window.addEventListener("resize", (e) => { this.resize(); }, false);
         this.resize();
 
         this.service = new OrgChartService();
         this.service.initialize(this.canvas, clickInvoker);
+
+        this.isInitialized = true;
     }
 
     /**
      * @param {OrgChartVm} viewModel
      */
     DrawOrg(viewModel) {
+
         this.isDrawing = true;
         this.viewModel = viewModel;
         this.service.drawOrg(viewModel);
