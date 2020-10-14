@@ -13,7 +13,7 @@
 		this.primaryNodeHeight = 165;
 		this.secondaryNodeWidth = 240;
 		this.secondaryNodeHeight = 65;
-		this.primaryImageDiameter = 50;
+		this.primaryImageDiameter = 80;
 		this.secondaryImageDiameter = 50;
 		this.nodeBackgroundColor = "#3CAADC";
 		this.nodeFontColor = "#fff";

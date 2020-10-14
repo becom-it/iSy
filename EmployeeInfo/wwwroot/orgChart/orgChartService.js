@@ -1,5 +1,5 @@
 ﻿import { Drawable, Rectangle, Text, Point, Line, HorizontalAlignment } from "./models/drawables.js";
-import { EmployeeNode, EmployeeNode2, NodeType, OrgChartVm } from "./models/orgChartModels.js";
+import { EmployeeNode, OrgChartVm } from "./models/orgChartModels.js";
 import { Settings } from "./models/settings.js";
 
 export class OrgChartService {

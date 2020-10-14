@@ -65,59 +65,11 @@ export class EmployeeNode {
 
         let node = new Rectangle(this.employee.id, this.nodeDimensions.width, this.nodeDimensions.height, this.drawPoint, this.settings.nodeBackgroundColor);
 
-        //Text schreiben -> Name
-        //Ist der Name zu Breit?
-        let t1Dim = Text.measureText(this.settings.context, `${this.employee.firstName} ${this.employee.lastName}`, this.settings.nameFontSize);
-
-        //Check t3 Length
-        let t3Text = `${this.employee.jobTitle}`
-        let t3ShortText = t3Text;
-        let t3Dim = Text.measureText(this.settings.context, t3Text, this.settings.jobTitleFontSize);
-        if (t3Dim.width > this.nodeDimensions.textMaxWidth) {
-            t3ShortText = t3Text + "...";
-            t3Dim = Text.measureText(this.settings.context, t3ShortText, this.settings.jobTitleFontSize);
-            while (t3Dim.width > this.nodeDimensions.textMaxWidth) {
-                t3Text = t3Text.substr(0, t3Text.length - 2)
-                t3ShortText = t3Text + "...";
-                t3Dim = Text.measureText(this.settings.context, t3ShortText, this.settings.jobTitleFontSize);
-            }
-        }
-
-        if (t1Dim.width > this.nodeDimensions.textMaxWidth) {
-            //Text zu Breit
-            //Zuerst t3 -> ganz unten
-
-            let t3Point = new Point();
-            t3Point.x = this.drawPoint.x + this.nodeDimensions.padding;
-            t3Point.y = this.drawPoint.y - this.nodeDimensions.padding + this.nodeDimensions.height - (t3Dim.actualBoundingBoxAscent - t3Dim.actualBoundingBoxDescent)
-            let t3 = new Text(t3ShortText, this.settings.jobTitleFontSize, t3Point, this.settings.nodeFontColor);
-            node.appendChild(t3);
-
-            let t2Point = new Point();
-            t2Point.x = this.drawPoint.x + this.nodeDimensions.padding;
-            t2Point.y = t3Point.y - (t1Dim.actualBoundingBoxAscent - t1Dim.actualBoundingBoxDescent) - this.settings.twoLineNameVerticalSpacing;
-            let t2 = new Text(`${this.employee.lastName}`, this.settings.nameFontSize, t2Point, this.settings.nodeFontColor);
-            node.appendChild(t2);
-
-
-            let t1Point = new Point();
-            t1Point.x = this.drawPoint.x + this.nodeDimensions.padding;
-            t1Point.y = t2Point.y - (t1Dim.actualBoundingBoxAscent - t1Dim.actualBoundingBoxDescent) - this.settings.twoLineNameVerticalSpacing;
-            let t1 = new Text(`${this.employee.firstName}`, this.settings.nameFontSize, t1Point, this.settings.nodeFontColor);
-            node.appendChild(t1);
-        } else {
-            let t2Point = new Point();
-            t2Point.x = this.drawPoint.x + this.nodeDimensions.padding;
-            t2Point.y = this.drawPoint.y + this.nodeDimensions.padding + (2 / 3 * this.nodeDimensions.textMaxHeigth) - (t1Dim.actualBoundingBoxAscent - t1Dim.actualBoundingBoxDescent);
-            let t2 = new Text(`${this.employee.firstName} ${this.employee.lastName}`, this.settings.nameFontSize, t2Point, this.settings.nodeFontColor);
-            node.appendChild(t2);
-
-            let t3Point = new Point();
-            t3Point.x = this.drawPoint.x + this.nodeDimensions.padding;
-            t3Point.y = this.drawPoint.y + this.nodeDimensions.padding + (2 / 3 * this.nodeDimensions.textMaxHeigth) + this.settings.twoLineNameVerticalSpacing;
-            let t3 = new Text(t3ShortText, this.settings.jobTitleFontSize, t3Point, this.settings.nodeFontColor);
-            node.appendChild(t3);
-        }
+        //if (this.employee.isCurrent)
+        //    this.drawTextPrimary(node);
+        //else
+        //    this.drawTextSecondary(node);
+        this.drawText(node);
 
         let img = new EmployeeImage(`${this.employee.firstName} ${this.employee.lastName}`, this.employee.photo, this.nodeDimensions);
         node.appendChild(img);
@@ -154,20 +106,28 @@ export class EmployeeNode {
             orgNodeDimensions.width = settings.primaryNodeWidth;
             orgNodeDimensions.height = settings.primaryNodeHeight;
             orgNodeDimensions.imageDiameter = settings.primaryImageDiameter;
-            orgNodeDimensions.padding = orgNodeDimensions.imageDiameter / 2;
+            let pad = (settings.secondaryNodeHeight - orgNodeDimensions.imageDiameter) / 2;
+            orgNodeDimensions.padding = (pad < 8 ? 8 : pad);
+
+            orgNodeDimensions.imageCenter = new Point();
+            orgNodeDimensions.imageCenter.x = orgNodeDimensions.width - (orgNodeDimensions.padding + orgNodeDimensions.imageDiameter / 2);
+            orgNodeDimensions.imageCenter.y = orgNodeDimensions.padding + orgNodeDimensions.imageDiameter / 2;
+
+            orgNodeDimensions.textMaxWidth = orgNodeDimensions.width - (3 * orgNodeDimensions.padding + orgNodeDimensions.imageDiameter);
+            orgNodeDimensions.textMaxHeigth = settings.secondaryNodeHeight - 2 * orgNodeDimensions.padding
         } else {
             orgNodeDimensions.width = settings.secondaryNodeWidth;
             orgNodeDimensions.height = settings.secondaryNodeHeight;
             orgNodeDimensions.imageDiameter = settings.secondaryImageDiameter;
             orgNodeDimensions.padding = (orgNodeDimensions.height - orgNodeDimensions.imageDiameter) / 2;
+
+            orgNodeDimensions.imageCenter = new Point();
+            orgNodeDimensions.imageCenter.x = orgNodeDimensions.width - (orgNodeDimensions.padding + orgNodeDimensions.imageDiameter / 2);
+            orgNodeDimensions.imageCenter.y = orgNodeDimensions.height / 2;
+
+            orgNodeDimensions.textMaxWidth = orgNodeDimensions.width - (3 * orgNodeDimensions.padding + orgNodeDimensions.imageDiameter);
+            orgNodeDimensions.textMaxHeigth = orgNodeDimensions.height - 2 * orgNodeDimensions.padding
         }
-
-        orgNodeDimensions.imageCenter = new Point();
-        orgNodeDimensions.imageCenter.x = orgNodeDimensions.width - (orgNodeDimensions.padding + orgNodeDimensions.imageDiameter / 2);
-        orgNodeDimensions.imageCenter.y = orgNodeDimensions.height / 2;
-
-        orgNodeDimensions.textMaxWidth = orgNodeDimensions.width - (3 * orgNodeDimensions.padding + orgNodeDimensions.imageDiameter);
-        orgNodeDimensions.textMaxHeigth = orgNodeDimensions.height - 2 * orgNodeDimensions.padding
 
         return orgNodeDimensions;
     }
@@ -180,5 +140,137 @@ export class EmployeeNode {
         this.centerTop.y = this.drawPoint.y;
         this.centerBottom.x = this.drawPoint.x + this.nodeDimensions.width / 2;
         this.centerBottom.y = this.drawPoint.y + this.nodeDimensions.height;
+    }
+
+    prepareTexts() {
+        //Text schreiben -> Name
+        //Ist der Name zu Breit?
+        let t1Dim = Text.measureText(this.settings.context, `${this.employee.firstName} ${this.employee.lastName}`, this.settings.nameFontSize);
+
+        //Check t3 Length
+        let t3Text = `${this.employee.jobTitle}`
+        let t3ShortText = t3Text;
+        let t3Dim = Text.measureText(this.settings.context, t3Text, this.settings.jobTitleFontSize);
+        if (t3Dim.width > this.nodeDimensions.textMaxWidth) {
+            t3ShortText = t3Text + "...";
+            t3Dim = Text.measureText(this.settings.context, t3ShortText, this.settings.jobTitleFontSize);
+            while (t3Dim.width > this.nodeDimensions.textMaxWidth) {
+                t3Text = t3Text.substr(0, t3Text.length - 2)
+                t3ShortText = t3Text + "...";
+                t3Dim = Text.measureText(this.settings.context, t3ShortText, this.settings.jobTitleFontSize);
+            }
+        }
+
+        let ret = {};
+        ret.t1Dim = t1Dim;
+        ret.t3Dim = t3Dim;
+        ret.t3ShortText = t3ShortText;
+        return ret;
+    }
+
+    drawText(node) {
+        let textData = this.prepareTexts();
+
+        let tPoint = new Point();
+        tPoint.x = this.drawPoint.x + this.nodeDimensions.padding;
+        tPoint.y = this.drawPoint.y + this.nodeDimensions.padding;
+
+        if (textData.t1Dim.width > this.nodeDimensions.textMaxWidth) {
+            let t1 = new Text(`${this.employee.firstName}`, this.settings.nameFontSize, tPoint, this.settings.nodeFontColor);
+            node.appendChild(t1);
+
+            tPoint.y = tPoint.y + (textData.t1Dim.actualBoundingBoxAscent - textData.t1Dim.actualBoundingBoxDescent) + this.settings.twoLineNameVerticalSpacing;
+            let t2 = new Text(`${this.employee.lastName}`, this.settings.nameFontSize, tPoint, this.settings.nodeFontColor);
+            node.appendChild(t2);
+
+            tPoint.y = tPoint.y + (textData.t1Dim.actualBoundingBoxAscent - textData.t1Dim.actualBoundingBoxDescent) + this.settings.twoLineNameVerticalSpacing;
+            let t3 = new Text(textData.t3ShortText, this.settings.jobTitleFontSize, tPoint, this.settings.nodeFontColor);
+            node.appendChild(t3);
+        } else {
+            tPoint.y = tPoint.y + 2 * ((textData.t1Dim.actualBoundingBoxAscent - textData.t1Dim.actualBoundingBoxDescent) + this.settings.twoLineNameVerticalSpacing);
+            let t2 = new Text(`${this.employee.lastName} ${this.employee.lastName}`, this.settings.nameFontSize, tPoint, this.settings.nodeFontColor);
+            node.appendChild(t2);
+
+            tPoint.y = tPoint.y + (textData.t1Dim.actualBoundingBoxAscent - textData.t1Dim.actualBoundingBoxDescent) + this.settings.twoLineNameVerticalSpacing;
+            let t3 = new Text(textData.t3ShortText, this.settings.jobTitleFontSize, tPoint, this.settings.nodeFontColor);
+            node.appendChild(t3);
+        }
+    }
+
+    /**
+     * 
+     * @param {Drawable} node
+     */
+    drawTextPrimary(node) {
+        let textData = this.prepareTexts();
+
+        let tPoint = new Point();
+        tPoint.x = this.drawPoint.x + this.nodeDimensions.padding;
+        tPoint.y = this.drawPoint + this.nodeDimensions.padding;
+
+        if (textData.t1Dim.width > this.nodeDimensions.textMaxWidth) {
+            let t1 = new Text(`${this.employee.firstName}`, this.settings.nameFontSize, tPoint, this.settings.nodeFontColor);
+            node.appendChild(t1);
+
+            tPoint.y = tPoint.y + (textData.t1Dim.actualBoundingBoxAscent - textData.t1Dim.actualBoundingBoxDescent) + this.settings.twoLineNameVerticalSpacing;
+            let t2 = new Text(`${this.employee.lastName}`, this.settings.nameFontSize, tPoint, this.settings.nodeFontColor);
+            node.appendChild(t2);
+
+            tPoint.y = tPoint.y + (textData.t1Dim.actualBoundingBoxAscent - textData.t1Dim.actualBoundingBoxDescent) + this.settings.twoLineNameVerticalSpacing;
+            let t3 = new Text(textData.t3ShortText, this.settings.jobTitleFontSize, tPoint, this.settings.nodeFontColor);
+            node.appendChild(t3);
+        } else {
+            tPoint.y = tPoint.y + (textData.t1Dim.actualBoundingBoxAscent - textData.t1Dim.actualBoundingBoxDescent) + this.settings.twoLineNameVerticalSpacing;
+            let t2 = new Text(`${this.employee.lastName}`, this.settings.nameFontSize, tPoint, this.settings.nodeFontColor);
+            node.appendChild(t2);
+
+            tPoint.y = tPoint.y + (textData.t1Dim.actualBoundingBoxAscent - textData.t1Dim.actualBoundingBoxDescent) + this.settings.twoLineNameVerticalSpacing;
+            let t3 = new Text(textData.t3ShortText, this.settings.jobTitleFontSize, tPoint, this.settings.nodeFontColor);
+            node.appendChild(t3);
+        }
+    }
+
+    /**
+     *
+     * @param {Drawable} node
+     */
+    drawTextSecondary(node) {
+        let textData = this.prepareTexts();
+
+        if (textData.t1Dim.width > this.nodeDimensions.textMaxWidth) {
+            //Text zu Breit
+            //Zuerst t3 -> ganz unten
+
+            let t3Point = new Point();
+            t3Point.x = this.drawPoint.x + this.nodeDimensions.padding;
+            t3Point.y = this.drawPoint.y - this.nodeDimensions.padding + this.nodeDimensions.height - (textData.t3Dim.actualBoundingBoxAscent - textData.t3Dim.actualBoundingBoxDescent)
+            let t3 = new Text(textData.t3ShortText, this.settings.jobTitleFontSize, t3Point, this.settings.nodeFontColor);
+            node.appendChild(t3);
+
+            let t2Point = new Point();
+            t2Point.x = this.drawPoint.x + this.nodeDimensions.padding;
+            t2Point.y = t3Point.y - (textData.t1Dim.actualBoundingBoxAscent - textData.t1Dim.actualBoundingBoxDescent) - this.settings.twoLineNameVerticalSpacing;
+            let t2 = new Text(`${this.employee.lastName}`, this.settings.nameFontSize, t2Point, this.settings.nodeFontColor);
+            node.appendChild(t2);
+
+
+            let t1Point = new Point();
+            t1Point.x = this.drawPoint.x + this.nodeDimensions.padding;
+            t1Point.y = t2Point.y - (textData.t1Dim.actualBoundingBoxAscent - textData.t1Dim.actualBoundingBoxDescent) - this.settings.twoLineNameVerticalSpacing;
+            let t1 = new Text(`${this.employee.firstName}`, this.settings.nameFontSize, t1Point, this.settings.nodeFontColor);
+            node.appendChild(t1);
+        } else {
+            let t2Point = new Point();
+            t2Point.x = this.drawPoint.x + this.nodeDimensions.padding;
+            t2Point.y = this.drawPoint.y + this.nodeDimensions.padding + (2 / 3 * this.nodeDimensions.textMaxHeigth) - (textData.t1Dim.actualBoundingBoxAscent - textData.t1Dim.actualBoundingBoxDescent);
+            let t2 = new Text(`${this.employee.firstName} ${this.employee.lastName}`, this.settings.nameFontSize, t2Point, this.settings.nodeFontColor);
+            node.appendChild(t2);
+
+            let t3Point = new Point();
+            t3Point.x = this.drawPoint.x + this.nodeDimensions.padding;
+            t3Point.y = this.drawPoint.y + this.nodeDimensions.padding + (2 / 3 * this.nodeDimensions.textMaxHeigth) + this.settings.twoLineNameVerticalSpacing;
+            let t3 = new Text(textData.t3ShortText, this.settings.jobTitleFontSize, t3Point, this.settings.nodeFontColor);
+            node.appendChild(t3);
+        }
     }
 }

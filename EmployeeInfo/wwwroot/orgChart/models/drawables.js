@@ -260,7 +260,7 @@ export class Text extends Drawable {
         super();
         this.text = text;
         this.fontSize = fontSize;
-        this.startPoint = startPoint;
+        this.startPoint = { ...startPoint };
         this.fontColor = fontColor;
     }
 

@@ -102,6 +102,7 @@ namespace EmployeeInfo.Services
                     var emp = foundEmp.First();
                     if (noDetail)
                     {
+                        emp.IsCurrent = false;
                         return emp;
                     }
                     else
