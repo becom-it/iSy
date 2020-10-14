@@ -17,6 +17,8 @@ export class OrgChartEmployee {
         this.photo = "";
         this.jobTitle = "";
         this.isCurrent = false;
+        this.tel = "";
+        this.email = "";
     }
 }
 
@@ -173,13 +175,16 @@ export class EmployeeNode {
 
         let tPoint = new Point();
         tPoint.x = this.drawPoint.x + this.nodeDimensions.padding;
-        tPoint.y = this.drawPoint.y + this.nodeDimensions.padding;
+        tPoint.y = this.drawPoint.y + this.nodeDimensions.padding + (textData.t1Dim.actualBoundingBoxAscent - textData.t1Dim.actualBoundingBoxDescent) + this.settings.twoLineNameVerticalSpacing;
+
+        if (this.employee.isCurrent) {
+        }
 
         if (textData.t1Dim.width > this.nodeDimensions.textMaxWidth) {
             let t1 = new Text(`${this.employee.firstName}`, this.settings.nameFontSize, tPoint, this.settings.nodeFontColor);
             node.appendChild(t1);
 
-            tPoint.y = tPoint.y + (textData.t1Dim.actualBoundingBoxAscent - textData.t1Dim.actualBoundingBoxDescent) + this.settings.twoLineNameVerticalSpacing;
+            tPoint.y = tPoint.y + (textData.t1Dim.actualBoundingBoxAscent - textData.t1Dim.actualBoundingBoxDescent) + 2 * this.settings.twoLineNameVerticalSpacing;
             let t2 = new Text(`${this.employee.lastName}`, this.settings.nameFontSize, tPoint, this.settings.nodeFontColor);
             node.appendChild(t2);
 
@@ -187,13 +192,23 @@ export class EmployeeNode {
             let t3 = new Text(textData.t3ShortText, this.settings.jobTitleFontSize, tPoint, this.settings.nodeFontColor);
             node.appendChild(t3);
         } else {
-            tPoint.y = tPoint.y + 2 * ((textData.t1Dim.actualBoundingBoxAscent - textData.t1Dim.actualBoundingBoxDescent) + this.settings.twoLineNameVerticalSpacing);
+            tPoint.y = tPoint.y + ((textData.t1Dim.actualBoundingBoxAscent - textData.t1Dim.actualBoundingBoxDescent) + this.settings.twoLineNameVerticalSpacing);
             let t2 = new Text(`${this.employee.lastName} ${this.employee.lastName}`, this.settings.nameFontSize, tPoint, this.settings.nodeFontColor);
             node.appendChild(t2);
 
             tPoint.y = tPoint.y + (textData.t1Dim.actualBoundingBoxAscent - textData.t1Dim.actualBoundingBoxDescent) + this.settings.twoLineNameVerticalSpacing;
             let t3 = new Text(textData.t3ShortText, this.settings.jobTitleFontSize, tPoint, this.settings.nodeFontColor);
             node.appendChild(t3);
+        }
+
+        if (this.employee.isCurrent) {
+            tPoint.y = tPoint.y + 3 * ((textData.t1Dim.actualBoundingBoxAscent - textData.t1Dim.actualBoundingBoxDescent) + this.settings.twoLineNameVerticalSpacing);
+            let tTel = new Text(`${this.employee.tel}`, this.settings.nameFontSize, tPoint, this.settings.nodeFontColor);
+            node.appendChild(tTel);
+
+            tPoint.y = tPoint.y + (textData.t1Dim.actualBoundingBoxAscent - textData.t1Dim.actualBoundingBoxDescent) + 2 * this.settings.twoLineNameVerticalSpacing;
+            let tEmail = new Text(`${this.employee.email}`, this.settings.nameFontSize, tPoint, this.settings.nodeFontColor);
+            node.appendChild(tEmail);
         }
     }
 

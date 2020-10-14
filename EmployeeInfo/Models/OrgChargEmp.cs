@@ -8,5 +8,7 @@
         public string Photo { get; set; }
         public string JobTitle { get; set; }
         public bool IsCurrent { get; set; }
+        public string Tel { get; set; }
+        public string Email { get; set; }
     }
 }

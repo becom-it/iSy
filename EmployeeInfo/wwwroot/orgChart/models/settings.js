@@ -10,7 +10,7 @@
 		this.offsetTop = 100;
 
 		this.primaryNodeWidth = 310;
-		this.primaryNodeHeight = 165;
+		this.primaryNodeHeight = 135;
 		this.secondaryNodeWidth = 240;
 		this.secondaryNodeHeight = 65;
 		this.primaryImageDiameter = 80;
@@ -24,7 +24,7 @@
 		this.maxNodes = 0;
 
 		this.nameFontSize = 12;
-		this.twoLineNameVerticalSpacing = 3;
+		this.twoLineNameVerticalSpacing = 5;
 		this.jobTitleFontSize = 8;
 		this.titleFontSize = 6;
 
