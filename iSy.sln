@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iSy.Controls", "iSy.Control
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlintSoft.Ldap", "FlintSoft.Ldap\FlintSoft.Ldap.csproj", "{4367A585-D727-4C4E-BAA8-86EC6206BC2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlintSoft.StartupTasks", "FlintSoft.StartupTasks\FlintSoft.StartupTasks.csproj", "{E2216E1A-003A-49CD-9898-2AE7D3500C20}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlintSoft.StartupTasks", "FlintSoft.StartupTasks\FlintSoft.StartupTasks.csproj", "{E2216E1A-003A-49CD-9898-2AE7D3500C20}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
