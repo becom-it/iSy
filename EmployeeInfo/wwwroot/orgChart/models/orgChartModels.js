@@ -193,7 +193,7 @@ export class EmployeeNode {
             node.appendChild(t3);
         } else {
             tPoint.y = tPoint.y + ((textData.t1Dim.actualBoundingBoxAscent - textData.t1Dim.actualBoundingBoxDescent) + this.settings.twoLineNameVerticalSpacing);
-            let t2 = new Text(`${this.employee.lastName} ${this.employee.lastName}`, this.settings.nameFontSize, tPoint, this.settings.nodeFontColor);
+            let t2 = new Text(`${this.employee.firstName} ${this.employee.lastName}`, this.settings.nameFontSize, tPoint, this.settings.nodeFontColor);
             node.appendChild(t2);
 
             tPoint.y = tPoint.y + (textData.t1Dim.actualBoundingBoxAscent - textData.t1Dim.actualBoundingBoxDescent) + this.settings.twoLineNameVerticalSpacing;
