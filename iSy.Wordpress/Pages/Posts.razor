@@ -1,6 +1,13 @@
 ﻿@page "/posts/{cat}"
 
-<PostsPage Category="@Cat" />
+<div class="posts-container">
+    <div class="post-list">
+        <PostListContainer Category="@Cat" />
+    </div>
+    <div class="sidebar">
+        <Sidebar Category="@Cat" />
+    </div>
+</div>
 
 @code {
     [Parameter]
