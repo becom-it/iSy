@@ -16,6 +16,7 @@ using Weather.Extensions;
 using Microsoft.Extensions.Options;
 using EmployeeInfo.Extensions;
 using FlintSoft.Ldap.Extensions;
+using iSy.Wordpress.Extensions;
 
 namespace iSy
 {
@@ -39,6 +40,7 @@ namespace iSy
             services.AddWeatherConfig(Configuration);
             services.AddLdap(Configuration);
             services.AddEmployeeInfo();
+            services.AddiSyWordpress();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,7 +57,7 @@ namespace iSy
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();

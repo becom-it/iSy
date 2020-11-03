@@ -1,0 +1,13 @@
+﻿<div class="posts-container">
+    <div class="post-list">
+        <PostListContainer Category="@Category"/>
+    </div>
+    <div class="sidebar">
+        <Sidebar Category="@Category"/>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Category { get; set; }
+} 

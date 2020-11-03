@@ -1,0 +1,8 @@
+﻿@page "/posts/{cat}"
+
+<PostsPage Category="@Cat" />
+
+@code {
+    [Parameter]
+    public string Cat { get; set; }
+}

@@ -1,0 +1,53 @@
+﻿.posts-container {
+  display: flex;
+  flex-direction: row;
+  height: 100%; }
+  .posts-container .post-list {
+    flex: 1;
+    margin-right: 20px;
+    background-color: #fff;
+    padding: 20px; }
+    .posts-container .post-list .post-overview {
+      border-bottom: 1px solid #B2B2B2;
+      margin-top: 20px; }
+      .posts-container .post-list .post-overview .pv-category {
+        display: flex;
+        flex-direction: row; }
+      .posts-container .post-list .post-overview .pv-title h1 {
+        font-weight: bold;
+        color: #000; }
+    .posts-container .post-list .post-overview:first-child {
+      margin-top: 0px; }
+    .posts-container .post-list .post-overview:last-child {
+      border-bottom: 0px; }
+    .posts-container .post-list .pv-author {
+      color: #3CAADC; }
+    .posts-container .post-list .pv-content {
+      color: #000; }
+  .posts-container .sidebar {
+    width: 20%;
+    background-color: #fff;
+    padding: 20px; }
+
+.post-detail {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background-color: #fff;
+  padding: 20px;
+  overflow-y: scroll; }
+  .post-detail .pd-category {
+    display: flex;
+    flex-direction: row; }
+    .post-detail .pd-category span {
+      margin-right: 3px; }
+    .post-detail .pd-category span:last-child {
+      display: none; }
+  .post-detail .pd-title h1 {
+    font-weight: bold;
+    color: #000; }
+  .post-detail .pd-author {
+    color: #3CAADC; }
+  .post-detail .pd-content {
+    color: #000; }

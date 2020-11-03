@@ -1,0 +1,94 @@
+﻿@import "../../iSy/wwwroot/css/sass/variables";
+
+.posts-container {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+
+    .post-list {
+        flex: 1;
+        margin-right: 20px;
+        background-color: $white;
+        padding: 20px;
+
+        .post-overview {
+            border-bottom: 1px solid $lightgray;
+            margin-top: 20px;
+
+            .pv-category {
+                display: flex;
+                flex-direction: row;
+            }
+
+            .pv-title {
+
+
+                h1 {
+                    font-weight: bold;
+                    color: $black;
+                }
+            }
+        }
+
+        .post-overview:first-child {
+            margin-top: 0px;
+        }
+
+        .post-overview:last-child {
+            border-bottom: 0px;
+        }
+
+        .pv-author {
+            color: $lightblue;
+        }
+
+        .pv-content {
+            color: $black;
+        }
+    }
+
+    .sidebar {
+        width: 20%;
+        background-color: $white;
+        padding: 20px;
+    }
+}
+
+.post-detail {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    background-color: $white;
+    padding: 20px;
+    overflow-y: scroll;
+
+    .pd-category {
+        display: flex;
+        flex-direction: row;
+
+        span {
+            margin-right: 3px;
+        }
+
+        span:last-child {
+            display: none;
+        }
+    }
+
+    .pd-title {
+
+        h1 {
+            font-weight: bold;
+            color: $black;
+        }
+    }
+
+    .pd-author {
+        color: $lightblue;
+    }
+
+    .pd-content {
+        color: $black;
+    }
+}

@@ -1,0 +1,27 @@
+﻿@using iSy.Wordpress.Models.Post
+
+@if (Posts != null)
+{
+    @foreach (var post in Posts.Where(x => x.IsSticky == IsSticky).OrderBy(x => x.Date))
+    {
+        <div class="post-overview">
+            <div class="pv-category">
+                @foreach (var c in post.Categories)
+                {
+                    <NavLink class="nav-link" href="@c.Link">@c.Category</NavLink>
+                }
+            </div>
+            <div class="pv-title"><NavLink class="nav-link" href="@post.Link"><h1>@post.Title</h1></NavLink></div>
+            <div class="pv-author">@post.AuthorInfo</div>
+            <div class="pv-content">@((MarkupString)post.Excerpt)</div>
+        </div>
+    }
+}
+
+@code {
+    [Parameter]
+    public List<PostOverview> Posts { get; set; }
+
+    [Parameter]
+    public bool IsSticky { get; set; }
+}

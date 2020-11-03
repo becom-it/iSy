@@ -1,0 +1,15 @@
+﻿@if (Post != null)
+{
+    <div class="post-detail">
+        <div class="pd-category">
+            @foreach (var c in Post.Categories)
+            {
+                <NavLink class="nav-link" href="@c.Link">@c.Category</NavLink>
+                <span>,</span>
+            }
+        </div>
+        <div class="pd-title"><h1>@Post.Title</h1></div>
+        <div class="pd-author">@Post.AuthorInfo</div>
+        <div class="pd-content">@((MarkupString)Post.Content)</div>
+    </div>
+}

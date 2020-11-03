@@ -28,6 +28,7 @@
     <ProjectReference Include="..\FlintSoft.StartupTasks\FlintSoft.StartupTasks.csproj" />
     <ProjectReference Include="..\iSy.Controls\iSy.Controls.csproj" />
     <ProjectReference Include="..\iSy.Shared\iSy.Shared.csproj" />
+    <ProjectReference Include="..\iSy.Wordpress\iSy.Wordpress.csproj" />
     <ProjectReference Include="..\Weather\Weather.csproj" />
   </ItemGroup>
 
