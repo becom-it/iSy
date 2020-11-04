@@ -14,6 +14,7 @@ namespace iSy.Wordpress.Extensions
             {
                 var ov = new PostOverview();
                 ov.Id = edge.Node.Id;
+                ov.Cursor = edge.Cursor;
                 ov.AuthorInfo = $"{edge.Node.Author.ToAuthorInfo()} am {edge.Node.Date.ToShortDateString()}";
                 ov.Categories = edge.Node.Categories.ToCategoryList(baseCategory);
                 ov.Excerpt = edge.Node.Excerpt;

@@ -6,6 +6,7 @@ namespace iSy.Wordpress.Models.Post
     public class PostOverview
     {
         public string Id { get; set; }
+        public string Cursor { get; set; }
         public string Title { get; set; }
         public string Excerpt { get; set; }
         public bool IsSticky { get; set; }

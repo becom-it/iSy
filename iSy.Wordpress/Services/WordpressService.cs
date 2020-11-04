@@ -7,6 +7,8 @@ using iSy.Wordpress.Models.Post;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,6 +18,7 @@ namespace iSy.Wordpress.Services
     {
         Task<List<PostOverview>> GetPostsOverview(string category);
         Task<PostDetailModel> GetPost(string id);
+        Task<PostsInfo> LoadPostsInfo(string category);
     }
 
     public class WordpressService : IWordpressService
@@ -31,12 +34,14 @@ namespace iSy.Wordpress.Services
         {
             using var graphQLClient = new GraphQLHttpClient("http://hitsrvwp1.becom.at/graphql", new SystemTextJsonSerializer());
 
+            _logger.LogInformation($"Loading posts for category {category}...");
             var request = new GraphQLRequest
             {
                 Query = @"
                     query GET_POSTS {
                         posts(where: {categoryName: ""{category}""}, first: 10) {
                             edges {
+                                cursor
                                 node {
                                     author {
                                         node {
@@ -63,12 +68,23 @@ namespace iSy.Wordpress.Services
             };
 
             var graphQLResponse = await graphQLClient.SendQueryAsync<PostsData<PostsNode>>(request);
+            if (graphQLResponse.Errors.Length > 0)
+            {
+                foreach (var e in graphQLResponse.Errors)
+                {
+                    _logger.LogError($"Error loading posts for category {category}: {e.Message}");
+                }
+                return null;
+            }
+            _logger.LogInformation($"Posts loaded!");
             return graphQLResponse.Data.ToOverview(category);
         }
 
         public async Task<PostDetailModel> GetPost(string id)
         {
             using var graphQLClient = new GraphQLHttpClient("http://hitsrvwp1.becom.at/graphql", new SystemTextJsonSerializer());
+
+            _logger.LogInformation($"Loading post with id {id}...");
 
             var request = new GraphQLRequest
             {
@@ -97,7 +113,69 @@ namespace iSy.Wordpress.Services
             };
 
             var graphQLResponse = await graphQLClient.SendQueryAsync<PostData>(request);
+            if (graphQLResponse.Errors.Length > 0)
+            {
+                foreach (var e in graphQLResponse.Errors)
+                {
+                    _logger.LogError($"Error loading post with id {id}: {e.Message}");
+                }
+                return null;
+            }
+            _logger.LogInformation($"Post loaded!");
             return graphQLResponse.Data.ToDetail();
         }
+
+        public async Task<PostsInfo> LoadPostsInfo(string category)
+        {
+            using var graphQLClient = new GraphQLHttpClient("http://hitsrvwp1.becom.at/graphql", new SystemTextJsonSerializer());
+
+            _logger.LogInformation($"Loading posts information for category {category}...");
+            var request = new GraphQLRequest
+            {
+                Query = @"
+                    query GET_POST {
+                        posts(where: {categoryName: ""{category}""}) {
+                            edges {
+                                node {
+                                    categories {
+                                        nodes {
+                                            name
+                                        }
+                                    }
+                                    date
+                                    title
+                                }
+                            }
+                        }
+                    }
+                ".Replace("{category}", category)
+            };
+
+            var graphQLResponse = await graphQLClient.SendQueryAsync<PostsData<InfoNode>>(request);
+            if (graphQLResponse.Errors != null && graphQLResponse.Errors.Length > 0)
+            {
+                foreach (var e in graphQLResponse.Errors)
+                {
+                    _logger.LogError($"Error loading posts information for category {category}: {e.Message}");
+                }
+                return null;
+            }
+            _logger.LogInformation($"Posts infos loaded! Calculating info data...");
+            var data = graphQLResponse.Data.EdgeList.Edges.Select(x => x.Node);
+
+            return new PostsInfo
+            {
+                Categories = data.Select(x => x.Categories.ToCategoryList()).SelectMany(x => x).Where(x => x.Category != category),
+                RecentPosts = data.OrderByDescending(x => x.Date).Take(5),
+                Archives = data.OrderByDescending(x => x.Date)
+                .GroupBy(x => new { x.Date.Month, x.Date.Year })
+                .Select(x => new ArchiveInfo { Month = x.Key.Month, Year = x.Key.Year, Count = x.Count() }),
+                PostCount = data.Count()
+            };
+        }
     }
+
+    
+
+    
 }

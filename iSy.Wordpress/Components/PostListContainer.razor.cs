@@ -16,6 +16,9 @@ namespace iSy.Wordpress.Components
         [Parameter]
         public string Category { get; set; }
 
+        [Parameter]
+        public int PostCount { get; set; }
+
         public List<PostOverview> Posts { get; set; }
 
         protected override async Task OnParametersSetAsync()

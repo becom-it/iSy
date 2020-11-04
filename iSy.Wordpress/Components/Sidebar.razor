@@ -1,6 +1,26 @@
-﻿<h2>Sidebar</h2>
-
-@code {
-    [Parameter]
-    public string Category { get; set; }
-}
+﻿<div class="post-info-container">
+    <div class="pic-recent">
+        <ul>
+            @foreach(var recent in Info.RecentPosts)
+            {
+                <li>@recent.Title</li>
+            }
+        </ul>
+    </div>
+    <div class="pic-archives">
+        <ul>
+            @foreach (var archive in Info.Archives)
+            {
+                <li>@archive.Month @archive.Year (@archive.Count)</li>
+            }
+        </ul>
+    </div>
+    <div class="pic-categories">
+        <ul>
+            @foreach (var cat in Info.Categories)
+            {
+                <li>@cat</li>
+            }
+        </ul>
+    </div>
+</div>
