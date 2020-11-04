@@ -6,7 +6,8 @@
     flex: 1;
     margin-right: 20px;
     background-color: #fff;
-    padding: 20px; }
+    padding: 20px;
+    overflow-y: scroll; }
     .posts-container .post-list .post-overview {
       border-bottom: 1px solid #B2B2B2;
       margin-top: 20px; }
@@ -18,16 +19,29 @@
         color: #000; }
     .posts-container .post-list .post-overview:first-child {
       margin-top: 0px; }
-    .posts-container .post-list .post-overview:last-child {
+    .posts-container .post-list .post-overview:nth-last-child(-n+2) {
       border-bottom: 0px; }
     .posts-container .post-list .pv-author {
       color: #3CAADC; }
     .posts-container .post-list .pv-content {
       color: #000; }
+    .posts-container .post-list .paging-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: center; }
+      .posts-container .post-list .paging-container a {
+        color: #3CAADC; }
   .posts-container .sidebar {
     width: 20%;
     background-color: #fff;
     padding: 20px; }
+    .posts-container .sidebar ul {
+      margin: 0px;
+      margin-top: 5px;
+      margin-bottom: 10px; }
+    .posts-container .sidebar span {
+      color: #3CAADC;
+      font-weight: bold; }
 
 .post-detail {
   display: flex;

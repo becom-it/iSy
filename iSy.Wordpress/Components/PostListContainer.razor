@@ -1,2 +1,10 @@
-﻿<PostList Posts="@Posts" IsSticky="true" />
+﻿@if (PageInfo != null)
+{
+    <Paging Info="@PageInfo" Category="@Category"/>
+}
+<PostList Posts="@Posts" IsSticky="true" />
 <PostList Posts="@Posts" IsSticky="false" />
+@if (PageInfo != null)
+{
+    <Paging Info="@PageInfo" Category="@Category"/>
+}

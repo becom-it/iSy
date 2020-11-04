@@ -1,0 +1,40 @@
+﻿@using iSy.Wordpress.Models.GraphQLBase
+
+@if (Info.HasPreviousPage || Info.HasNextPage)
+{
+    <div class="paging-container">
+        @if (Info.HasPreviousPage)
+        {
+            <NavLink href="@Link">Vorige Seite</NavLink>
+        }
+        @if (Info.HasNextPage)
+        {
+            <NavLink href="@Link">Nächste Seite</NavLink>
+        }
+    </div>
+}
+
+@code {
+    [Parameter]
+    public PageInfo Info { get; set; }
+
+    [Parameter]
+    public string Category { get; set; }
+
+    public string Link { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (Info.HasPreviousPage || Info.HasNextPage)
+        {
+            @if (Info.HasPreviousPage)
+            {
+                Link = $"/posts/{Category}/B-{Info.StartCursor}";
+            }
+            @if (Info.HasNextPage)
+            {
+                Link = $"/posts/{Category}/A-{Info.EndCursor}";
+            }
+        }
+    }
+}

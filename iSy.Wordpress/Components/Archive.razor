@@ -1,0 +1,23 @@
+﻿@using iSy.Wordpress.Models.Post;
+ 
+@if (ArchiveList != null)
+{
+    <ul>
+        @foreach (var a in ArchiveList)
+        {
+            <li>@a</li>
+        }
+    </ul>
+}
+
+@code {
+    [Parameter]
+    public IEnumerable<ArchiveInfo> Archives { get; set; }
+
+    public IEnumerable<string> ArchiveList { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        ArchiveList = Archives.Select(x => $"{System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(x.Month)} {x.Year} ({x.Count})");
+    }
+}

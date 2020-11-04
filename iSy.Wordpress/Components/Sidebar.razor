@@ -1,5 +1,6 @@
 ﻿<div class="post-info-container">
     <div class="pic-recent">
+        <span>Aktuelle Beiträge</span>
         <ul>
             @foreach(var recent in Info.RecentPosts)
             {
@@ -8,18 +9,15 @@
         </ul>
     </div>
     <div class="pic-archives">
-        <ul>
-            @foreach (var archive in Info.Archives)
-            {
-                <li>@archive.Month @archive.Year (@archive.Count)</li>
-            }
-        </ul>
+        <span>Archiv</span>
+        <Archive Archives="@Info.Archives" />
     </div>
     <div class="pic-categories">
+        <span>Kategorien</span>
         <ul>
             @foreach (var cat in Info.Categories)
             {
-                <li>@cat</li>
+                <li><NavLink class="nav-link" href="@cat.Link">@cat.Category</NavLink></li>
             }
         </ul>
     </div>

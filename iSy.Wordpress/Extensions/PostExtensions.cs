@@ -6,10 +6,10 @@ namespace iSy.Wordpress.Extensions
 {
     public static class PostExtensions
     {
-        public static List<PostOverview> ToOverview(this PostsData<PostsNode> source, string baseCategory)
+        public static PostListViewModel ToOverview(this PostsData<PostsNode> source, string baseCategory)
         {
-            var ret = new List<PostOverview>();
-            
+
+            var posts = new List<PostOverview>();
             foreach (var edge in source.EdgeList.Edges)
             {
                 var ov = new PostOverview();
@@ -22,10 +22,15 @@ namespace iSy.Wordpress.Extensions
                 ov.Title = edge.Node.Title;
                 ov.Date = edge.Node.Date;
                 ov.Link = $"/post/{ov.Id}";
-                ret.Add(ov);
+                posts.Add(ov);
             }
 
-            return ret;
+            var vm = new PostListViewModel
+            {
+                Posts = posts,
+                PageInfo = source.EdgeList.PageInfo
+            };
+            return vm;
         }
 
         public static PostDetailModel ToDetail(this PostData source)

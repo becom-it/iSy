@@ -1,6 +1,8 @@
 ﻿using iSy.Wordpress.Models.Post;
 using iSy.Wordpress.Services;
 using Microsoft.AspNetCore.Components;
+using System.Reactive.PlatformServices;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace iSy.Wordpress.Pages
@@ -13,11 +15,26 @@ namespace iSy.Wordpress.Pages
         [Parameter]
         public string Cat { get; set; }
 
+        [Parameter]
+        public string Paging { get; set; } = "";
+
         public PostsInfo Info { get; set; }
+
+        public string After { get; set; } = "";
+
+        public string Before { get; set; } = "";
 
         protected override async Task OnParametersSetAsync()
         {
             Info = await WordpressService.LoadPostsInfo(Cat);
+
+            After = string.Empty;
+            Before = string.Empty;
+            if (!string.IsNullOrEmpty(Paging))
+            { 
+                if (Paging.StartsWith("A-")) After = Paging.Substring(2);
+                if (Paging.StartsWith("B-")) Before = Paging.Substring(2);
+            }
         }
     }
 }

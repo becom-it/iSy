@@ -1,10 +1,14 @@
 ﻿@page "/posts/{cat}"
+@page "/posts/{cat}/{Paging}"
 
-<div class="posts-container">
-    <div class="post-list">
-        <PostListContainer Category="@Cat" PostCount="@Info.PostCount"/>
+@if (Info != null)
+{
+    <div class="posts-container">
+        <div class="post-list">
+            <PostListContainer Category="@Cat" PostCount="@Info.PostCount" After="@After" Before="@Before"/>
+        </div>
+        <div class="sidebar">
+            <Sidebar Info="@Info" />
+        </div>
     </div>
-    <div class="sidebar">
-        <Sidebar Category="@Cat" />
-    </div>
-</div>
+}

@@ -6,5 +6,6 @@ namespace iSy.Wordpress.Models.GraphQLBase
     public class EdgeList<T>
     {
         public List<Edge<T>> Edges { get; set; }
+        public PageInfo PageInfo { get; set; }
     }
 }

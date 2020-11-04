@@ -10,6 +10,7 @@
         margin-right: 20px;
         background-color: $white;
         padding: 20px;
+        overflow-y: scroll;
 
         .post-overview {
             border-bottom: 1px solid $lightgray;
@@ -34,7 +35,7 @@
             margin-top: 0px;
         }
 
-        .post-overview:last-child {
+        .post-overview:nth-last-child(-n+2) {
             border-bottom: 0px;
         }
 
@@ -45,12 +46,33 @@
         .pv-content {
             color: $black;
         }
+
+        .paging-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+
+            a {
+                color: $lightblue;
+            }
+        }
     }
 
     .sidebar {
         width: 20%;
         background-color: $white;
         padding: 20px;
+
+        ul {
+            margin: 0px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+
+        span {
+            color: $lightblue;
+            font-weight: bold;
+        }
     }
 }
 

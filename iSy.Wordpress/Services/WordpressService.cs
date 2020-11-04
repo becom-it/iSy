@@ -16,7 +16,7 @@ namespace iSy.Wordpress.Services
 {
     public interface IWordpressService
     {
-        Task<List<PostOverview>> GetPostsOverview(string category);
+        Task<PostListViewModel> GetPostsOverview(string category, string after = "", string before = "");
         Task<PostDetailModel> GetPost(string id);
         Task<PostsInfo> LoadPostsInfo(string category);
     }
@@ -30,7 +30,7 @@ namespace iSy.Wordpress.Services
             _logger = logger;
         }
 
-        public async Task<List<PostOverview>> GetPostsOverview(string category)
+        public async Task<PostListViewModel> GetPostsOverview(string category, string after = "", string before = "")
         {
             using var graphQLClient = new GraphQLHttpClient("http://hitsrvwp1.becom.at/graphql", new SystemTextJsonSerializer());
 
@@ -39,7 +39,7 @@ namespace iSy.Wordpress.Services
             {
                 Query = @"
                     query GET_POSTS {
-                        posts(where: {categoryName: ""{category}""}, first: 10) {
+                        posts(where: {categoryName: ""{category}""},{paging}) {
                             edges {
                                 cursor
                                 node {
@@ -62,13 +62,30 @@ namespace iSy.Wordpress.Services
                                     excerpt
                                }
                            }
+                           pageInfo {
+                                hasNextPage
+                                hasPreviousPage
+                                startCursor
+                                endCursor
+                           }
                        }
                    }
                 ".Replace("{category}", category)
             };
 
-            var graphQLResponse = await graphQLClient.SendQueryAsync<PostsData<PostsNode>>(request);
-            if (graphQLResponse.Errors.Length > 0)
+            if (!string.IsNullOrEmpty(after))
+            {
+                request.Query = request.Query.Replace("{paging}", $" after: \"{after}\", first: 10");
+            } else if (!string.IsNullOrEmpty(before))
+            {
+                request.Query = request.Query.Replace("{paging}", $" before: \"{before}\", last: 10");
+            } else
+            {
+                request.Query = request.Query.Replace("{paging}", $" first: 10");
+            }
+
+                var graphQLResponse = await graphQLClient.SendQueryAsync<PostsData<PostsNode>>(request);
+            if (graphQLResponse.Errors != null && graphQLResponse.Errors.Length > 0)
             {
                 foreach (var e in graphQLResponse.Errors)
                 {
@@ -113,7 +130,7 @@ namespace iSy.Wordpress.Services
             };
 
             var graphQLResponse = await graphQLClient.SendQueryAsync<PostData>(request);
-            if (graphQLResponse.Errors.Length > 0)
+            if (graphQLResponse.Errors != null && graphQLResponse.Errors.Length > 0)
             {
                 foreach (var e in graphQLResponse.Errors)
                 {
@@ -165,7 +182,7 @@ namespace iSy.Wordpress.Services
 
             return new PostsInfo
             {
-                Categories = data.Select(x => x.Categories.ToCategoryList()).SelectMany(x => x).Where(x => x.Category != category),
+                Categories = data.Select(x => x.Categories.ToCategoryList()).SelectMany(x => x).Where(x => x.Category != category).GroupBy(x => x).Select(x => x.Key),
                 RecentPosts = data.OrderByDescending(x => x.Date).Take(5),
                 Archives = data.OrderByDescending(x => x.Date)
                 .GroupBy(x => new { x.Date.Month, x.Date.Year })
@@ -175,7 +192,7 @@ namespace iSy.Wordpress.Services
         }
     }
 
-    
 
-    
+
+
 }

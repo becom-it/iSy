@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlintSoft.StartupTasks", "F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zeiterfassung", "Zeiterfassung\Zeiterfassung.csproj", "{BCD0611C-A645-4134-98A1-377E38DE2988}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iSy.Wordpress", "iSy.Wordpress\iSy.Wordpress.csproj", "{62E7638C-A951-4A7B-8BCC-74C0B78494B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iSy.Wordpress", "iSy.Wordpress\iSy.Wordpress.csproj", "{62E7638C-A951-4A7B-8BCC-74C0B78494B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
