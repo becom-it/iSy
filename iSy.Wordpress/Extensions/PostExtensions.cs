@@ -6,7 +6,7 @@ namespace iSy.Wordpress.Extensions
 {
     public static class PostExtensions
     {
-        public static PostListViewModel ToOverview(this PostsData<PostsNode> source, string baseCategory)
+        public static PostListViewModel ToOverview(this PostsData<PostsNode> source, string baseCategory = "")
         {
 
             var posts = new List<PostOverview>();

@@ -31,8 +31,11 @@ namespace iSy.Wordpress.Components
         protected override async Task OnParametersSetAsync()
         {
             var vm = await WordpressService.GetPostsOverview(Category, After, Before);
-            Posts = vm.Posts;
-            PageInfo = vm.PageInfo;
+            if (vm != null)
+            {
+                Posts = vm.Posts;
+                PageInfo = vm.PageInfo;
+            }
         }
     }
 }

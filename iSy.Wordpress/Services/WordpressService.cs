@@ -19,6 +19,7 @@ namespace iSy.Wordpress.Services
         Task<PostListViewModel> GetPostsOverview(string category, string after = "", string before = "");
         Task<PostDetailModel> GetPost(string id);
         Task<PostsInfo> LoadPostsInfo(string category);
+        Task<PostListViewModel> SearchPosts(string searchTerm);
     }
 
     public class WordpressService : IWordpressService
@@ -189,6 +190,61 @@ namespace iSy.Wordpress.Services
                 .Select(x => new ArchiveInfo { Month = x.Key.Month, Year = x.Key.Year, Count = x.Count() }),
                 PostCount = data.Count()
             };
+        }
+
+        public async Task<PostListViewModel> SearchPosts(string searchTerm)
+        {
+            using var graphQLClient = new GraphQLHttpClient("http://hitsrvwp1.becom.at/graphql", new SystemTextJsonSerializer());
+
+            _logger.LogInformation($"Searching posts with {searchTerm}...");
+            var request = new GraphQLRequest
+            {
+                Query = @"
+                    query SEARCH_POSTS {
+                        posts(where: {search: ""{search}""}) {
+                            edges {
+                                cursor
+                                node {
+                                    author {
+                                        node {
+                                            firstName
+                                            lastName
+                                            email
+                                        }
+                                    }
+                                    categories {
+                                        nodes {
+                                            name
+                                        }
+                                    }
+                                    id
+                                    date
+                                    title
+                                    excerpt
+                               }
+                           }
+                           pageInfo {
+                                hasNextPage
+                                hasPreviousPage
+                                startCursor
+                                endCursor
+                           }
+                       }
+                   }
+                ".Replace("{search}", searchTerm)
+            };
+
+            var graphQLResponse = await graphQLClient.SendQueryAsync<PostsData<PostsNode>>(request);
+            if (graphQLResponse.Errors != null && graphQLResponse.Errors.Length > 0)
+            {
+                foreach (var e in graphQLResponse.Errors)
+                {
+                    _logger.LogError($"Error searching posts with {searchTerm}: {e.Message}");
+                }
+                return null;
+            }
+            _logger.LogInformation($"Posts loaded!");
+            return graphQLResponse.Data.ToOverview();
         }
     }
 

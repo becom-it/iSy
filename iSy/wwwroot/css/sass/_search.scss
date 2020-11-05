@@ -1,0 +1,64 @@
+﻿@import "./variables";
+
+.search-container {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+
+    .result-list {
+        flex: 1;
+        margin-right: 20px;
+        background-color: $white;
+        padding: 20px;
+        overflow-y: scroll;
+
+        .post-overview {
+            border-bottom: 1px solid $lightgray;
+            margin-top: 20px;
+
+            .pv-category {
+                display: flex;
+                flex-direction: row;
+
+                .nav-link {
+                    margin-right: 3px;
+                }
+            }
+
+            .pv-title {
+
+
+                h1 {
+                    font-weight: bold;
+                    color: $black;
+                }
+            }
+        }
+
+        .post-overview:first-child {
+            margin-top: 0px;
+        }
+
+        .post-overview:nth-last-child(-n+2) {
+            border-bottom: 0px;
+        }
+
+        .pv-author {
+            color: $lightblue;
+        }
+
+        .pv-content {
+            color: $black;
+        }
+
+        .paging-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+
+            a {
+                color: $lightblue;
+            }
+        }
+    }
+}

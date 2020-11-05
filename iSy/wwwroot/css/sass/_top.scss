@@ -1,5 +1,7 @@
 ﻿@import "variables";
 
+$input-border-color: grey;
+
 .top {
     background-color: $white;
     border-bottom: 3px solid $darkblue;
@@ -58,4 +60,31 @@
             font-weight: bold;
         }
     }
+
+    .search-container {
+        display: flex;
+        flex-direction: row;
+        width: 250px;
+        height: 100%;
+        margin-right: 30px;
+
+        .search {
+            height: 20px;
+            margin-top: 10px;
+            width: 90%;
+            border: 0;
+            border-bottom: 1px solid $input-border-color;
+        }
+
+        img {
+            height: 20px;
+            margin-left: 10px;
+            margin-top: 15px;
+        }
+    }
+}
+
+.navrow {
+    justify-content: space-between;
+    align-items: center;
 }

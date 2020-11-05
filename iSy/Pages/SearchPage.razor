@@ -1,0 +1,30 @@
+﻿@page "/search/{searchText}"
+
+<div class="search-container">
+    <div class="result-list">
+        <iSy.Wordpress.Components.PostList Posts="@Posts" IsSticky="false" />
+    </div>
+</div>
+
+@code {
+
+        [Inject]
+        public iSy.Wordpress.Services.IWordpressService WordpressService { get; set; }
+
+        [Parameter]
+        public string SearchText { get; set; } = "";
+
+    public List<Wordpress.Models.Post.PostOverview> Posts { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (!string.IsNullOrEmpty(SearchText))
+        {
+            var vm = await WordpressService.SearchPosts(SearchText);
+            if (vm != null)
+            {
+                Posts = vm.Posts;
+            }
+        }
+    }
+}
