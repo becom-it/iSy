@@ -1,11 +1,23 @@
 ﻿<div class="time-recordings-container">
-    <div class="row">
-        <TimeRecordingsInfo />
-        <TimeRecordingsList />
-        <TimeRecordingsPresenceStatus />
-    </div>
-    <div class="row">
-        <TimeRecordingsCheckins />
-        <TimeRecordingsCalendar />
-    </div>
+    <CascadingValue Value="@Company">
+        <CascadingValue Value="@EmployeeId">
+            <div class="row">
+                <TimeRecordingsInfo />
+                <TimeRecordingsList />
+                <TimeRecordingsPresenceStatus />
+            </div>
+            <div class="row">
+                <TimeRecordingsCheckins />
+                <TimeRecordingsCalendar />
+            </div>
+        </CascadingValue>
+    </CascadingValue>
 </div>
+
+@code {
+    [Parameter]
+    public Becom.EDI.PersonalDataExchange.Model.Enums.CompanyEnum Company { get; set; }
+
+    [Parameter]
+    public int EmployeeId { get; set; }
+}

@@ -25,4 +25,8 @@
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EDI.PersonalDataExchange\Becom.EDI.PersonalDataExchange.csproj" />
+  </ItemGroup>
+
 </Project>

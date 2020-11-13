@@ -17,6 +17,7 @@ using Microsoft.Extensions.Options;
 using EmployeeInfo.Extensions;
 using FlintSoft.Ldap.Extensions;
 using iSy.Wordpress.Extensions;
+using Becom.EDI.PersonalDataExchange.Extensions;
 
 namespace iSy
 {
@@ -41,6 +42,7 @@ namespace iSy
             services.AddLdap(Configuration);
             services.AddEmployeeInfo();
             services.AddiSyWordpress();
+            services.AddPersonalDataExchange(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

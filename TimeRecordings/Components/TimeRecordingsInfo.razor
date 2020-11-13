@@ -1,16 +1,24 @@
 ﻿<div class="tr-info-container">
     <TimeRecordingsTitle Title="Übersicht" />
-    <TimeRecordingsInfoItem Label="Eingeloggt als" Text="Michael Prattinger" />
-    <TimeRecordingsInfoItem Label="Personalnummer" Text="5555" />
-    <TimeRecordingsInfoItem Label="Urlaub" Text="13" />
-    <TimeRecordingsInfoItem Label="Angemeldeter Urlaub" Text="0" />
-    <TimeRecordingsInfoItem Label="Saldo" Text="28:44" />
-    <TimeRecordingsInfoItem Label="Eintrittstag" Text="03.04.2018" />
-    <TimeRecordingsInfoItem Label="Freizeitoption" Text="****" />
-    <TimeRecordingsInfoItem Label="Planstelle" Text="5022 Johann Katona" />
-    <TimeRecordingsInfoItem Label="Eingeloggt als" Text="Michael Prattinger" />
+    @if (Info != null)
+    {
+        <div class="tri-colcontainer">
+            <div class="tri-col">
+                <TimeRecordingsInfoItem Label="Eingeloggt als" Text="@($"{Info.FirstName} {Info.LastName}")" />
+                <TimeRecordingsInfoItem Label="Personalnummer" Text="@Info.EmployeeId.ToString()" />
+                <TimeRecordingsInfoItem Label="Urlaub" Text="@Info.HolidayAvailiable.ToString()" />
+                <TimeRecordingsInfoItem Label="Angemeldeter Urlaub" Text="@Info.HolidayUsed.ToString()" />
+            </div>
+            <div class="tri-col">
+                <TimeRecordingsInfoItem Label="Saldo" Text="@Info.WorktimeSaldo.ToString(@"hh\:mm")" />
+                <TimeRecordingsInfoItem Label="Eintrittstag" Text="@Info.EntryDate.ToShortDateString()" />
+                @if (Info.FreeTimeOption != TimeSpan.Zero)
+                {
+                    <TimeRecordingsInfoItem Label="Freizeitoption" Text="@Info.FreeTimeOption.ToString(@"hh\:mm")" />
+                }
+                <TimeRecordingsInfoItem Label="Planstelle" Text="@Info.ManagerDisciplinary.ToString()" />
+
+            </div>
+        </div>
+    }
 </div>
-
-@code {
-
-}
