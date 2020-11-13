@@ -1,0 +1,7 @@
+﻿.time-recordings-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%; }
+  .time-recordings-container .row {
+    display: flex;
+    flex-direction: row; }

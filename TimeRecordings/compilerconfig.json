@@ -1,0 +1,26 @@
+﻿[
+  {
+    "outputFile": "Components/TimeRecordingsInfo.razor.css",
+    "inputFile": "Components/TimeRecordingsInfo.razor.scss"
+  },
+  {
+    "outputFile": "Components/TimeRecordingsInfoItem.razor.css",
+    "inputFile": "Components/TimeRecordingsInfoItem.razor.scss"
+  },
+  {
+    "outputFile": "Components/TimeRecordingsOverview.razor.css",
+    "inputFile": "Components/TimeRecordingsOverview.razor.scss"
+  },
+  {
+    "outputFile": "Components/TimeRecordingsList.razor.css",
+    "inputFile": "Components/TimeRecordingsList.razor.scss"
+  },
+  {
+    "outputFile": "Components/TimeRecordingsPresenceStatus.razor.css",
+    "inputFile": "Components/TimeRecordingsPresenceStatus.razor.scss"
+  },
+  {
+    "outputFile": "Components/TimeRecordingsTitle.razor.css",
+    "inputFile": "Components/TimeRecordingsTitle.razor.scss"
+  }
+]

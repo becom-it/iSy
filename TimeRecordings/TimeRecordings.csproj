@@ -12,13 +12,14 @@
     <None Include="compilerconfig.json" />
   </ItemGroup>
 
-
+  
   <ItemGroup>
-    <PackageReference Include="BlazorDateRangePicker" Version="3.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components" Version="5.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0" />
+    <SupportedPlatform Include="browser" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0" />
+  </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\" />
