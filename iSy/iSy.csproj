@@ -30,6 +30,7 @@
     <ProjectReference Include="..\iSy.Shared\iSy.Shared.csproj" />
     <ProjectReference Include="..\iSy.Wordpress\iSy.Wordpress.csproj" />
     <ProjectReference Include="..\Weather\Weather.csproj" />
+    <ProjectReference Include="..\Zeiterfassung\Zeiterfassung.csproj" />
   </ItemGroup>
 
 </Project>
