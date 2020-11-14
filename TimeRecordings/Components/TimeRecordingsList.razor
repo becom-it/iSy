@@ -1,11 +1,28 @@
 ﻿<div class="tr-list-container">
     <TimeRecordingsTitle Title="Saldo" />
-    <div>
-        <input type="date" />
-    </div>
+    <TimeRecordingsDateSelector IsSingleDate="false" @bind-From="From" @bind-To="@To"/>
+    <table>
+        <thead>
+            <tr>
+                <th>Datum</th>
+                <th>Arbeitszeit</th>
+                <th>Differenz</th>
+                <th>Saldo</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Details != null)
+            {
+                @foreach (var detail in Details)
+                {
+                    <tr>
+                        <td>@detail.PresenceDate.ToShortDateString()</td>
+                        <td>@detail.NetWorktime.ToString(@"h\:mm") (@detail.NetWorktime.TotalHours)</td>
+                        <td>@detail.NetWorktimeDifference.ToString(@"h\:mm")</td>
+                        <td>@($"{(detail.GrossWorktimeBalance.Days * 24 + detail.GrossWorktimeBalance.Hours)}:{(detail.GrossWorktimeBalance.Minutes < 10 ? $"0{detail.GrossWorktimeBalance.Minutes}" : detail.GrossWorktimeBalance.Minutes.ToString())}")</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
 </div>
-
-@code {
-    [CascadingParameter]
-    public int EmployeeId { get; set; }
-}

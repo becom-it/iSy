@@ -1,6 +1,32 @@
-﻿<h3>TimeRecordingsCheckins</h3>
+﻿<div class="tr-checkins-container">
+    <TimeRecordingsTitle Title="Saldo" />
+    <TimeRecordingsDateSelector IsSingleDate="true" @bind-From="From" />
+    @if (Checkins != null)
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Zeitpunkt</th>
+                    <th>Art</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
 
-@code {
-    [CascadingParameter]
-    public int EmployeeId { get; set; }
-}
+                @foreach (var checkin in Checkins)
+                {
+                    <tr>
+                        <td>@checkin.CheckinTime.ToShortTimeString()</td>
+                        <td>@(string.IsNullOrEmpty(checkin.AbsenceType) ? "-" : checkin.AbsenceType)</td>
+                        <td>@checkin.Type</td>
+                    </tr>
+                }
+                
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <span>Keine Daten gefunden</span>
+    }
+    </div>

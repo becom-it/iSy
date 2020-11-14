@@ -1,0 +1,68 @@
+﻿<div class="tr-dateselector-container @(IsSingleDate ? "trdc-single" : "")">
+    <div class="trd-item">
+        <label>@(IsSingleDate ? "Tag" : "Von")</label>
+        <input type="date" @bind-value="From" />
+    </div>
+    @if (!IsSingleDate)
+    {
+        <div class="trd-item">
+            <label>Bis</label>
+            <input type="date" @bind-value="To" />
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public bool IsSingleDate { get; set; }
+
+    [Parameter]
+    public DateTime From
+    {
+        get
+        {
+            return _from;
+        }
+        set
+        {
+            if (_from != value)
+            {
+                FromChanged.InvokeAsync(value);
+            }
+
+        }
+    }
+
+    [Parameter]
+    public EventCallback<DateTime> FromChanged { get; set; }
+
+    [Parameter]
+    public DateTime To
+    {
+        get { return _to; }
+        set
+        {
+            if (_to != value)
+            {
+                ToChanged.InvokeAsync(value);
+            }
+        }
+    }
+
+    [Parameter]
+    public EventCallback<DateTime> ToChanged { get; set; }
+
+
+    private void fromUpdated(ChangeEventArgs args)
+    {
+        Console.WriteLine(args.Value);
+    }
+
+    private void toUpdated(ChangeEventArgs args)
+    {
+        Console.WriteLine(args.Value);
+    }
+
+    private DateTime _from;
+    private DateTime _to;
+}

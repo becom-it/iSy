@@ -3,8 +3,13 @@
   flex-direction: column;
   width: 20%;
   background-color: white;
-  margin-left: 20px;
-  margin-top: 20px;
   margin-bottom: 10px;
   margin-right: 10px;
   padding: 20px; }
+  .tr-info-container .tri-colcontainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around; }
+    .tr-info-container .tri-colcontainer .tri-col {
+      display: flex;
+      flex-direction: column; }

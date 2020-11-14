@@ -10,7 +10,8 @@
                 <TimeRecordingsInfoItem Label="Angemeldeter Urlaub" Text="@Info.HolidayUsed.ToString()" />
             </div>
             <div class="tri-col">
-                <TimeRecordingsInfoItem Label="Saldo" Text="@Info.WorktimeSaldo.ToString(@"hh\:mm")" />
+                @*<TimeRecordingsInfoItem Label="Saldo" Text="@Info.WorktimeSaldo.ToString(@"hh\:mm")" />*@
+                <TimeRecordingsInfoItem Label="Saldo" Text="@($"{(Info.WorktimeSaldo.Days * 24 + Info.WorktimeSaldo.Hours)}:{(Info.WorktimeSaldo.Minutes < 10 ? $"0{Info.WorktimeSaldo.Minutes}" : Info.WorktimeSaldo.Minutes.ToString())}")" />
                 <TimeRecordingsInfoItem Label="Eintrittstag" Text="@Info.EntryDate.ToShortDateString()" />
                 @if (Info.FreeTimeOption != TimeSpan.Zero)
                 {

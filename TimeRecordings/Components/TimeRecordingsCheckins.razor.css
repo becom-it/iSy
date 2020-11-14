@@ -1,8 +1,7 @@
-﻿.tr-presence-container {
+﻿.tr-checkins-container {
   display: flex;
   flex-direction: column;
   width: 20%;
   background-color: white;
-  margin-left: 10px;
-  margin-bottom: 10px;
+  margin-right: 10px;
   padding: 20px; }
