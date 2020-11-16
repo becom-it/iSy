@@ -2,7 +2,32 @@
 
 @if (Employee != null)
 {
-    <div class="employee-details">
+<div class="employee-details">
+    <div class="ed-pic">
+        <img src="data:image/png;base64,@Employee.Photo" />
+    </div>
+    <div class="edi-name">
+        @Employee.Title @Employee.FirstName @Employee.LastName
+    </div>
+    <div class="edi-jtitle">
+        @Employee.JobTitle
+    </div>
+    <div class="edi-phone">
+        <span>Tel.:</span>@Employee.Phone
+    </div>
+    <div class="edi-mail">
+        <span>E-Mail:</span>@Employee.EMail
+    </div>
+    <div class="edi-acc">
+        <span>Benutzer:</span>@Employee.Account
+    </div>
+    <div class="edi-empid">
+        <span>Mitarbeiter Nr.:</span>@Employee.EmployeeId
+    </div>
+</div>
+
+
+    @*<div class="employee-details">
         <div class="ed-row">
             <div class="ed-pic">
                 <img src="data:image/png;base64,@Employee.Photo" />
@@ -34,7 +59,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>*@
 }
 
 @code {
