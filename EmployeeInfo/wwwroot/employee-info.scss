@@ -12,23 +12,26 @@
         flex-direction: column;
         width: 30%;
         background-color: white;
-        padding: 20px;
+        padding: 1%;
         overflow: auto;
+        height: 100%;
 
         .ecl-search {
+            height: 30%;
         }
 
         .ecl-detail {
             flex: 1;
+            height: 70%;
         }
     }
 
     .ec-right {
         display: flex;
         flex-direction: column;
-        margin-left: 20px;
+        margin-left: 1%;
         flex: 1;
         background-color: white;
-        padding: 20px;
+        padding: 1%;
     }
 }

@@ -1,16 +1,23 @@
 ﻿.employee-details {
   display: flex;
   flex-direction: column;
-  width: 100%; }
+  width: 100%;
+  height: 100%; }
   .employee-details .ed-row {
     display: flex;
-    flex-direction: row; }
-    .employee-details .ed-row .ed-pic img {
-      max-height: 120px; }
+    flex-direction: row;
+    height: 50%;
+    justify-content: flex-start;
+    width: 100%; }
+    .employee-details .ed-row .ed-pic {
+      max-height: 40%;
+      width: 30%; }
+      .employee-details .ed-row .ed-pic img {
+        max-height: 100%; }
     .employee-details .ed-row .ed-info {
       display: flex;
       flex-direction: column;
-      margin-left: 20px;
+      margin-left: 1%;
       margin-top: 10px; }
       .employee-details .ed-row .ed-info .edi-name {
         font-size: 1.5rem;
@@ -41,14 +48,18 @@
     flex-direction: column;
     width: 30%;
     background-color: white;
-    padding: 20px;
-    overflow: auto; }
+    padding: 1%;
+    overflow: auto;
+    height: 100%; }
+    .employee-container .ec-left .ecl-search {
+      height: 30%; }
     .employee-container .ec-left .ecl-detail {
-      flex: 1; }
+      flex: 1;
+      height: 70%; }
   .employee-container .ec-right {
     display: flex;
     flex-direction: column;
-    margin-left: 20px;
+    margin-left: 1%;
     flex: 1;
     background-color: white;
-    padding: 20px; }
+    padding: 1%; }
