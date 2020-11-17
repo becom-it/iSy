@@ -158,8 +158,9 @@ export class OrgChartService {
     }
 
     calculateMaxNodes() {
-        let nodes = (this.settings.canvas.width - this.settings.spacingMin) / (this.settings.nodeWidth - this.settings.spacingMin);
-        this.settings.maxNodes = Math.floor(nodes);
+        let dnWidth = (this.settings.primaryNodeWidth + 3 * this.settings.secondaryNodeWidth) / 4;
+        let nodes = (this.settings.canvas.width - this.settings.spacingMin) / (dnWidth - this.settings.spacingMin);
+        this.settings.maxNodes = Math.floor(nodes) > 4 ? 4 : Math.floor(nodes);
     }
 
     /**
