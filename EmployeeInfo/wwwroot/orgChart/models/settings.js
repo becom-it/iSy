@@ -17,7 +17,7 @@
 		this.secondaryImageDiameter = 50;
 		this.nodeBackgroundColor = "#3CAADC";
 		this.nodeFontColor = "#fff";
-		this.nodeOffset = 50;
+		this.nodeOffset = 30;
 
 		this.spacingMin = 20;
 		this.currentSpacing = 0;

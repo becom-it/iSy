@@ -90,17 +90,17 @@ export class OrgChartService {
         viewModel.employees.forEach(x => {
             if (x.isCurrent) { hasPrim = true; }
         });
-        if (viewModel.employees.length >= 4) {
-            let nodeWs1 = 3 * nodeDimensions2.width + nodeDimensions1.width;
-            let nodeWs2 = 4 * nodeDimensions2.width;
+        if (viewModel.employees.length >= this.settings.maxNodes) {
+            let nodeWs1 = (this.settings.maxNodes - 1) * nodeDimensions2.width + nodeDimensions1.width;
+            let nodeWs2 = this.settings.maxNodes * nodeDimensions2.width;
 
-            spacing1 = (this.settings.canvas.width - nodeWs1) / 5;
-            spacing2 = (this.settings.canvas.width - nodeWs2) / 5;
+            spacing1 = (this.settings.canvas.width - nodeWs1) / (this.settings.maxNodes + 1);
+            spacing2 = (this.settings.canvas.width - nodeWs2) / (this.settings.maxNodes + 1);
 
             if (hasPrim) {
-                horLineLength = 3 * nodeDimensions2.width + nodeDimensions1.width + 3 * spacing1;
+                horLineLength = (this.settings.maxNodes - 1) * nodeDimensions2.width + nodeDimensions1.width + (this.settings.maxNodes - 1) * spacing1;
             } else {
-                horLineLength = 4 * nodeDimensions2.width + 3 * spacing2;
+                horLineLength = this.settings.maxNodes * nodeDimensions2.width + (this.settings.maxNodes - 1) * spacing2;
             }
         } else {
             nodeWs = (viewModel.employees.length - 1) * nodeDimensions2.width + nodeDimensions1.width;
@@ -131,25 +131,30 @@ export class OrgChartService {
         let empRow = 0;
         drawPoint.x = 0;
 
+        let prevHasPrim = false;
         for (let i = 0; i < viewModel.employees.length; i++) {
             let primInThisRow = false;
-            for (let y = empRow * 4; y < (empRow + 1) * 4; y++) {
-                if (viewModel.employees[y].isCurrent) {
-                    primInThisRow = true;
-                    break;
+            for (let y = empRow * this.settings.maxNodes; y < (empRow + 1) * this.settings.maxNodes; y++) {
+                if (viewModel.employees[y]) {
+                    if (viewModel.employees[y].isCurrent) {
+                        primInThisRow = true;
+                        break;
+                    }
                 }
             }
 
             drawPoint.x = drawPoint.x + (primInThisRow ? spacing1 : spacing2);
-            drawPoint.y = drawPoint.y + ((primInThisRow ? nodeDimensions1 : nodeDimensions2).height + this.settings.nodeOffset) * empRow;
+            drawPoint.y = drawPoint.y + ((prevHasPrim ? nodeDimensions1 : nodeDimensions2).height + this.settings.nodeOffset) * empRow;
 
             let empNode = new EmployeeNode(viewModel.employees[i], this.settings, (viewModel.employees[i].isCurrent ? nodeDimensions1 : nodeDimensions2), drawPoint);
             this.drawableItems = this.drawableItems.concat(empNode.drawMe());
 
             drawPoint.x = drawPoint.x + (viewModel.employees[i].isCurrent ? nodeDimensions1 : nodeDimensions2).width;
             empCol++;
-            if (empCol > 3) {
+            if (empCol >= this.settings.maxNodes) {
                 empCol = 0;
+                drawPoint.x = 0;
+                if (hasPrim) prevHasPrim = true;
                 empRow++;
             }
         }
