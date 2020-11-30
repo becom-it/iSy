@@ -16,14 +16,12 @@ namespace EmployeeData.Services
     public class LdapEmployeeCacheStartupTask : IStartupTask
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly LdapEmployeeCacheService _cacheService;
-        private readonly IZeiterfassungsService _zeiterfassungsService;
+        private readonly LdapEmployeeCacheService _ldapEmployeeCacheService;
 
-        public LdapEmployeeCacheStartupTask(IServiceProvider serviceProvider, LdapEmployeeCacheService ldapEmployeeCacheService, IZeiterfassungsService zeiterfassungsService)
+        public LdapEmployeeCacheStartupTask(IServiceProvider serviceProvider, LdapEmployeeCacheService ldapEmployeeCacheService)
         {
             _serviceProvider = serviceProvider;
-            _cacheService = ldapEmployeeCacheService;
-            _zeiterfassungsService = zeiterfassungsService;
+            _ldapEmployeeCacheService = ldapEmployeeCacheService;
         }
 
         public async Task ExecuteAsync(CancellationToken cancellationToken = default)
@@ -32,6 +30,9 @@ namespace EmployeeData.Services
             {
                 var env = scope.ServiceProvider.GetRequiredService<IHostingEnvironment>();
                 var empService = scope.ServiceProvider.GetRequiredService<IEmployeeService>();
+                var zeiterfassungsService = scope.ServiceProvider.GetRequiredService<IZeiterfassungsService>();
+                //var cacheService = _serviceProvider.GetService<LdapEmployeeCacheService>();
+                //var cacheService = scope.ServiceProvider.GetService<LdapEmployeeCacheService>();
 
                 var path = env.ContentRootPath;
                 var jsonDir = Path.Combine(path, "ldap");
@@ -46,14 +47,14 @@ namespace EmployeeData.Services
                         var tCache = JsonSerializer.Deserialize<LdapEmployeeCache>(json);
                         if (DateTime.Now.Subtract(tCache.Created) < TimeSpan.FromDays(10))
                         {
-                            _cacheService.UpdateCache(tCache);
+                            _ldapEmployeeCacheService.UpdateCache(tCache);
                             return;
                         }
                     }
                 }
 
                 //Verfügbare Mitarbeite aus dem EDI laden...
-                var ediEmployees = await _zeiterfassungsService.GetEmployeeList(Becom.EDI.PersonalDataExchange.Model.Enums.CompanyEnum.Austria);
+                var ediEmployees = await zeiterfassungsService.GetEmployeeList(Becom.EDI.PersonalDataExchange.Model.Enums.CompanyEnum.Austria);
                 var ediEmployeeIds = ediEmployees.Select(x => x.EmployeeId);
 
                 //Kein Cache oder zu alt -> alle Ldaps laden
@@ -63,7 +64,7 @@ namespace EmployeeData.Services
                     Created = DateTime.Now,
                     Employees = emps
                 };
-                _cacheService.UpdateCache(cache);
+                _ldapEmployeeCacheService.UpdateCache(cache);
 
                 //Write Cache to disk
                 var str = JsonSerializer.Serialize(cache);

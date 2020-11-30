@@ -4,14 +4,8 @@ using System.Threading.Tasks;
 
 namespace EmployeeData.Services
 {
-    public interface ILdapEmployeeCacheService
-    {
-        Task<List<LdapEmployee>> GetEmployees();
-        void UpdateCache(LdapEmployeeCache cache);
-    }
-
-    public class LdapEmployeeCacheService : ILdapEmployeeCacheService
-    {
+    public class LdapEmployeeCacheService 
+    { 
         private LdapEmployeeCache _empCache = null;
 
         public void UpdateCache(LdapEmployeeCache cache)

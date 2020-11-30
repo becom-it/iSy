@@ -1,5 +1,5 @@
-﻿@using  EmployeeInfo.Models
-@inject EmployeeInfo.Services.IEmployeeService empService
+﻿@using  EmployeeData.Models
+@inject EmployeeData.Services.IEmployeeService empService
 
 <div class="emp-search">
     <InputAutoComplete Placeholder="Mitarbeiter" CurrentText="@SearchTerm" InputChanged="InpChanged" SearchResult="FoundEmployeesDisplay" DebounceTime="500" />

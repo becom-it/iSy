@@ -1,23 +1,15 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using iSy.Data;
-using Weather.Models;
-using iSy.Extensions;
 using Weather.Extensions;
-using Microsoft.Extensions.Options;
-using EmployeeInfo.Extensions;
 using FlintSoft.Ldap.Extensions;
 using iSy.Wordpress.Extensions;
 using Becom.EDI.PersonalDataExchange.Extensions;
+using EmployeeData.Extensions;
 
 namespace iSy
 {
@@ -39,10 +31,12 @@ namespace iSy
             services.AddSingleton<WeatherForecastService>();
 
             services.AddWeatherConfig(Configuration);
-            services.AddLdap(Configuration);
-            services.AddEmployeeInfo();
+            
+            services.AddEmployeeData();
             services.AddiSyWordpress();
             services.AddPersonalDataExchange(Configuration);
+
+            services.AddLdap(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

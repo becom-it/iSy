@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EDI.PersonalDataExchange\Becom.EDI.PersonalDataExchange.csproj" />
+    <ProjectReference Include="..\EmployeeData\EmployeeData.csproj" />
     <ProjectReference Include="..\EmployeeInfo\EmployeeInfo.csproj" />
     <ProjectReference Include="..\FlintSoft.Ldap\FlintSoft.Ldap.csproj" />
     <ProjectReference Include="..\FlintSoft.StartupTasks\FlintSoft.StartupTasks.csproj" />

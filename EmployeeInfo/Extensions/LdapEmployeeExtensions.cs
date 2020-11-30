@@ -1,7 +1,5 @@
-﻿using EmployeeInfo.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using EmployeeData.Models;
+using EmployeeInfo.Models;
 
 namespace EmployeeInfo.Extensions
 {

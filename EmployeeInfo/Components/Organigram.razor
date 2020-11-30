@@ -1,8 +1,9 @@
 ﻿@using EmployeeInfo.Extensions
 @using EmployeeInfo.Models
+@using EmployeeData.Models
 
 @inject Microsoft.JSInterop.IJSRuntime jsRuntime
-@inject EmployeeInfo.Services.IEmployeeService empService
+@inject EmployeeData.Services.IEmployeeService empService
 
 <canvas id="@Id" class="org-chart" width="@Width" height="@Height" @ref="CanvasRef"></canvas>
 

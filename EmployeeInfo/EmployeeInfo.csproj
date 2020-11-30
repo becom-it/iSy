@@ -30,6 +30,7 @@
 
 
   <ItemGroup>
+    <ProjectReference Include="..\EmployeeData\EmployeeData.csproj" />
     <ProjectReference Include="..\FlintSoft.Ldap\FlintSoft.Ldap.csproj" />
     <ProjectReference Include="..\FlintSoft.StartupTasks\FlintSoft.StartupTasks.csproj" />
     <ProjectReference Include="..\iSy.Controls\iSy.Controls.csproj" />

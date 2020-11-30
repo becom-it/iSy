@@ -26,12 +26,18 @@ namespace FlintSoft.Ldap
                 if (result.Count > 0)
                 {
                     var nextEntry = result.Next();
-
-                    var empid = nextEntry.GetAttribute("initials").StringValue;
-                    if (employeeIds.Contains(Convert.ToInt32(empid)))
+                    try
                     {
-                        var x = ConvertLdapEntry<T>(logger, nextEntry, retrieveValue);
-                        ret.Add(x);
+                        var empid = nextEntry.GetAttribute("initials").StringValue;
+                        if (employeeIds.Contains(Convert.ToInt32(empid)))
+                        {
+                            var x = ConvertLdapEntry<T>(logger, nextEntry, retrieveValue);
+                            ret.Add(x);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.LogError($"Error getting intials atribute: {ex.Message}");
                     }
                 }
             }
@@ -66,7 +72,7 @@ namespace FlintSoft.Ldap
 
                     }
                 }
-                catch(KeyNotFoundException kex)
+                catch (KeyNotFoundException kex)
                 {
                     logger.LogWarning($"Attribute {a} not found in directory entry! ({kex.Message})");
                     continue;

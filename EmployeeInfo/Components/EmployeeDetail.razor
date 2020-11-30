@@ -1,4 +1,4 @@
-﻿@using EmployeeInfo.Models
+﻿@using EmployeeData.Models
 
 @if (Employee != null)
 {
@@ -25,41 +25,6 @@
         <span>Mitarbeiter Nr.:</span>@Employee.EmployeeId
     </div>
 </div>
-
-
-    @*<div class="employee-details">
-        <div class="ed-row">
-            <div class="ed-pic">
-                <img src="data:image/png;base64,@Employee.Photo" />
-            </div>
-            <div class="ed-info">
-                <div class="edi-name">
-                    @Employee.Title @Employee.FirstName @Employee.LastName
-                </div>
-                <div class="edi-jtitle">
-                    @Employee.JobTitle
-                </div>
-                <div class="edi-phone">
-                    @Employee.Phone
-                </div>
-                <div class="edi-mail">
-                    @Employee.EMail
-                </div>
-            </div>
-        </div>
-        <div class="ed-row">
-            <div class="ed-info2">
-                <div class="edi2-row">
-                    <div class="edi2-label">Benutzer Id</div>
-                    <div class="edi2-text">@Employee.Account</div>
-                </div>
-                <div class="edi2-row">
-                    <div class="edi2-label">Mitarbeiternummer</div>
-                    <div class="edi2-text">@Employee.EmployeeId</div>
-                </div>
-            </div>
-        </div>
-    </div>*@
 }
 
 @code {

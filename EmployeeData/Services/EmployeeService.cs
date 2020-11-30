@@ -25,9 +25,9 @@ namespace EmployeeData.Services
     {
         private readonly ILogger<EmployeeService> _logger;
         private readonly ILdapService _ldapService;
-        private readonly ILdapEmployeeCacheService _cache;
+        private readonly LdapEmployeeCacheService _cache;
 
-        public EmployeeService(ILogger<EmployeeService> logger, ILdapService ldapService, ILdapEmployeeCacheService cache)
+        public EmployeeService(ILogger<EmployeeService> logger, ILdapService ldapService, LdapEmployeeCacheService cache)
         {
             _logger = logger;
             _ldapService = ldapService;
