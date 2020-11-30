@@ -1,15 +1,25 @@
 ﻿.tr-info-container {
+  grid-area: info;
   display: flex;
   flex-direction: column;
-  width: 20%;
   background-color: white;
-  margin-bottom: 10px;
-  margin-right: 10px;
-  padding: 20px; }
+  margin-right: 2%;
+  margin-bottom: 2%;
+  padding: 1%;
+  /*.tri-colcontainer {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+
+        .tri-col {
+            display: flex;
+            flex-direction: column;
+        }
+    }*/ }
   .tr-info-container .tri-colcontainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around; }
-    .tr-info-container .tri-colcontainer .tri-col {
-      display: flex;
-      flex-direction: column; }
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    justify-items: stretch;
+    align-items: stretch;
+    height: 100%; }

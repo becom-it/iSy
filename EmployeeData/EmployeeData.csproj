@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EDI.PersonalDataExchange\Becom.EDI.PersonalDataExchange.csproj" />
+    <ProjectReference Include="..\FlintSoft.Ldap\FlintSoft.Ldap.csproj" />
+    <ProjectReference Include="..\FlintSoft.StartupTasks\FlintSoft.StartupTasks.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,1 +1,1 @@
-﻿.tr-presence-container{display:flex;flex-direction:column;width:20%;background-color:#fff;margin-left:10px;margin-bottom:10px;padding:20px;}
+﻿.tr-presence-container{grid-area:presence;display:flex;flex-direction:column;background-color:#fff;margin-right:2%;margin-bottom:2%;}

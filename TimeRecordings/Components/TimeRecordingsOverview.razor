@@ -1,15 +1,18 @@
 ﻿<div class="time-recordings-container">
     <CascadingValue Value="@Company">
         <CascadingValue Value="@EmployeeId">
-            <div class="row">
-                <TimeRecordingsInfo />
-                <TimeRecordingsList />
-                <TimeRecordingsPresenceStatus />
-            </div>
-            <div class="row">
-                <TimeRecordingsCheckins />
-                <TimeRecordingsCalendar />
-            </div>
+            @*<div class="row">*@
+            <TimeRecordingsInfo />
+            <TimeRecordingsCheckins />
+            <TimeRecordingsPresenceStatus />
+            <TimeRecordingsCalendar />
+            <TimeRecordingsList />
+
+            @*</div>
+        <div class="row">*@
+
+
+            @*</div>*@
         </CascadingValue>
     </CascadingValue>
 </div>

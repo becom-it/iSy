@@ -1,4 +1,4 @@
-﻿.time-recordings-container {
+﻿/*.time-recordings-container {
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -7,4 +7,18 @@
         display: flex;
         flex-direction: row;
     }
+}*/
+
+.time-recordings-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 2fr;
+    grid-template-areas: 
+        "info checkins recordings" 
+        "presence checkins recordings" 
+        "calendar calendar recordings" 
+        "calendar calendar recordings";
+    justify-items: stretch;
+    align-items: stretch;
+    height: 100%;
 }

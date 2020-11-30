@@ -73,7 +73,7 @@ namespace TimeRecordings.Components
         {
             try
             {
-                Details = await ZeiterfassungsService.GetEmployeeTimeDetails(Company, EmployeeId, From, To);
+                //Details = await ZeiterfassungsService.GetEmployeeTimeDetails(Company, EmployeeId, From, To);
 
                 if (!firstTime) StateHasChanged();
             }

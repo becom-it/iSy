@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EDI.PersonalDataExchange\Becom.EDI.PersonalDataExchange.csproj" />
+    <ProjectReference Include="..\iSy.Controls\iSy.Controls.csproj" />
   </ItemGroup>
 
 </Project>

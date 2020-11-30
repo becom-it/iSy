@@ -17,7 +17,7 @@ namespace FlintSoft.Ldap
             return props;
         }
 
-        public static List<T> ConvertLdapResult<T>(ILogger logger, ILdapSearchResults result, Func<string, LdapAttribute, object> retrieveValue = null)
+        public static List<T> ConvertLdapResult<T>(ILogger logger, ILdapSearchResults result, IEnumerable<int> employeeIds, Func<string, LdapAttribute, object> retrieveValue = null)
         {
             var ret = new List<T>();
 
@@ -26,9 +26,13 @@ namespace FlintSoft.Ldap
                 if (result.Count > 0)
                 {
                     var nextEntry = result.Next();
-                    var x = ConvertLdapEntry<T>(logger, nextEntry, retrieveValue);
-                    ret.Add(x);
-                    //Console.WriteLine(nextEntry.getAttribute(DisplayNameAttribute)); 
+
+                    var empid = nextEntry.GetAttribute("initials").StringValue;
+                    if (employeeIds.Contains(Convert.ToInt32(empid)))
+                    {
+                        var x = ConvertLdapEntry<T>(logger, nextEntry, retrieveValue);
+                        ret.Add(x);
+                    }
                 }
             }
 

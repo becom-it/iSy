@@ -21,7 +21,16 @@ namespace TimeRecordings.Components
 
         protected override async Task OnParametersSetAsync()
         {
-            Info = await zeiterfassungsService.GetEmployeeInfo(Company, EmployeeId);
+            //Info = await zeiterfassungsService.GetEmployeeInfo(Company, EmployeeId);
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if(firstRender)
+            {
+                Info = await zeiterfassungsService.GetEmployeeInfo(Company, EmployeeId);
+                StateHasChanged();
+            }
         }
     }
 }

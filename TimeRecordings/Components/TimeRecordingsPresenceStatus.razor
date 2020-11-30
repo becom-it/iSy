@@ -1,6 +1,27 @@
 ﻿<div class="tr-presence-container">
     <TimeRecordingsTitle Title="Anwesenheit" />
+    <div class="trp-info">
+        <div class="trpi-search">
+            <InputAutoComplete />
+        </div>
+        <div class="trpi-result">
+
+        </div>
+    </div>
 </div>
 @code {
+
+    public List<string> FoundEmployeesDisplay { get; set; } = new List<string>();
+
+    async Task InpChanged(string text)
+    {
+        if (string.IsNullOrEmpty(text) || text.Length < 3) return;
+        if (FoundEmployeesDisplay.Contains(text))
+        {
+            return;
+        }
+
+        FoundEmployeesDisplay.Clear();
+    }
 
 }

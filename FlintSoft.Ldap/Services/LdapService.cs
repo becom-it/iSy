@@ -25,7 +25,7 @@ namespace FlintSoft.Ldap.Services
 
         //}
 
-        public async Task<List<T>> Search<T>(string filter, string path = "")
+        public async Task<List<T>> Search<T>(string filter, IEnumerable<int> employeeIds, string path = "")
         {
             return await Task.Run(() =>
             {
@@ -39,7 +39,7 @@ namespace FlintSoft.Ldap.Services
                 }
                 var search = ldapConn.Search(searchPath, LdapConnection.ScopeSub, filter, LdapHelper.GetLdapAttributes<T>().ToArray(), false);
 
-                return LdapHelper.ConvertLdapResult<T>(_logger, search, (propName, attr) =>
+                return LdapHelper.ConvertLdapResult<T>(_logger, search, employeeIds, (propName, attr) =>
                 {
                     if (propName == "Photo")
                     {
@@ -85,6 +85,6 @@ namespace FlintSoft.Ldap.Services
 
     public interface ILdapService
     {
-        Task<List<T>> Search<T>(string filter, string path = "");
+        Task<List<T>> Search<T>(string filter, IEnumerable<int> employeeIds, string path = "");
     }
 }

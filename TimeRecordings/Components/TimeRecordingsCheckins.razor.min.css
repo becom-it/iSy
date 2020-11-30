@@ -1,1 +1,1 @@
-﻿.tr-checkins-container{display:flex;flex-direction:column;width:20%;background-color:#fff;margin-right:10px;padding:20px;}
+﻿.tr-checkins-container{grid-area:checkins;display:flex;flex-direction:column;background-color:#fff;margin-right:2%;margin-bottom:2%;padding:1%;}

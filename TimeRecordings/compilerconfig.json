@@ -30,5 +30,13 @@
   {
     "outputFile": "Components/TimeRecordingsCheckins.razor.css",
     "inputFile": "Components/TimeRecordingsCheckins.razor.scss"
+  },
+  {
+    "outputFile": "Components/TimeRecordingsCalendar.razor.css",
+    "inputFile": "Components/TimeRecordingsCalendar.razor.scss"
+  },
+  {
+    "outputFile": "Components/TimeRecordingsInputItem.razor.css",
+    "inputFile": "Components/TimeRecordingsInputItem.razor.scss"
   }
 ]

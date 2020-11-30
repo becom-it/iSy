@@ -1,0 +1,7 @@
+﻿.tr-calendar-container {
+  grid-area: calendar;
+  margin-right: 1%;
+  padding: 1%;
+  background-color: white;
+  display: flex;
+  flex-direction: column; }

@@ -47,7 +47,7 @@ namespace TimeRecordings.Components
         {
             try
             {
-                Checkins = await ZeiterfassungsService.GetEmployeeCheckIns(Company, EmployeeId, From);
+                //Checkins = await ZeiterfassungsService.GetEmployeeCheckIns(Company, EmployeeId, From);
 
                 if (!firstTime) StateHasChanged();
             }

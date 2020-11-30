@@ -2,5 +2,13 @@
   {
     "outputFile": "wwwroot/isy-controls.css",
     "inputFile": "wwwroot/isy-controls.scss"
+  },
+  {
+    "outputFile": "Components/OutputWithLabel.razor.css",
+    "inputFile": "Components/OutputWithLabel.razor.scss"
+  },
+  {
+    "outputFile": "Components/InputWithLabel.razor.css",
+    "inputFile": "Components/InputWithLabel.razor.scss"
   }
 ]
