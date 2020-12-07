@@ -1,0 +1,21 @@
+﻿.tr-month-selector-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+   
+    select {
+    
+        }
+    
+    .trms-year-container {
+        display: flex;
+        flex-direction: row;
+
+        margin-left: 3%;
+
+        span {
+            margin-right: 20%;
+            font-size: 1.2em;
+        }
+    }
+}

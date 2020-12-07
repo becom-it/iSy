@@ -28,8 +28,8 @@
             if (_from != value)
             {
                 FromChanged.InvokeAsync(value);
+                _from = value;
             }
-
         }
     }
 
@@ -45,6 +45,7 @@
             if (_to != value)
             {
                 ToChanged.InvokeAsync(value);
+                _to = value;
             }
         }
     }

@@ -1,8 +1,7 @@
 ﻿<div class="tr-calendar-container">
     <TimeRecordingsTitle Title="Kalendar" />
+    <div class="tr-c-control">
+        <TimeRecordingsMonthSelector />
+    </div>
+    <Calendar Month="12" Year="2020" />
 </div>
-
-    @code {
-        [CascadingParameter]
-        public int EmployeeId { get; set; }
-    }

@@ -10,5 +10,9 @@
   {
     "outputFile": "Components/InputWithLabel.razor.css",
     "inputFile": "Components/InputWithLabel.razor.scss"
+  },
+  {
+    "outputFile": "Components/Calendar.razor.css",
+    "inputFile": "Components/Calendar.razor.scss"
   }
 ]

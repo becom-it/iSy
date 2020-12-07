@@ -2,12 +2,16 @@
 using Becom.EDI.PersonalDataExchange.Model.Enums;
 using Becom.EDI.PersonalDataExchange.Services;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
 namespace TimeRecordings.Components
 {
     public partial class TimeRecordingsInfo
     {
+        [Inject]
+        public ILogger<TimeRecordingsInfo> Logger { get; set; }
+
         [Inject]
         public IZeiterfassungsService zeiterfassungsService { get; set; }
 
@@ -28,8 +32,15 @@ namespace TimeRecordings.Components
         {
             if(firstRender)
             {
-                Info = await zeiterfassungsService.GetEmployeeInfo(Company, EmployeeId);
-                StateHasChanged();
+                try
+                {
+                    Info = await zeiterfassungsService.GetEmployeeInfo(Company, EmployeeId);
+                    StateHasChanged();
+                }
+                catch (System.Exception ex)
+                {
+                    Logger.LogError(ex.Message, ex);
+                }
             }
         }
     }

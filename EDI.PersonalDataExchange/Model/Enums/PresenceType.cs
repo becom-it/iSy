@@ -2,6 +2,7 @@
 {
     public enum PresenceType
     {
+        UNKNOWN,
         AN,
         AB
     }

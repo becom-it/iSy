@@ -22,13 +22,15 @@ namespace TimeRecordings.Components
         public int EmployeeId { get; set; }
 
         private DateTime from = DateTime.Now;
-        public DateTime From { get
+        public DateTime From
+        {
+            get
             {
                 return from;
             }
             set
             {
-                if(from != value)
+                if (from != value)
                 {
                     from = value;
                     _ = update();
@@ -36,20 +38,23 @@ namespace TimeRecordings.Components
             }
         }
 
-        protected override async Task OnParametersSetAsync()
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            await update(true);
+            if(firstRender)
+            {
+                await update();
+            }
         }
 
         public List<EmployeeCheckIn> Checkins { get; set; }
 
-        private async Task update(bool firstTime = false)
+        private async Task update()
         {
             try
             {
-                //Checkins = await ZeiterfassungsService.GetEmployeeCheckIns(Company, EmployeeId, From);
+                Checkins = await ZeiterfassungsService.GetEmployeeCheckIns(Company, EmployeeId, From);
 
-                if (!firstTime) StateHasChanged();
+                StateHasChanged();
             }
             catch (Exception)
             {

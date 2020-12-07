@@ -1,1 +1,1 @@
-﻿.tr-dateselector-container{display:flex;flex-direction:row;justify-content:space-around;}.tr-dateselector-container .trd-item{display:flex;flex-direction:column;}trdc-single{justify-content:left;}
+﻿.tr-dateselector-container{display:flex;flex-direction:row;justify-content:flex-start;}.tr-dateselector-container .trd-item{display:flex;flex-direction:column;margin-right:3%;}trdc-single{justify-content:left;}

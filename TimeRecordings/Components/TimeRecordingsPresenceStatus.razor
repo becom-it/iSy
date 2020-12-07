@@ -1,27 +1,31 @@
 ﻿<div class="tr-presence-container">
-    <TimeRecordingsTitle Title="Anwesenheit" />
-    <div class="trp-info">
-        <div class="trpi-search">
-            <InputAutoComplete />
-        </div>
-        <div class="trpi-result">
 
+    <div class="trp-info">
+        <TimeRecordingsTitle Title="Anwesenheit" />
+        <div class="trpi-search">
+            @*<input type="text" @onkeydown="InpChanged" value="@SearchText" />*@
+            <InputWithLabel Label="Suchen" @bind-InputText="SearchText" Class="perc50" />
+            <span>@CheckedEmployeeText</span>
+        </div>
+        <div class="trp-result">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Vorname</th>
+                        <th>Nachname</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var emp in FoundEmployeesDisplay)
+                    {
+                        <tr @onclick="@(async e => await LineClicked(emp))" class="@GetCssClass(emp)">
+                            <td>@emp.FirstName</td>
+                            <td>@emp.LastName</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
-@code {
 
-    public List<string> FoundEmployeesDisplay { get; set; } = new List<string>();
-
-    async Task InpChanged(string text)
-    {
-        if (string.IsNullOrEmpty(text) || text.Length < 3) return;
-        if (FoundEmployeesDisplay.Contains(text))
-        {
-            return;
-        }
-
-        FoundEmployeesDisplay.Clear();
-    }
-
-}

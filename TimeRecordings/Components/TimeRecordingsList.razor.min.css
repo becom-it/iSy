@@ -1,1 +1,1 @@
-﻿.tr-list-container{grid-area:recordings;display:flex;flex-direction:column;background-color:#fff;padding:1%;}
+﻿.tr-list-container{grid-area:recordings;display:flex;flex-direction:column;background-color:#fff;margin-left:1%;padding:1%;overflow:auto;}.tr-list-container table{margin-top:2%;font-size:.9em;}.tr-list-container span{margin-top:2%;}

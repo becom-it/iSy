@@ -1,0 +1,17 @@
+﻿.calendar-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 1%; }
+  .calendar-container .cal-day {
+    flex: 1 0 13%;
+    margin: 1px;
+    border: 1px solid black;
+    padding: 3px; }
+  .calendar-container .cal-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: lightblue; }

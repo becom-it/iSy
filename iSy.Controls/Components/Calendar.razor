@@ -1,0 +1,32 @@
+﻿<div class="calendar-container">
+    <div class="cal-day cal-header">
+        Montag
+    </div>
+    <div class="cal-day cal-header">
+        Dienstag
+    </div>
+    <div class="cal-day cal-header">
+        Mittwoch
+    </div>
+    <div class="cal-day cal-header">
+        Donnerstag
+    </div>
+    <div class="cal-day cal-header">
+        Freitag
+    </div>
+    <div class="cal-day cal-header">
+        Samstag
+    </div>
+    <div class="cal-day cal-header">
+        Sonntag
+    </div>
+    @{
+        while (Current <= End)
+        {
+            <div class="cal-day">
+                @Current.Day
+            </div>
+            Current = Current.AddDays(1);
+        }
+    }
+</div>

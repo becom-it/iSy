@@ -27,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{FFD6F3DD
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Becom.EDI.PersonalDataExchange.Tests", "Becom.EDI.PersonalDataExchange.Tests\Becom.EDI.PersonalDataExchange.Tests.csproj", "{9E577E66-5A9F-4DE8-88D0-E833F4CFE8E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeData", "EmployeeData\EmployeeData.csproj", "{7ED757B6-0693-4EC0-A3B6-1705AA610793}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeData", "EmployeeData\EmployeeData.csproj", "{7ED757B6-0693-4EC0-A3B6-1705AA610793}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

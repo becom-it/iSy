@@ -11,13 +11,9 @@
 
 .time-recordings-container {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 2fr;
-    grid-template-areas: 
-        "info checkins recordings" 
-        "presence checkins recordings" 
-        "calendar calendar recordings" 
-        "calendar calendar recordings";
+    grid-template-columns: 1fr 1fr 1fr 2fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: "info checkins presence recordings" "calendar calendar calendar recordings";
     justify-items: stretch;
     align-items: stretch;
     height: 100%;

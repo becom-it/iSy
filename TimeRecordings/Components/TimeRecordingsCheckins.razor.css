@@ -6,3 +6,9 @@
   margin-right: 2%;
   margin-bottom: 2%;
   padding: 1%; }
+  .tr-checkins-container table {
+    width: 50%;
+    margin-top: 2%;
+    font-size: 0.8em; }
+  .tr-checkins-container span {
+    margin-top: 2%; }

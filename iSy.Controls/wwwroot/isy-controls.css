@@ -44,3 +44,6 @@
       cursor: inherit;
       font-size: 14px;
       color: grey; }
+
+.perc50 {
+  width: 45%; }

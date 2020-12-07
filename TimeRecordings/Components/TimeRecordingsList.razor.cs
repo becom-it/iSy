@@ -4,6 +4,7 @@ using Becom.EDI.PersonalDataExchange.Services;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace TimeRecordings.Components
@@ -55,12 +56,20 @@ namespace TimeRecordings.Components
 
         public List<EmployeeTimeDetail> Details { get; set; } = null;
 
-        protected override async Task OnParametersSetAsync()
-        {
-            To = DateTime.Now;
-            From = To.AddMonths(-1);
+        //protected override async Task OnParametersSetAsync()
+        //{
+        //    To = DateTime.Now;
+        //    From = To.AddMonths(-1);
 
-            await update(true);
+        //    await update(true);
+        //}
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if(firstRender)
+            {
+                await update();
+            }
         }
 
         protected override void OnInitialized()
@@ -73,7 +82,8 @@ namespace TimeRecordings.Components
         {
             try
             {
-                //Details = await ZeiterfassungsService.GetEmployeeTimeDetails(Company, EmployeeId, From, To);
+                var data = await ZeiterfassungsService.GetEmployeeTimeDetails(Company, EmployeeId, From, To);
+                Details = data.Where(x => x.NetWorktime > TimeSpan.Zero).ToList();
 
                 if (!firstTime) StateHasChanged();
             }

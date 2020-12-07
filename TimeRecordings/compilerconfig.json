@@ -38,5 +38,9 @@
   {
     "outputFile": "Components/TimeRecordingsInputItem.razor.css",
     "inputFile": "Components/TimeRecordingsInputItem.razor.scss"
+  },
+  {
+    "outputFile": "Components/TimeRecordingsMonthSelector.razor.css",
+    "inputFile": "Components/TimeRecordingsMonthSelector.razor.scss"
   }
 ]

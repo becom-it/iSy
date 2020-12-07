@@ -1,10 +1,11 @@
 ﻿.tr-dateselector-container {
   display: flex;
   flex-direction: row;
-  justify-content: space-around; }
+  justify-content: flex-start; }
   .tr-dateselector-container .trd-item {
     display: flex;
-    flex-direction: column; }
+    flex-direction: column;
+    margin-right: 3%; }
 
 trdc-single {
   justify-content: left; }

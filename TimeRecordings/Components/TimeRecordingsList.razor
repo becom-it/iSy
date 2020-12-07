@@ -1,6 +1,8 @@
 ﻿<div class="tr-list-container">
     <TimeRecordingsTitle Title="Saldo" />
     <TimeRecordingsDateSelector IsSingleDate="false" @bind-From="From" @bind-To="@To"/>
+    @if (Details != null)
+    {
     <table>
         <thead>
             <tr>
@@ -17,7 +19,7 @@
                 {
                     <tr>
                         <td>@detail.PresenceDate.ToShortDateString()</td>
-                        <td>@detail.NetWorktime.ToString(@"h\:mm") (@detail.NetWorktime.TotalHours)</td>
+                        <td>@detail.NetWorktime.ToString(@"h\:mm") (@(Math.Round(detail.NetWorktime.TotalHours, 2)))</td>
                         <td>@detail.NetWorktimeDifference.ToString(@"h\:mm")</td>
                         <td>@($"{(detail.GrossWorktimeBalance.Days * 24 + detail.GrossWorktimeBalance.Hours)}:{(detail.GrossWorktimeBalance.Minutes < 10 ? $"0{detail.GrossWorktimeBalance.Minutes}" : detail.GrossWorktimeBalance.Minutes.ToString())}")</td>
                     </tr>
@@ -25,4 +27,8 @@
             }
         </tbody>
     </table>
+    } else
+    {
+        <span>Keine Daten gefunden</span>
+    }
 </div>

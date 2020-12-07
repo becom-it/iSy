@@ -1,4 +1,4 @@
-﻿<div class="item">
+﻿<div class="@Classes">
     <label>@Label</label>
     <input type="text" @bind="InputText" />
 </div>
@@ -28,4 +28,17 @@
 
     [Parameter]
     public EventCallback<string> InputTextChanged { get; set; }
+
+    [Parameter]
+    public string Class { get; set; } = "";
+
+    private string fixedClass = "item";
+
+    private string Classes
+    {
+        get
+        {
+            return $"{fixedClass} {Class}";
+        }
+    }
 }
