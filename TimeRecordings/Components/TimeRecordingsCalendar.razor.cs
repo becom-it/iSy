@@ -75,6 +75,7 @@ namespace TimeRecordings.Components
             {
 
             }
+            return (TimeSpan.Zero, TimeSpan.Zero, "");
         }
     }
 }
