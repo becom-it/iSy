@@ -6,7 +6,72 @@
     display: flex;
     flex-direction: column;
 
-    .tr-c-control{
+    .tr-c-control {
         margin-top: 1%;
+    }
+
+    .trc-cal-control {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin-top: 1%;
+
+        .cal-item {
+            flex: 1 0 13%;
+            margin: 1px;
+            border: 1px solid black;
+            padding: 3px;
+        }
+
+        .cal-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: lightblue;
+        }
+
+        .cal-day {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            /*grid-template-areas: "day az sal" "day type";*/
+            .cal-day-d {
+                /*grid-area: day;*/
+                grid-column: 1 / 2;
+                grid-row: 1 / 3;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .cal-day-az {
+                /*grid-area: az;*/
+                grid-column: 2 / 3;
+                grid-row: 1;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .cal-day-saldo {
+                /*grid-area: sal;*/
+                grid-column: 3 / 4;
+                grid-row: 1;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .cal-day-type {
+                /*grid-area: type;*/
+                grid-column: 2 / 4;
+                grid-row: 2;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
     }
 }

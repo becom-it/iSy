@@ -56,14 +56,6 @@ namespace TimeRecordings.Components
 
         public List<EmployeeTimeDetail> Details { get; set; } = null;
 
-        //protected override async Task OnParametersSetAsync()
-        //{
-        //    To = DateTime.Now;
-        //    From = To.AddMonths(-1);
-
-        //    await update(true);
-        //}
-
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if(firstRender)

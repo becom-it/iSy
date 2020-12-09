@@ -21,10 +21,11 @@
 
     public int CurrentYear { get; set; }
 
-    public (int, int) SelectedMonth { get; set; }
+    [Parameter]
+    public (int month, int year) SelectedMonth { get; set; }
 
     [Parameter]
-    public EventCallback<(int, int)> SelectedMonthChanged { get; set; }
+    public EventCallback<(int month, int year)> SelectedMonthChanged { get; set; }
 
     protected override void OnInitialized()
     {

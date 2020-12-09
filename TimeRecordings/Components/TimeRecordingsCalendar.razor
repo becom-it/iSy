@@ -1,7 +1,50 @@
 ﻿<div class="tr-calendar-container">
     <TimeRecordingsTitle Title="Kalendar" />
     <div class="tr-c-control">
-        <TimeRecordingsMonthSelector />
+        <TimeRecordingsMonthSelector @bind-SelectedMonth="SelectedMonth"/>
     </div>
-    <Calendar Month="12" Year="2020" />
+    @*<Calendar Month="12" Year="2020" />*@
+    <div class="trc-cal-control">
+        <div class="cal-item cal-header">
+            Montag
+        </div>
+        <div class="cal-item cal-header">
+            Dienstag
+        </div>
+        <div class="cal-item cal-header">
+            Mittwoch
+        </div>
+        <div class="cal-item cal-header">
+            Donnerstag
+        </div>
+        <div class="cal-item cal-header">
+            Freitag
+        </div>
+        <div class="cal-item cal-header">
+            Samstag
+        </div>
+        <div class="cal-item cal-header">
+            Sonntag
+        </div>
+        @{
+            while (Current <= End)
+            {
+                <div class="cal-item cal-day">
+                    <div class="cal-day-d">
+                        @Current.Day
+                    </div>
+                    <div class="cal-day-az">
+                        @Current.Day
+                    </div>
+                    <div class="cal-day-saldo">
+                        @Current.Day
+                    </div>
+                    <div class="cal-day-type">
+                        @Current.Day
+                    </div>
+                </div>
+                Current = Current.AddDays(1);
+            }
+        }
+    </div>
 </div>
