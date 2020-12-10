@@ -98,6 +98,12 @@ namespace Becom.EDI.PersonalDataExchange.Services
         /// <param name="ForDate">Abgfrage Datum</param>
         /// <returns>Liste mit allen Statusänderungen an einem Tag</returns>
         Task<List<EmployeeCheckIn>> GetEmployeeCheckIns(int betrieb, int employeeId, DateTime ForDate);
+
+        /// <summary>
+        /// Gibt eine Liste der Abwesenheitskennzeichen zurück (Tabellenart ZEKZ aus der Tabelle DTG0LF)
+        /// </summary>
+        /// <returns>Liste der Abwesenheitskennzeichen</returns>
+        Task<List<ZeiterfassungsCustomizing>> GetZeiterfassungsCustomizing();
     }
 
     public class ZeiterfassungsService : IZeiterfassungsService
@@ -105,12 +111,14 @@ namespace Becom.EDI.PersonalDataExchange.Services
         private readonly ILogger<ZeiterfassungsService> _logger;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly PersonalDataExchangeConfig _config;
+        private readonly IIBMiSQLApi _sqlApi;
 
-        public ZeiterfassungsService(ILogger<ZeiterfassungsService> logger, IHttpClientFactory httpClientFactory, PersonalDataExchangeConfig config)
+        public ZeiterfassungsService(ILogger<ZeiterfassungsService> logger, IHttpClientFactory httpClientFactory, PersonalDataExchangeConfig config, IIBMiSQLApi sqlApi)
         {
             _logger = logger;
             _httpClientFactory = httpClientFactory;
             _config = config;
+            _sqlApi = sqlApi;
         }
 
         #region EmployeeInfo
@@ -385,9 +393,25 @@ namespace Becom.EDI.PersonalDataExchange.Services
         }
         #endregion
 
+        #region Customizing
+        public async Task<List<ZeiterfassungsCustomizing>> GetZeiterfassungsCustomizing()
+        {
+            try
+            {
+                var res = await _sqlApi.CallSqlService<ZeiterfassungsCustomizing>(_config.ZeiterfassungsCustomizingQuery);
+                var grouped = res.GroupBy(x => x.AbscenceKey).Select(x => x.FirstOrDefault()).ToList();
+                return grouped;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error loading the Zeiterfassungs customizing: {ex.Message}", ex);
+            }
+        }
+        #endregion
+
         private async Task<string> callEndpoint(string xml)
         {
-            var resultString = string.Empty;
+            string resultString;
             try
             {
                 var httpContent = new StringContent(xml, Encoding.UTF8, "text/xml");
@@ -419,7 +443,7 @@ namespace Becom.EDI.PersonalDataExchange.Services
             return resultString;
         }
 
-        private void checkForError(string content)
+        private static void checkForError(string content)
         {
             XDocument doc = XDocument.Parse(content);
             var errors = doc.Descendants().Where(x => x.Name.LocalName == "errors")
@@ -428,7 +452,7 @@ namespace Becom.EDI.PersonalDataExchange.Services
                     ErrorCode = x.ToInt("erco"),
                     ErrorText = x.Element(x.Name.Namespace + "ertx").Value.Trim()
                 });
-            if(errors.Count() > 0)
+            if(errors.Any())
             {
                 throw new ArgumentException($"Error {errors.First().ErrorText}", new PersonalDataExchangeException(errors.First()));
             }

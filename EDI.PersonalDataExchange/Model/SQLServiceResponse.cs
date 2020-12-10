@@ -6,9 +6,9 @@ namespace Becom.EDI.PersonalDataExchange.Model
     public class SQLServiceResponse<T>
     {
         [JsonPropertyName("metrics")]
-        public Metrics? Metrics { get; set; }
+        public Metrics Metrics { get; set; }
         [JsonPropertyName("data")]
-        public List<T>? Data { get; set; }
+        public List<T> Data { get; set; }
     }
 
     public class Metrics

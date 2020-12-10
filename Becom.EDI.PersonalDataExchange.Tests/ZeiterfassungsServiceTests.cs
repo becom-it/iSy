@@ -1,8 +1,10 @@
 ﻿using Becom.EDI.PersonalDataExchange.Model;
+using Becom.EDI.PersonalDataExchange.Model.Config;
 using Becom.EDI.PersonalDataExchange.Model.Enums;
 using Becom.EDI.PersonalDataExchange.Services;
 using Becom.EDI.PersonalDataExchange.Tests.Helpers;
 using FluentAssertions;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Moq.Protected;
 using System;
@@ -22,11 +24,7 @@ namespace Becom.EDI.PersonalDataExchange.Tests
         public async Task GetEmployeeInfoTestEnum()
         {
             //Arrange
-            var mocks = MockHelpers.GetMocks(ResponseContents.GetEmployeeInfoResponse());
-
-
-            //Act
-            var service = new ZeiterfassungsService(mocks.logger, mocks.mockFactory.Object, mocks.config);
+            var (service, logger, mockFactory, mockHttpMessageHandler, config, sqlApi) = getService(ResponseContents.GetEmployeeInfoResponse());
 
             var info = await service.GetEmployeeInfo(CompanyEnum.Austria, 5555);
             
@@ -38,10 +36,10 @@ namespace Becom.EDI.PersonalDataExchange.Tests
             info.ManagerProfessional.Should().Be(5022);
             info.EntryDate.Should().Be(new System.DateTime(2018, 4, 3));
 
-            mocks.mockHttpMessageHandler.Protected().Verify(
+            mockHttpMessageHandler.Protected().Verify(
                 "SendAsync",
                 Times.Exactly(1),
-                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(mocks.config.Endpoint, RequestContents.GetEmployeeInfoRequestContent(1, 5555))),
+                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(config.Endpoint, RequestContents.GetEmployeeInfoRequestContent(1, 5555))),
                 ItExpr.IsAny<CancellationToken>());
         }
 
@@ -49,11 +47,7 @@ namespace Becom.EDI.PersonalDataExchange.Tests
         public async Task GetEmployeeInfoTest()
         {
             //Arrange
-            var mocks = MockHelpers.GetMocks(ResponseContents.GetEmployeeInfoResponse());
-
-
-            //Act
-            var service = new ZeiterfassungsService(mocks.logger, mocks.mockFactory.Object, mocks.config);
+            var (service, logger, mockFactory, mockHttpMessageHandler, config, sqlApi) = getService(ResponseContents.GetEmployeeInfoResponse());
 
             var info = await service.GetEmployeeInfo(1, 5555);
 
@@ -65,10 +59,10 @@ namespace Becom.EDI.PersonalDataExchange.Tests
             info.ManagerProfessional.Should().Be(5022);
             info.EntryDate.Should().Be(new System.DateTime(2018, 4, 3));
 
-            mocks.mockHttpMessageHandler.Protected().Verify(
+            mockHttpMessageHandler.Protected().Verify(
                 "SendAsync",
                 Times.Exactly(1),
-                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(mocks.config.Endpoint, RequestContents.GetEmployeeInfoRequestContent(1, 5555))),
+                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(config.Endpoint, RequestContents.GetEmployeeInfoRequestContent(1, 5555))),
                 ItExpr.IsAny<CancellationToken>());
         }
 
@@ -76,18 +70,14 @@ namespace Becom.EDI.PersonalDataExchange.Tests
         public async Task GetEmployeeInfo_Error_Wrong_Company_Test()
         {
             //Arrange
-            var mocks = MockHelpers.GetMocks(ResponseContents.GetEmployeeInfoErrorCompanyResponse());
-
-
-            //Act
-            var service = new ZeiterfassungsService(mocks.logger, mocks.mockFactory.Object, mocks.config);
+            var (service, logger, mockFactory, mockHttpMessageHandler, config, sqlApi) = getService(ResponseContents.GetEmployeeInfoErrorCompanyResponse());
 
             var ex = await Assert.ThrowsAsync<ArgumentException>(async () => await service.GetEmployeeInfo(789, 5555));
                      
-            mocks.mockHttpMessageHandler.Protected().Verify(
+            mockHttpMessageHandler.Protected().Verify(
                 "SendAsync",
                 Times.Exactly(1),
-                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(mocks.config.Endpoint, RequestContents.GetEmployeeInfoRequestContent(789, 5555))),
+                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(config.Endpoint, RequestContents.GetEmployeeInfoRequestContent(789, 5555))),
                 ItExpr.IsAny<CancellationToken>());
         }
 
@@ -95,18 +85,14 @@ namespace Becom.EDI.PersonalDataExchange.Tests
         public async Task GetEmployeeInfo_Error_No_Data_Test()
         {
             //Arrange
-            var mocks = MockHelpers.GetMocks(ResponseContents.GetEmployeeInfoErrorNoDataResponse());
-
-
-            //Act
-            var service = new ZeiterfassungsService(mocks.logger, mocks.mockFactory.Object, mocks.config);
+            var (service, logger, mockFactory, mockHttpMessageHandler, config, sqlApi) = getService(ResponseContents.GetEmployeeInfoErrorNoDataResponse());
 
             var ex = await Assert.ThrowsAsync<ArgumentException>(async () => await service.GetEmployeeInfo(CompanyEnum.Austria, 1234));
 
-            mocks.mockHttpMessageHandler.Protected().Verify(
+            mockHttpMessageHandler.Protected().Verify(
                 "SendAsync",
                 Times.Exactly(1),
-                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(mocks.config.Endpoint, RequestContents.GetEmployeeInfoRequestContent(1, 1234))),
+                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(config.Endpoint, RequestContents.GetEmployeeInfoRequestContent(1, 1234))),
                 ItExpr.IsAny<CancellationToken>());
         }
         #endregion
@@ -116,10 +102,7 @@ namespace Becom.EDI.PersonalDataExchange.Tests
         public async Task GetEmployeeListEnumTest()
         {
             //Arrange
-            var mocks = MockHelpers.GetMocks(ResponseContents.GetEmployeeListResponse());
-
-            //Act
-            var service = new ZeiterfassungsService(mocks.logger, mocks.mockFactory.Object, mocks.config);
+            var (service, logger, mockFactory, mockHttpMessageHandler, config, sqlApi) = getService(ResponseContents.GetEmployeeListResponse());
 
             var list = await service.GetEmployeeList(CompanyEnum.Austria);
             
@@ -134,10 +117,10 @@ namespace Becom.EDI.PersonalDataExchange.Tests
             list.Last().LastName.Should().Be("Augustin");
             list.Last().EmployeeId.Should().Be(1425);
 
-            mocks.mockHttpMessageHandler.Protected().Verify(
+            mockHttpMessageHandler.Protected().Verify(
                 "SendAsync",
                 Times.Exactly(1),
-                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(mocks.config.Endpoint, RequestContents.GetEmployeeListRequestContent(1))),
+                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(config.Endpoint, RequestContents.GetEmployeeListRequestContent(1))),
                 ItExpr.IsAny<CancellationToken>());
         }
 
@@ -145,10 +128,7 @@ namespace Becom.EDI.PersonalDataExchange.Tests
         public async Task GetEmployeeListTest()
         {
             //Arrange
-            var mocks = MockHelpers.GetMocks(ResponseContents.GetEmployeeListResponse());
-
-            //Act
-            var service = new ZeiterfassungsService(mocks.logger, mocks.mockFactory.Object, mocks.config);
+            var (service, logger, mockFactory, mockHttpMessageHandler, config, sqlApi) = getService(ResponseContents.GetEmployeeListResponse());
 
             var list = await service.GetEmployeeList(1);
 
@@ -163,10 +143,10 @@ namespace Becom.EDI.PersonalDataExchange.Tests
             list.Last().LastName.Should().Be("Augustin");
             list.Last().EmployeeId.Should().Be(1425);
 
-            mocks.mockHttpMessageHandler.Protected().Verify(
+            mockHttpMessageHandler.Protected().Verify(
                 "SendAsync",
                 Times.Exactly(1),
-                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(mocks.config.Endpoint, RequestContents.GetEmployeeListRequestContent(1))),
+                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(config.Endpoint, RequestContents.GetEmployeeListRequestContent(1))),
                 ItExpr.IsAny<CancellationToken>());
         }
 
@@ -174,18 +154,14 @@ namespace Becom.EDI.PersonalDataExchange.Tests
         public async Task GetEmployeeList_Error_Wrong_Company_Test()
         {
             //Arrange
-            var mocks = MockHelpers.GetMocks(ResponseContents.GetEmployeeListErrorCompanyResponse());
-
-
-            //Act
-            var service = new ZeiterfassungsService(mocks.logger, mocks.mockFactory.Object, mocks.config);
+            var (service, logger, mockFactory, mockHttpMessageHandler, config, sqlApi) = getService(ResponseContents.GetEmployeeListErrorCompanyResponse());
 
             var ex = await Assert.ThrowsAsync<ArgumentException>(async () => await service.GetEmployeeList(789));
 
-            mocks.mockHttpMessageHandler.Protected().Verify(
+            mockHttpMessageHandler.Protected().Verify(
                 "SendAsync",
                 Times.Exactly(1),
-                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(mocks.config.Endpoint, RequestContents.GetEmployeeListRequestContent(789))),
+                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(config.Endpoint, RequestContents.GetEmployeeListRequestContent(789))),
                 ItExpr.IsAny<CancellationToken>());
         }
         #endregion
@@ -195,10 +171,7 @@ namespace Becom.EDI.PersonalDataExchange.Tests
         public async Task GetEmployeeTimeDetailsEnumTest()
         {
             //Arrange
-            var mocks = MockHelpers.GetMocks(ResponseContents.GetEmployeeTimeDetailsResponse());
-
-            //Act
-            var service = new ZeiterfassungsService(mocks.logger, mocks.mockFactory.Object, mocks.config);
+            var (service, logger, mockFactory, mockHttpMessageHandler, config, sqlApi) = getService(ResponseContents.GetEmployeeTimeDetailsResponse());
 
             var list = await service.GetEmployeeTimeDetails(CompanyEnum.Austria, 5555, new DateTime(2020, 10, 1), new DateTime(2020, 10, 30));
 
@@ -215,10 +188,10 @@ namespace Becom.EDI.PersonalDataExchange.Tests
             list.Last().NetWorktime.Should().Be(TimeSpan.FromMinutes(362));
             list.Last().NetWorktimeDifference.Should().Be(TimeSpan.FromMinutes(20));
 
-            mocks.mockHttpMessageHandler.Protected().Verify(
+            mockHttpMessageHandler.Protected().Verify(
                 "SendAsync",
                 Times.Exactly(1),
-                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(mocks.config.Endpoint, RequestContents.GetEmployeeTimeDetailsRequestContent(1, 5555, "1102020", "30102020"))),
+                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(config.Endpoint, RequestContents.GetEmployeeTimeDetailsRequestContent(1, 5555, "1102020", "30102020"))),
                 ItExpr.IsAny<CancellationToken>());
         }
 
@@ -226,10 +199,7 @@ namespace Becom.EDI.PersonalDataExchange.Tests
         public async Task GetEmployeeTimeDetailsTest()
         {
             //Arrange
-            var mocks = MockHelpers.GetMocks(ResponseContents.GetEmployeeTimeDetailsResponse());
-
-            //Act
-            var service = new ZeiterfassungsService(mocks.logger, mocks.mockFactory.Object, mocks.config);
+            var (service, logger, mockFactory, mockHttpMessageHandler, config, sqlApi) = getService(ResponseContents.GetEmployeeTimeDetailsResponse());
 
             var list = await service.GetEmployeeTimeDetails(1, 5555, new DateTime(2020, 10, 1), new DateTime(2020, 10, 30));
 
@@ -246,10 +216,10 @@ namespace Becom.EDI.PersonalDataExchange.Tests
             list.Last().NetWorktime.Should().Be(TimeSpan.FromMinutes(362));
             list.Last().NetWorktimeDifference.Should().Be(TimeSpan.FromMinutes(20));
 
-            mocks.mockHttpMessageHandler.Protected().Verify(
+            mockHttpMessageHandler.Protected().Verify(
                 "SendAsync",
                 Times.Exactly(1),
-                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(mocks.config.Endpoint, RequestContents.GetEmployeeTimeDetailsRequestContent(1, 5555, "1102020", "30102020"))),
+                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(config.Endpoint, RequestContents.GetEmployeeTimeDetailsRequestContent(1, 5555, "1102020", "30102020"))),
                 ItExpr.IsAny<CancellationToken>());
         }
 
@@ -257,17 +227,14 @@ namespace Becom.EDI.PersonalDataExchange.Tests
         public async Task GetEmployeeTimeDetails_Error_Wrong_Company_Test()
         {
             //Arrange
-            var mocks = MockHelpers.GetMocks(ResponseContents.GetEmployeeTimeDetailsErrorCompanyResponse());
-
-            //Act
-            var service = new ZeiterfassungsService(mocks.logger, mocks.mockFactory.Object, mocks.config);
+            var (service, logger, mockFactory, mockHttpMessageHandler, config, sqlApi) = getService(ResponseContents.GetEmployeeTimeDetailsErrorCompanyResponse());
 
             var ex = await Assert.ThrowsAsync<ArgumentException>(async () => await service.GetEmployeeTimeDetails(789, 5555, new DateTime(2020, 10, 1), new DateTime(2020, 10, 30)));
             
-            mocks.mockHttpMessageHandler.Protected().Verify(
+            mockHttpMessageHandler.Protected().Verify(
                 "SendAsync",
                 Times.Exactly(1),
-                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(mocks.config.Endpoint, RequestContents.GetEmployeeTimeDetailsRequestContent(789, 5555, "1102020", "30102020"))),
+                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(config.Endpoint, RequestContents.GetEmployeeTimeDetailsRequestContent(789, 5555, "1102020", "30102020"))),
                 ItExpr.IsAny<CancellationToken>());
         }
 
@@ -275,17 +242,14 @@ namespace Becom.EDI.PersonalDataExchange.Tests
         public async Task GetEmployeeTimeDetails_Error_NoData_Test()
         {
             //Arrange
-            var mocks = MockHelpers.GetMocks(ResponseContents.GetEmployeeTimeDetailsErrorNoDataResponse());
-
-            //Act
-            var service = new ZeiterfassungsService(mocks.logger, mocks.mockFactory.Object, mocks.config);
+            var (service, logger, mockFactory, mockHttpMessageHandler, config, sqlApi) = getService(ResponseContents.GetEmployeeTimeDetailsErrorNoDataResponse());
 
             var ex = await Assert.ThrowsAsync<ArgumentException>(async () => await service.GetEmployeeTimeDetails(1, 5555, new DateTime(2015, 10, 1), new DateTime(2015, 10, 30)));
 
-            mocks.mockHttpMessageHandler.Protected().Verify(
+            mockHttpMessageHandler.Protected().Verify(
                 "SendAsync",
                 Times.Exactly(1),
-                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(mocks.config.Endpoint, RequestContents.GetEmployeeTimeDetailsRequestContent(1, 5555, "1102015", "30102015"))),
+                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(config.Endpoint, RequestContents.GetEmployeeTimeDetailsRequestContent(1, 5555, "1102015", "30102015"))),
                 ItExpr.IsAny<CancellationToken>());
         }
 
@@ -293,17 +257,14 @@ namespace Becom.EDI.PersonalDataExchange.Tests
         public async Task GetEmployeeTimeDetails_Error_Wrong_Employee_Test()
         {
             //Arrange
-            var mocks = MockHelpers.GetMocks(ResponseContents.GetEmployeeTimeDetailsErrorWrongEmployeeResponse());
-
-            //Act
-            var service = new ZeiterfassungsService(mocks.logger, mocks.mockFactory.Object, mocks.config);
+            var (service, logger, mockFactory, mockHttpMessageHandler, config, sqlApi) = getService(ResponseContents.GetEmployeeTimeDetailsErrorWrongEmployeeResponse());
 
             var ex = await Assert.ThrowsAsync<ArgumentException>(async () => await service.GetEmployeeTimeDetails(1, 1234, new DateTime(2020, 10, 1), new DateTime(2020, 10, 30)));
 
-            mocks.mockHttpMessageHandler.Protected().Verify(
+            mockHttpMessageHandler.Protected().Verify(
                 "SendAsync",
                 Times.Exactly(1),
-                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(mocks.config.Endpoint, RequestContents.GetEmployeeTimeDetailsRequestContent(1, 1234, "1102020", "30102020"))),
+                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(config.Endpoint, RequestContents.GetEmployeeTimeDetailsRequestContent(1, 1234, "1102020", "30102020"))),
                 ItExpr.IsAny<CancellationToken>());
         }
         #endregion
@@ -313,10 +274,7 @@ namespace Becom.EDI.PersonalDataExchange.Tests
         public async Task GetEmployeePresenceStatusEnumTest()
         {
             //Arrange
-            var mocks = MockHelpers.GetMocks(ResponseContents.GetEmployeePresenceStatusResponse());
-
-            //Act
-            var service = new ZeiterfassungsService(mocks.logger, mocks.mockFactory.Object, mocks.config);
+            var (service, logger, mockFactory, mockHttpMessageHandler, config, sqlApi) = getService(ResponseContents.GetEmployeePresenceStatusResponse());
 
             var status = await service.GetEmployeePresenceStatus(CompanyEnum.Austria, 5555);
 
@@ -325,10 +283,10 @@ namespace Becom.EDI.PersonalDataExchange.Tests
             status.CurrentDate.Should().Be(new DateTime(2020, 11, 11));
             status.Type.Should().Be(PresenceType.AB);
 
-            mocks.mockHttpMessageHandler.Protected().Verify(
+            mockHttpMessageHandler.Protected().Verify(
                 "SendAsync",
                 Times.Exactly(1),
-                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(mocks.config.Endpoint, RequestContents.GetEmployeePresenceStatusRequestContent(1, 5555))),
+                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(config.Endpoint, RequestContents.GetEmployeePresenceStatusRequestContent(1, 5555))),
                 ItExpr.IsAny<CancellationToken>());
         }
 
@@ -336,10 +294,7 @@ namespace Becom.EDI.PersonalDataExchange.Tests
         public async Task GetEmployeePresenceStatusTest()
         {
             //Arrange
-            var mocks = MockHelpers.GetMocks(ResponseContents.GetEmployeePresenceStatusResponse());
-
-            //Act
-            var service = new ZeiterfassungsService(mocks.logger, mocks.mockFactory.Object, mocks.config);
+            var (service, logger, mockFactory, mockHttpMessageHandler, config, sqlApi) = getService(ResponseContents.GetEmployeePresenceStatusResponse());
 
             var status = await service.GetEmployeePresenceStatus(1, 5555);
 
@@ -348,46 +303,38 @@ namespace Becom.EDI.PersonalDataExchange.Tests
             status.CurrentDate.Should().Be(new DateTime(2020, 11, 11));
             status.Type.Should().Be(PresenceType.AB);
 
-            mocks.mockHttpMessageHandler.Protected().Verify(
+            mockHttpMessageHandler.Protected().Verify(
                 "SendAsync",
                 Times.Exactly(1),
-                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(mocks.config.Endpoint, RequestContents.GetEmployeePresenceStatusRequestContent(1, 5555))),
+                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(config.Endpoint, RequestContents.GetEmployeePresenceStatusRequestContent(1, 5555))),
                 ItExpr.IsAny<CancellationToken>());
         }
 
         [Fact]
         public async Task GetEmployeePresenceStatus_Error_Wrong_Company_Test()
         {
-            //Arrange
-            var mocks = MockHelpers.GetMocks(ResponseContents.GetEmployeePresenceStatusErrorCompanyResponse());
-
-            //Act
-            var service = new ZeiterfassungsService(mocks.logger, mocks.mockFactory.Object, mocks.config);
+            var (service, logger, mockFactory, mockHttpMessageHandler, config, sqlApi) = getService(ResponseContents.GetEmployeePresenceStatusErrorCompanyResponse());
 
             var ex = await Assert.ThrowsAsync<ArgumentException>(async () => await service.GetEmployeePresenceStatus(789, 5555));
 
-            mocks.mockHttpMessageHandler.Protected().Verify(
+            mockHttpMessageHandler.Protected().Verify(
                 "SendAsync",
                 Times.Exactly(1),
-                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(mocks.config.Endpoint, RequestContents.GetEmployeePresenceStatusRequestContent(789, 5555))),
+                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(config.Endpoint, RequestContents.GetEmployeePresenceStatusRequestContent(789, 5555))),
                 ItExpr.IsAny<CancellationToken>());
         }
 
         [Fact]
         public async Task GetEmployeePresenceStatus_NoData_Test()
         {
-            //Arrange
-            var mocks = MockHelpers.GetMocks(ResponseContents.GetEmployeePresenceStatusErrorNoDataResponse());
-
-            //Act
-            var service = new ZeiterfassungsService(mocks.logger, mocks.mockFactory.Object, mocks.config);
+            var (service, logger, mockFactory, mockHttpMessageHandler, config, sqlApi) = getService(ResponseContents.GetEmployeePresenceStatusErrorNoDataResponse());
 
             var ex = await Assert.ThrowsAsync<ArgumentException>(async () => await service.GetEmployeePresenceStatus(1, 1234));
 
-            mocks.mockHttpMessageHandler.Protected().Verify(
+            mockHttpMessageHandler.Protected().Verify(
                 "SendAsync",
                 Times.Exactly(1),
-                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(mocks.config.Endpoint, RequestContents.GetEmployeePresenceStatusRequestContent(1, 1234))),
+                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(config.Endpoint, RequestContents.GetEmployeePresenceStatusRequestContent(1, 1234))),
                 ItExpr.IsAny<CancellationToken>());
         }
         #endregion
@@ -396,11 +343,8 @@ namespace Becom.EDI.PersonalDataExchange.Tests
         [Fact]
         public async Task GetEmployeeCheckInsEnumTest()
         {
-            //Arrange
-            var mocks = MockHelpers.GetMocks(ResponseContents.GetEmployeeCheckInsResponse());
+            var (service, logger, mockFactory, mockHttpMessageHandler, config, sqlApi) = getService(ResponseContents.GetEmployeeCheckInsResponse());
 
-            //Act
-            var service = new ZeiterfassungsService(mocks.logger, mocks.mockFactory.Object, mocks.config);
 
             var list = await service.GetEmployeeCheckIns(CompanyEnum.Austria, 5555, new DateTime(2020, 11, 5));
             list.Count.Should().Be(6);
@@ -414,21 +358,17 @@ namespace Becom.EDI.PersonalDataExchange.Tests
             list.Last().CheckinTime.Should().Be(new DateTime(2020, 11, 5, 16, 0, 0));
             list.Last().Type.Should().Be(PresenceType.AB);
 
-            mocks.mockHttpMessageHandler.Protected().Verify(
+            mockHttpMessageHandler.Protected().Verify(
                 "SendAsync",
                 Times.Exactly(1),
-                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(mocks.config.Endpoint, RequestContents.GetEmployeeCheckInsRequestContent(1, 5555, "5112020"))),
+                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(config.Endpoint, RequestContents.GetEmployeeCheckInsRequestContent(1, 5555, "5112020"))),
                 ItExpr.IsAny<CancellationToken>());
         }
 
         [Fact]
         public async Task GetEmployeeCheckInsTest()
         {
-            //Arrange
-            var mocks = MockHelpers.GetMocks(ResponseContents.GetEmployeeCheckInsResponse());
-
-            //Act
-            var service = new ZeiterfassungsService(mocks.logger, mocks.mockFactory.Object, mocks.config);
+            var (service, logger, mockFactory, mockHttpMessageHandler, config, sqlApi) = getService(ResponseContents.GetEmployeeCheckInsResponse());
 
             var list = await service.GetEmployeeCheckIns(1, 5555, new DateTime(2020, 11, 5));
             list.Count.Should().Be(6);
@@ -442,65 +382,93 @@ namespace Becom.EDI.PersonalDataExchange.Tests
             list.Last().CheckinTime.Should().Be(new DateTime(2020, 11, 5, 16, 0, 0));
             list.Last().Type.Should().Be(PresenceType.AB);
 
-            mocks.mockHttpMessageHandler.Protected().Verify(
+            mockHttpMessageHandler.Protected().Verify(
                 "SendAsync",
                 Times.Exactly(1),
-                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(mocks.config.Endpoint, RequestContents.GetEmployeeCheckInsRequestContent(1, 5555, "5112020"))),
+                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(config.Endpoint, RequestContents.GetEmployeeCheckInsRequestContent(1, 5555, "5112020"))),
                 ItExpr.IsAny<CancellationToken>());
         }
 
         [Fact]
         public async Task GetEmployeeCheckIns_Error_Wrong_Company_Test()
         {
-            //Arrange
-            var mocks = MockHelpers.GetMocks(ResponseContents.GetEmployeeCheckInsErrorCompanyResponse());
-
-            //Act
-            var service = new ZeiterfassungsService(mocks.logger, mocks.mockFactory.Object, mocks.config);
+            var (service, logger, mockFactory, mockHttpMessageHandler, config, sqlApi) = getService(ResponseContents.GetEmployeeCheckInsErrorCompanyResponse());
 
             var ex = await Assert.ThrowsAsync<ArgumentException>(async () => await service.GetEmployeeCheckIns(789, 5555, new DateTime(2020, 11, 5)));
 
-            mocks.mockHttpMessageHandler.Protected().Verify(
+            mockHttpMessageHandler.Protected().Verify(
                 "SendAsync",
                 Times.Exactly(1),
-                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(mocks.config.Endpoint, RequestContents.GetEmployeeCheckInsRequestContent(789, 5555, "5112020"))),
+                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(config.Endpoint, RequestContents.GetEmployeeCheckInsRequestContent(789, 5555, "5112020"))),
                 ItExpr.IsAny<CancellationToken>());
         }      
 
         [Fact]
         public async Task GetEmployeeCheckIns_Error_NoData_Test()
         {
-            //Arrange
-            var mocks = MockHelpers.GetMocks(ResponseContents.GetEmployeeCheckInsErrorNoDataResponse());
-
-            //Act
-            var service = new ZeiterfassungsService(mocks.logger, mocks.mockFactory.Object, mocks.config);
+            var (service, logger, mockFactory, mockHttpMessageHandler, config, sqlApi) = getService(ResponseContents.GetEmployeeCheckInsErrorNoDataResponse());
 
             var ex = await Assert.ThrowsAsync<ArgumentException>(async () => await service.GetEmployeeCheckIns(1, 5555, new DateTime(2015, 11, 5)));
 
-            mocks.mockHttpMessageHandler.Protected().Verify(
+            mockHttpMessageHandler.Protected().Verify(
                 "SendAsync",
                 Times.Exactly(1),
-                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(mocks.config.Endpoint, RequestContents.GetEmployeeCheckInsRequestContent(1, 5555, "5112015"))),
+                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(config.Endpoint, RequestContents.GetEmployeeCheckInsRequestContent(1, 5555, "5112015"))),
                 ItExpr.IsAny<CancellationToken>());
         }
 
         [Fact]
         public async Task GetEmployeeCheckIns_Error_Wrong_Employee_Test()
         {
-            //Arrange
-            var mocks = MockHelpers.GetMocks(ResponseContents.GetEmployeeCheckInsErrorWrongEmployeeResponse());
 
-            //Act
-            var service = new ZeiterfassungsService(mocks.logger, mocks.mockFactory.Object, mocks.config);
+            var (service, logger, mockFactory, mockHttpMessageHandler, config, sqlApi) = getService(ResponseContents.GetEmployeeCheckInsErrorWrongEmployeeResponse());
 
             var ex = await Assert.ThrowsAsync<ArgumentException>(async () => await service.GetEmployeeCheckIns(1, 1234, new DateTime(2020, 11, 5)));
 
-            mocks.mockHttpMessageHandler.Protected().Verify(
+            mockHttpMessageHandler.Protected().Verify(
                 "SendAsync",
                 Times.Exactly(1),
-                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(mocks.config.Endpoint, RequestContents.GetEmployeeCheckInsRequestContent(1, 1234, "5112020"))),
+                ItExpr.Is<HttpRequestMessage>(req => req.CheckRequest(config.Endpoint, RequestContents.GetEmployeeCheckInsRequestContent(1, 1234, "5112020"))),
                 ItExpr.IsAny<CancellationToken>());
+        }
+        #endregion
+
+        #region Customizing
+        [Fact]
+        public async Task AbscenceKeyCustomizingTest()
+        {
+            //Arrange
+            var (service, _, _, _, _, _) = getService("");
+
+            var list = await service.GetZeiterfassungsCustomizing();
+
+            list.Count.Should().Be(13);
+            list.First().AbscenceKey.Should().Be("F");
+            list.First().Description.Should().Be("Freizeitoption");
+
+            list[8].AbscenceKey.Should().Be("a");
+            list[8].Description.Should().Be("Ansparausgleich");
+
+            list.Last().AbscenceKey.Should().Be("P");
+            list.Last().Description.Should().Be("Pause");
+        }
+        #endregion
+
+        #region Prepearation
+        private static (
+            ZeiterfassungsService service, 
+            NullLogger<ZeiterfassungsService> logger,
+            Mock<IHttpClientFactory> mockFactory,
+            Mock<HttpMessageHandler> mockHttpMessageHandler,
+            PersonalDataExchangeConfig config,
+            Mock<IIBMiSQLApi> sqlApi) getService(string result)
+        {
+            //Arrange
+            var (logger, mockFactory, mockHttpMessageHandler, config, sqlApi) = MockHelpers.GetMocks(result);
+
+            var service = new ZeiterfassungsService(logger, mockFactory.Object, config, sqlApi.Object);
+            //Act
+            return (service, logger, mockFactory, mockHttpMessageHandler, config, sqlApi);
         }
         #endregion
     }

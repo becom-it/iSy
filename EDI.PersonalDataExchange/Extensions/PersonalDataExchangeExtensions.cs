@@ -21,6 +21,18 @@ namespace Becom.EDI.PersonalDataExchange.Extensions
             {
                 c.BaseAddress = new Uri(pdeConfig.Endpoint);
             });
+
+
+            services.TryAddScoped<IIBMiSQLApi, IBMiSQLApi>();
+
+            var epConf = new EndpointConfiguration();
+            configuration.GetSection("SqlEndpoint").Bind(epConf);
+            services.TryAddSingleton(epConf);
+
+            services.AddHttpClient("sqlapi", c =>
+            {
+                c.BaseAddress = new Uri(epConf.Api);
+            });
         }
     }
 }

@@ -13,8 +13,9 @@ namespace Becom.EDI.PersonalDataExchange.Tests.Helpers
                 EmployeeCheckInsRequest = RequestContents.GetEmployeeCheckInsRequestConfig(),
                 EmployeeListRequest = RequestContents.GetEmployeeListRequestConfig(),
                 EmployeePresenceStatusRequest = RequestContents.GetEmployeePresenceStatusRequestConfig(),
-                EmployeeTimeDetailsRequest = RequestContents.GetEmployeeTimeDetailsRequestConfig()
-            };
+                EmployeeTimeDetailsRequest = RequestContents.GetEmployeeTimeDetailsRequestConfig(),
+                ZeiterfassungsCustomizingQuery = @"{""Query"" : ""SELECT SUBSTRING(tgdata, 1, 1) as key, SUBSTRING(tgdata, 7, 26) as description FROM BEC001R426.DTG0LF dl where tgtart = 'ZEKZ'and TGTASL BETWEEN '1' AND '99'""}"
+        };
         }
     }
 }
