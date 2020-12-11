@@ -3,7 +3,6 @@
     <div class="tr-c-control">
         <TimeRecordingsMonthSelector @bind-SelectedMonth="SelectedMonth"/>
     </div>
-    @*<Calendar Month="12" Year="2020" />*@
     <div class="trc-cal-control">
         <div class="cal-item cal-header">
             Montag
@@ -35,10 +34,10 @@
                         @Current.Day
                     </div>
                     <div class="cal-day-az">
-                        @info.netWorkTime
+                        @info.netWorkTime.ToString(@"h\:mm")
                     </div>
                     <div class="cal-day-saldo">
-                        @info.netWorkTimeDiff
+                        @info.netWorkTimeDiff.ToString(@"h\:mm")
                     </div>
                     <div class="cal-day-type">
                         @info.Info
