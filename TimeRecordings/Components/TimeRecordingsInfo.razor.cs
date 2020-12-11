@@ -23,11 +23,6 @@ namespace TimeRecordings.Components
 
         public EmployeeInfo Info { get; set; } = null;
 
-        protected override async Task OnParametersSetAsync()
-        {
-            //Info = await zeiterfassungsService.GetEmployeeInfo(Company, EmployeeId);
-        }
-
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if(firstRender)

@@ -414,8 +414,7 @@ namespace Becom.EDI.PersonalDataExchange.Services
         {
             try
             {
-                List<ZeiterfassungsCustomizing> ret;
-                if (!_memoryCache.TryGetValue("zerfcust", out ret))
+                if (!_memoryCache.TryGetValue("zerfcust", out List<ZeiterfassungsCustomizing> ret))
                 {
                     var res = await _sqlApi.CallSqlService<ZeiterfassungsCustomizing>(_config.ZeiterfassungsCustomizingQuery);
                     var grouped = res.GroupBy(x => x.AbscenceKey).Select(x => x.FirstOrDefault()).ToList();

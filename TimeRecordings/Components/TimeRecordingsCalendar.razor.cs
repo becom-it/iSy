@@ -32,7 +32,7 @@ namespace TimeRecordings.Components
 
                 if (value != selectedMonth)
                 {
-                    ChangeCalendar(value.year, value.month);
+                    Task.Run(async () => await ChangeCalendar(value.year, value.month));
                     selectedMonth = value;
                 }
             }
@@ -44,7 +44,7 @@ namespace TimeRecordings.Components
 
         public DateTime Current { get; set; }
 
-        protected override async Task OnInitializedAsync()
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             await ChangeCalendar(DateTime.Now.Year, DateTime.Now.Month);
         }
@@ -66,6 +66,8 @@ namespace TimeRecordings.Components
             Current = Start;
 
             _timeDetails = await ZeiterfassungsService.GetEmployeeTimeDetails(CompanyEnum.Austria, EmployeeId, Start, End);
+
+            StateHasChanged();
         }
 
         public (TimeSpan netWorkTime, TimeSpan netWorkTimeDiff, string Info) GetDayInfo(DateTime theDay)
@@ -73,7 +75,7 @@ namespace TimeRecordings.Components
             var info = _timeDetails.Where(x => x.PresenceDate.Date == theDay.Date).FirstOrDefault();
             if(info != null)
             {
-
+                return (info.NetWorktime, info.NetWorktimeDifference, info.AbsentDescription1);
             }
             return (TimeSpan.Zero, TimeSpan.Zero, "");
         }

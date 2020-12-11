@@ -20,11 +20,9 @@ namespace Becom.EDI.PersonalDataExchange.Services
 
         public async Task ExecuteAsync(CancellationToken cancellationToken = default)
         {
-            using (var scope = _serviceProvider.CreateScope())
-            {
-                var zeiterfassungsService = scope.ServiceProvider.GetRequiredService<IZeiterfassungsService>();
-                await zeiterfassungsService.GetZeiterfassungsCustomizing();
-            }
+            using var scope = _serviceProvider.CreateScope();
+            var zeiterfassungsService = scope.ServiceProvider.GetRequiredService<IZeiterfassungsService>();
+            await zeiterfassungsService.GetZeiterfassungsCustomizing();
         }
     }
 }

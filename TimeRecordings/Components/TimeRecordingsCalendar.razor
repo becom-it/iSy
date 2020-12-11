@@ -29,18 +29,19 @@
         @{
             while (Current <= End)
             {
+                var info = GetDayInfo(Current);
                 <div class="cal-item cal-day">
                     <div class="cal-day-d">
                         @Current.Day
                     </div>
                     <div class="cal-day-az">
-                        @Current.Day
+                        @info.netWorkTime
                     </div>
                     <div class="cal-day-saldo">
-                        @Current.Day
+                        @info.netWorkTimeDiff
                     </div>
                     <div class="cal-day-type">
-                        @Current.Day
+                        @info.Info
                     </div>
                 </div>
                 Current = Current.AddDays(1);
