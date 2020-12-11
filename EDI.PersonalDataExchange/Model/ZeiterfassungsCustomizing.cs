@@ -9,10 +9,10 @@ namespace Becom.EDI.PersonalDataExchange.Model
 {
     public class ZeiterfassungsCustomizing
     {
-        [JsonPropertyName("key")]
+        [JsonPropertyName("KEY")]
         public string AbscenceKey { get; set; }
 
-        [JsonPropertyName("description")]
+        [JsonPropertyName("DESCRIPTION")]
         public string Description { get; set; }
     }
 }

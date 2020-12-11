@@ -1,5 +1,6 @@
 ﻿using Becom.EDI.PersonalDataExchange.Model.Config;
 using Becom.EDI.PersonalDataExchange.Services;
+using FlintSoft.StartupTasks.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -33,6 +34,8 @@ namespace Becom.EDI.PersonalDataExchange.Extensions
             {
                 c.BaseAddress = new Uri(epConf.Api);
             });
+
+            services.AddStartupTask<ZeiterfassungsCustomizingCacheStartupTask>();
         }
     }
 }

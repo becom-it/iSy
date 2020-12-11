@@ -4,6 +4,7 @@ using Becom.EDI.PersonalDataExchange.Model.Enums;
 using Becom.EDI.PersonalDataExchange.Services;
 using Becom.EDI.PersonalDataExchange.Tests.Helpers;
 using FluentAssertions;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Moq.Protected;
@@ -466,7 +467,11 @@ namespace Becom.EDI.PersonalDataExchange.Tests
             //Arrange
             var (logger, mockFactory, mockHttpMessageHandler, config, sqlApi) = MockHelpers.GetMocks(result);
 
-            var service = new ZeiterfassungsService(logger, mockFactory.Object, config, sqlApi.Object);
+            var cacheMock = new Mock<IMemoryCache>();
+            object whatever;
+            cacheMock.Setup(x => x.TryGetValue(It.IsAny<object>(), out whatever)).Returns(false);
+
+            var service = new ZeiterfassungsService(logger, mockFactory.Object, config, sqlApi.Object, cacheMock.Object);
             //Act
             return (service, logger, mockFactory, mockHttpMessageHandler, config, sqlApi);
         }

@@ -11,6 +11,8 @@ namespace TimeRecordings.Components
 {
     public partial class TimeRecordingsList
     {
+        private bool firstRun = true;
+
         [Inject]
         public IZeiterfassungsService ZeiterfassungsService { get; set; }
 
@@ -32,6 +34,7 @@ namespace TimeRecordings.Components
                 if (from != value)
                 {
                     from = value;
+                    if (firstRun) return;
                     _ = update();
                 }
             }
@@ -49,6 +52,7 @@ namespace TimeRecordings.Components
                 if (to != value)
                 {
                     to = value;
+                    if (firstRun) return;
                     _ = update();
                 }
             }
@@ -61,6 +65,7 @@ namespace TimeRecordings.Components
             if(firstRender)
             {
                 await update();
+                firstRun = false;
             }
         }
 

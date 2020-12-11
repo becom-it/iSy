@@ -10,9 +10,19 @@ namespace Becom.EDI.PersonalDataExchange.Model
         public string AbsentKey1 { get; set; }
 
         /// <summary>
+        /// Text zu Abwesenheitskennzeichen 1 aus Tabelle ZEKZ
+        /// </summary>
+        public string AbsentDescription1 { get; set; }
+
+        /// <summary>
         /// Abwesenheitskennzeichen Halbtag 2 - zeaht1
         /// </summary>
         public string AbsentKey2 { get; set; }
+
+        /// <summary>
+        /// Text zu Abwesenheitskennzeichen 2 aus Tabelle ZEKZ
+        /// </summary>
+        public string AbsentDescription2 { get; set; }
 
         /// <summary>
         /// Arbeitszeit Brutto - zeazbr

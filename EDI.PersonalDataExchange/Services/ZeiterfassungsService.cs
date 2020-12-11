@@ -10,6 +10,7 @@ using System.Xml.Linq;
 using Becom.EDI.PersonalDataExchange.Extensions;
 using System.Collections.Generic;
 using Becom.EDI.PersonalDataExchange.Model.Config;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Becom.EDI.PersonalDataExchange.Services
 {
@@ -112,13 +113,15 @@ namespace Becom.EDI.PersonalDataExchange.Services
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly PersonalDataExchangeConfig _config;
         private readonly IIBMiSQLApi _sqlApi;
+        private readonly IMemoryCache _memoryCache;
 
-        public ZeiterfassungsService(ILogger<ZeiterfassungsService> logger, IHttpClientFactory httpClientFactory, PersonalDataExchangeConfig config, IIBMiSQLApi sqlApi)
+        public ZeiterfassungsService(ILogger<ZeiterfassungsService> logger, IHttpClientFactory httpClientFactory, PersonalDataExchangeConfig config, IIBMiSQLApi sqlApi, IMemoryCache memoryCache)
         {
             _logger = logger;
             _httpClientFactory = httpClientFactory;
             _config = config;
             _sqlApi = sqlApi;
+            _memoryCache = memoryCache;
         }
 
         #region EmployeeInfo
@@ -248,6 +251,9 @@ namespace Becom.EDI.PersonalDataExchange.Services
         {
             try
             {
+                _logger.LogInformation("Loading customizing...");
+                var cust = await GetZeiterfassungsCustomizing();
+
                 _logger.LogInformation($"Loading employees time details from webservice with company code {(int)betrieb} and employeeId {employeeId} between {From.ToShortDateString()} and {To.ToShortDateString()}...");
                 var xml = _config.EmployeeTimeDetailsRequest
                 .Replace("company", (betrieb).ToString())
@@ -261,7 +267,7 @@ namespace Becom.EDI.PersonalDataExchange.Services
 
                 _logger.LogInformation("Mapping result into EmployeeTimeDetail list...");
                 XDocument doc = XDocument.Parse(result);
-                return doc.Descendants().Where(x => x.Name.LocalName == "zeiterfassungList")
+                var list = doc.Descendants().Where(x => x.Name.LocalName == "zeiterfassungList")
                     .Select(x => new EmployeeTimeDetail
                     {
                         Company = x.ToCompany("pnbtrm"),
@@ -282,6 +288,16 @@ namespace Becom.EDI.PersonalDataExchange.Services
                         FactoryDate = (int)x.Element(x.Name.Namespace + "zefkal"),
                         TimeType = (int)x.Element(x.Name.Namespace + "zesart")
                     }).ToList();
+
+                foreach(var l in list)
+                {
+                    if(!string.IsNullOrEmpty(l.AbsentKey1))
+                        l.AbsentDescription1 = cust.Where(x => x.AbscenceKey == l.AbsentKey1).FirstOrDefault().Description;
+
+                    if (!string.IsNullOrEmpty(l.AbsentKey2))
+                        l.AbsentDescription2 = cust.Where(x => x.AbscenceKey == l.AbsentKey2).FirstOrDefault().Description;
+                }
+                return list;
             }
             catch (ArgumentException)
             {
@@ -398,9 +414,21 @@ namespace Becom.EDI.PersonalDataExchange.Services
         {
             try
             {
-                var res = await _sqlApi.CallSqlService<ZeiterfassungsCustomizing>(_config.ZeiterfassungsCustomizingQuery);
-                var grouped = res.GroupBy(x => x.AbscenceKey).Select(x => x.FirstOrDefault()).ToList();
-                return grouped;
+                List<ZeiterfassungsCustomizing> ret;
+                if (!_memoryCache.TryGetValue("zerfcust", out ret))
+                {
+                    var res = await _sqlApi.CallSqlService<ZeiterfassungsCustomizing>(_config.ZeiterfassungsCustomizingQuery);
+                    var grouped = res.GroupBy(x => x.AbscenceKey).Select(x => x.FirstOrDefault()).ToList();
+
+                    // Set cache options.
+                    var cacheEntryOptions = new MemoryCacheEntryOptions()
+                        // Keep in cache for this time, reset time if accessed.
+                        //.SetSlidingExpiration(TimeSpan.FromHours(1))
+                        .SetAbsoluteExpiration(TimeSpan.FromHours(1));
+                    _memoryCache.Set<List<ZeiterfassungsCustomizing>>("zerfcust", grouped, cacheEntryOptions);
+                    return grouped;
+                }
+                return ret;
             }
             catch (Exception ex)
             {
