@@ -49,7 +49,8 @@ namespace TimeRecordings.Components
         {
             if (firstRender)
             {
-                await ChangeCalendar(DateTime.Now.Year, DateTime.Now.Month);
+                //await ChangeCalendar(DateTime.Now.Year, DateTime.Now.Month);
+                SelectedMonth = (DateTime.Now.Month, DateTime.Now.Year);
             }
         }
 
