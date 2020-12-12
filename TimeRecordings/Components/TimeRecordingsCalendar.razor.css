@@ -1,7 +1,6 @@
 ﻿.tr-calendar-container {
   grid-area: calendar;
-  /*margin-right: 1%;*/
-  padding: 1%;
+  padding: 2%;
   background-color: white;
   display: flex;
   flex-direction: column; }
@@ -16,42 +15,48 @@
     margin-top: 1%; }
     .tr-calendar-container .trc-cal-control .cal-item {
       flex: 1 0 13%;
-      margin: 1px;
-      border: 1px solid black;
-      padding: 3px; }
+      padding: 3px;
+      border-right: 1px solid black; }
     .tr-calendar-container .trc-cal-control .cal-header {
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: lightblue; }
+      border-top: 1px solid black;
+      border-bottom: 1px solid black;
+      background-color: #3CAADC;
+      color: #fff; }
+    .tr-calendar-container .trc-cal-control .cal-first {
+      border-left: 1px solid black; }
     .tr-calendar-container .trc-cal-control .cal-day {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       grid-template-rows: 1fr 1fr;
-      /*grid-template-areas: "day az sal" "day type";*/ }
+      border-bottom: 1px solid black; }
       .tr-calendar-container .trc-cal-control .cal-day .cal-day-d {
-        /*grid-area: day;*/
         grid-column: 1 / 2;
         grid-row: 1 / 3;
         display: flex;
         justify-content: center;
-        align-items: center; }
+        align-items: center;
+        font-weight: bold;
+        color: #3CAADC; }
+      .tr-calendar-container .trc-cal-control .cal-day .cal-secdate {
+        color: #B2B2B2; }
       .tr-calendar-container .trc-cal-control .cal-day .cal-day-az {
-        /*grid-area: az;*/
         grid-column: 2 / 3;
         grid-row: 1;
         display: flex;
         justify-content: center;
-        align-items: center; }
+        align-items: center;
+        /*border-bottom: 1px solid black;*/ }
       .tr-calendar-container .trc-cal-control .cal-day .cal-day-saldo {
-        /*grid-area: sal;*/
         grid-column: 3 / 4;
         grid-row: 1;
         display: flex;
         justify-content: center;
-        align-items: center; }
+        align-items: center;
+        /*border-bottom: 1px solid black;*/ }
       .tr-calendar-container .trc-cal-control .cal-day .cal-day-type {
-        /*grid-area: type;*/
         grid-column: 2 / 4;
         grid-row: 2;
         display: flex;

@@ -292,10 +292,10 @@ namespace Becom.EDI.PersonalDataExchange.Services
                 foreach(var l in list)
                 {
                     if(!string.IsNullOrEmpty(l.AbsentKey1))
-                        l.AbsentDescription1 = cust.Where(x => x.AbscenceKey == l.AbsentKey1).FirstOrDefault().Description;
+                        l.AbsentDescription1 = cust.Where(x => x.AbscenceKey == l.AbsentKey1).FirstOrDefault().Description.Trim();
 
                     if (!string.IsNullOrEmpty(l.AbsentKey2))
-                        l.AbsentDescription2 = cust.Where(x => x.AbscenceKey == l.AbsentKey2).FirstOrDefault().Description;
+                        l.AbsentDescription2 = cust.Where(x => x.AbscenceKey == l.AbsentKey2).FirstOrDefault().Description.Trim();
                 }
                 return list;
             }

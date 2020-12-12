@@ -5,23 +5,55 @@
     background-color: white;
     margin-right: 2%;
     margin-bottom: 2%;
-    padding: 1%;
-    /*.tri-colcontainer {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
+    padding: 2%;
 
-        .tri-col {
-            display: flex;
-            flex-direction: column;
-        }
-    }*/
     .tri-colcontainer {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         grid-template-rows: 1fr 1fr 1fr;
         justify-items: stretch;
         align-items: stretch;
-        height: 100%;
+        margin-top: 3%;
+        /*height: 100%;*/
+
+        .tric-logged {
+            grid-column: 1 / 3;
+            grid-row: 1;
+        }
+
+        .tric-pnum {
+            grid-column: 3;
+            grid-row: 1;
+        }
+
+        .tric-saldo {
+            grid-column: 1;
+            grid-row: 2;
+        }
+
+        .tric-u {
+            grid-column: 2;
+            grid-row: 2;
+        }
+
+        .tric-au {
+            grid-column: 3;
+            grid-row: 2;
+        }
+
+        .tric-ps {
+            grid-column: 1;
+            grid-row: 3;
+        }
+
+        .tric-et {
+            grid-column: 2;
+            grid-row: 3;
+        }
+
+        .tric-fo {
+            grid-column: 3;
+            grid-row: 3;
+        }
     }
 }

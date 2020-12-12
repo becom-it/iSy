@@ -3,14 +3,31 @@
     @if (Info != null)
     {
         <div class="tri-colcontainer">
-            <OutputWithLabel Label="Eingeloggt als" Text="@($"{Info.FirstName} {Info.LastName}")" />
-            <OutputWithLabel Label="Saldo" Text="@($"{(Info.WorktimeSaldo.Days * 24 + Info.WorktimeSaldo.Hours)}:{(Info.WorktimeSaldo.Minutes < 10 ? $"0{Info.WorktimeSaldo.Minutes}" : Info.WorktimeSaldo.Minutes.ToString())}")" />
-            <OutputWithLabel Label="Planstelle" Text="@Info.ManagerDisciplinary.ToString()" />
-            <OutputWithLabel Label="Personalnummer" Text="@Info.EmployeeId.ToString()" />
-            <OutputWithLabel Label="Urlaub" Text="@Info.HolidayAvailiable.ToString()" />
-            <OutputWithLabel Label="Freizeitoption" Text="@Info.FreeTimeOption.ToString(@"hh\:mm")" />
-            <OutputWithLabel Label="Eintrittstag" Text="@Info.EntryDate.ToShortDateString()" />
-            <OutputWithLabel Label="Angemeldeter Urlaub" Text="@Info.HolidayUsed.ToString()" />
+            <div class="tric-logged">
+                <OutputWithLabel Label="Eingeloggt als" Text="@($"{Info.FirstName} {Info.LastName}")" />
+            </div>
+            <div class="tric-pnum">
+                <OutputWithLabel Label="Personalnummer" Text="@Info.EmployeeId.ToString()" />
+            </div>
+            <div class="tric-saldo">
+                <OutputWithLabel Label="Saldo" Text="@($"{(Info.WorktimeSaldo.Days * 24 + Info.WorktimeSaldo.Hours)}:{(Info.WorktimeSaldo.Minutes < 10 ? $"0{Info.WorktimeSaldo.Minutes}" : Info.WorktimeSaldo.Minutes.ToString())}")" />
+                
+            </div>
+            <div class="tric-u">
+                <OutputWithLabel Label="Urlaub" Text="@Info.HolidayAvailiable.ToString()" />
+            </div>
+            <div class="tric-au">
+                <OutputWithLabel Label="Angemeldeter Urlaub" Text="@Info.HolidayUsed.ToString()" />
+            </div>
+            <div class="tric-ps">
+                <OutputWithLabel Label="Planstelle" Text="@Info.ManagerDisciplinary.ToString()" />
+            </div>
+            <div class="tric-et">
+                <OutputWithLabel Label="Eintrittstag" Text="@Info.EntryDate.ToShortDateString()" />
+            </div>
+            <div class="tric-fo">
+                <OutputWithLabel Label="Freizeitoption" Text="@Info.FreeTimeOption.ToString(@"hh\:mm")" />
+            </div>
         </div>
     }
 </div>

@@ -4,7 +4,7 @@
         <TimeRecordingsMonthSelector @bind-SelectedMonth="SelectedMonth"/>
     </div>
     <div class="trc-cal-control">
-        <div class="cal-item cal-header">
+        <div class="cal-item cal-header cal-first">
             Montag
         </div>
         <div class="cal-item cal-header">
@@ -29,15 +29,22 @@
             while (Current <= End)
             {
                 var info = GetDayInfo(Current);
-                <div class="cal-item cal-day">
-                    <div class="cal-day-d">
+
+                var firstColCss = "";
+                if(Current.DayOfWeek == DayOfWeek.Monday) firstColCss = "cal-first";
+
+                var secDate = "";
+                if (Current.Month != SelectedMonth.month) secDate = "cal-secdate";
+
+                <div class="cal-item cal-day @firstColCss">
+                    <div class="cal-day-d @secDate">
                         @Current.Day
                     </div>
-                    <div class="cal-day-az">
-                        @info.netWorkTime.ToString(@"h\:mm")
+                    <div class="cal-day-az" title="Arbeitszeit">
+                        @(info.netWorkTime == TimeSpan.Zero ? "" : info.netWorkTime.ToString(@"h\:mm"))
                     </div>
-                    <div class="cal-day-saldo">
-                        @info.netWorkTimeDiff.ToString(@"h\:mm")
+                    <div class="cal-day-saldo" title="Saldo">
+                        @(info.netWorkTimeDiff == TimeSpan.Zero ? "" : info.netWorkTimeDiff.ToString(@"h\:mm"))
                     </div>
                     <div class="cal-day-type">
                         @info.Info

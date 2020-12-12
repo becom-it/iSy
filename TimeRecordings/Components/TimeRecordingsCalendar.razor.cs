@@ -32,7 +32,8 @@ namespace TimeRecordings.Components
 
                 if (value != selectedMonth)
                 {
-                    Task.Run(async () => await ChangeCalendar(value.year, value.month));
+                    //Task.Run(async () => await ChangeCalendar(value.year, value.month));
+                    ChangeCalendar(value.year, value.month);
                     selectedMonth = value;
                 }
             }
@@ -46,7 +47,10 @@ namespace TimeRecordings.Components
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            await ChangeCalendar(DateTime.Now.Year, DateTime.Now.Month);
+            if (firstRender)
+            {
+                await ChangeCalendar(DateTime.Now.Year, DateTime.Now.Month);
+            }
         }
 
         private async Task ChangeCalendar(int year, int month)
@@ -63,9 +67,11 @@ namespace TimeRecordings.Components
                 End = End.AddDays(1);
             }
 
-            Current = Start;
+            //Current = Start;
 
             _timeDetails = await ZeiterfassungsService.GetEmployeeTimeDetails(CompanyEnum.Austria, EmployeeId, Start, End);
+
+            Current = Start;
 
             StateHasChanged();
         }
@@ -75,7 +81,13 @@ namespace TimeRecordings.Components
             var info = _timeDetails.Where(x => x.PresenceDate.Date == theDay.Date).FirstOrDefault();
             if(info != null)
             {
-                return (info.NetWorktime, info.NetWorktimeDifference, info.AbsentDescription1);
+                string adesc = ""; ;
+                if (info.AbsentDescription1 != null)
+                {
+                    adesc = info.AbsentDescription1;
+                    if (adesc.Length > 11) adesc = adesc.Substring(0, 11);
+                }
+                return (info.NetWorktime, info.NetWorktimeDifference, adesc);
             }
             return (TimeSpan.Zero, TimeSpan.Zero, "");
         }
