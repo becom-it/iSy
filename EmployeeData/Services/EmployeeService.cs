@@ -18,7 +18,7 @@ namespace EmployeeData.Services
         Task<List<LdapEmployee>> SearchEmployee(string searchText);
         Task<LdapEmployee> LoadEmployeeWithId(string employeeId);
         Task<LdapEmployee> LoadEmployeeWithPath(string path, bool noDetail = false);
-        Task<List<LdapEmployee>> SearchWithFilter(string filter, IEnumerable<int> employeeIds, string path = "");
+        Task<List<LdapEmployee>> SearchWithFilter(string filter, IEnumerable<int> employeeIds = null, string path = "");
     }
 
     public class EmployeeService : IEmployeeService
@@ -44,7 +44,7 @@ namespace EmployeeData.Services
                 .Where(y => y.PropertyType == typeof(string))
                 .Select(y => (string)y.GetValue(x, null))
                 .Where(y => y != null)
-                .Any(y => y.IndexOf(searchText, StringComparison.CurrentCultureIgnoreCase) >= 0));
+                .Any(y => y.Contains(searchText, StringComparison.CurrentCultureIgnoreCase)));
             }
             catch (Exception ex)
             {
@@ -134,7 +134,7 @@ namespace EmployeeData.Services
                 }
 
                 //Surrogates laden
-                if (emp.DirectReportPaths.Count() == 0)
+                if (emp.DirectReportPaths.Count == 0)
                 {
                     //Der Mitarbeiter hat keine Mitarbeiter -> Die vom Manager holen
                     emp.Manager.DirectReports.Clear();
@@ -193,7 +193,7 @@ namespace EmployeeData.Services
             }
         }
 
-        public async Task<List<LdapEmployee>> SearchWithFilter(string filter, IEnumerable<int> employeeIds, string path = "")
+        public async Task<List<LdapEmployee>> SearchWithFilter(string filter, IEnumerable<int> employeeIds = null, string path = "")
         {
             try
             {

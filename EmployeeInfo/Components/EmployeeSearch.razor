@@ -6,7 +6,8 @@
 </div>
 
 @code {
-
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
 
     [Parameter]
     public EventCallback<LdapEmployee> EmployeeSelected { get; set; }
@@ -42,13 +43,27 @@
     {
         if (CurrentEmployee == null)
         {
-            //Aktuellen Mitarbeiter ermitteln
-            var uname = "MPRATTINGE";
-            //Aktuellen User laden
-            CurrentEmployee = await empService.LoadEmployeeWithId(uname);
-            CurrentEmployee.IsCurrent = true;
-            await EmployeeSelected.InvokeAsync(CurrentEmployee);
-            SearchTerm = $"{CurrentEmployee.FirstName} {CurrentEmployee.LastName}";
+            ////Aktuellen Mitarbeiter ermitteln
+            //var uname = "MPRATTINGE";
+
+            var authState = await authenticationStateTask;
+
+            var user = authState.User;
+
+            if (user.Identity.IsAuthenticated)
+            {
+                var claim = user.Claims.Where(x => x.Type == System.Security.Claims.ClaimTypes.NameIdentifier).FirstOrDefault();
+                if (claim != null)
+                {
+                    //Aktuellen User laden
+                    CurrentEmployee = await empService.LoadEmployeeWithId(claim.Value);
+                    CurrentEmployee.IsCurrent = true;
+                    await EmployeeSelected.InvokeAsync(CurrentEmployee);
+                    SearchTerm = $"{CurrentEmployee.FirstName} {CurrentEmployee.LastName}";
+                }
+            }
+
+
         }
     }
 }

@@ -45,11 +45,11 @@ namespace TimeRecordings.Components
 
         public DateTime Current { get; set; }
 
-        protected override async Task OnAfterRenderAsync(bool firstRender)
+        protected override void OnAfterRender(bool firstRender)
         {
             if (firstRender)
             {
-                await ChangeCalendar(DateTime.Now.Year, DateTime.Now.Month);
+                SelectedMonth = (DateTime.Now.Month, DateTime.Now.Year);
             }
         }
 

@@ -5,7 +5,7 @@ using System.Reactive.PlatformServices;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace iSy.Wordpress.Pages
+namespace iSy.Pages
 {
     public partial class Posts
     {
@@ -24,6 +24,10 @@ namespace iSy.Wordpress.Pages
 
         public string Before { get; set; } = "";
 
+
+
+
+
         protected override async Task OnParametersSetAsync()
         {
             Info = await WordpressService.LoadPostsInfo(Cat);
@@ -31,9 +35,9 @@ namespace iSy.Wordpress.Pages
             After = string.Empty;
             Before = string.Empty;
             if (!string.IsNullOrEmpty(Paging))
-            { 
-                if (Paging.StartsWith("A-")) After = Paging.Substring(2);
-                if (Paging.StartsWith("B-")) Before = Paging.Substring(2);
+            {
+                if (Paging.StartsWith("A-")) After = Paging[2..];
+                if (Paging.StartsWith("B-")) Before = Paging[2..];
             }
         }
     }

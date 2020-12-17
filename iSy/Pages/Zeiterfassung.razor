@@ -1,4 +1,45 @@
 ﻿@using Becom.EDI.PersonalDataExchange.Model.Enums
 @page "/zerfassung"
+@layout MainLayout
+@attribute [Authorize]
+<TimeRecordingsOverview Company="@Company" EmployeeId="@EmployeeId" />
 
-<TimeRecordingsOverview Company="@CompanyEnum.Austria" EmployeeId="5555" />
+@code   {
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    public int EmployeeId { get; set; }
+
+    public CompanyEnum Company { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationStateTask;
+
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            var claim = user.Claims.Where(x => x.Type == "EmployeeId").FirstOrDefault();
+            if (claim != null)
+            {
+                EmployeeId = Convert.ToInt32(claim.Value);
+            }
+
+            var claim2 = user.Claims.Where(x => x.Type == "CompanyKey").FirstOrDefault();
+            if (claim2 != null)
+            {
+                var keyStr = claim2.Value;
+                try
+                {
+                    Company = (CompanyEnum)Enum.Parse(typeof(CompanyEnum), keyStr);
+                }
+                catch (Exception)
+                {
+                    Company = CompanyEnum.Austria;
+                }
+            }
+        }
+    }
+}
