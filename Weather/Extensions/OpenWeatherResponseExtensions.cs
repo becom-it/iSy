@@ -24,6 +24,7 @@ namespace Weather.Extensions
                     City = c.City,
                     Sunrise = DateTimeOffset.FromUnixTimeMilliseconds(r.Sys.Sunrise).DateTime,
                     Sunset = DateTimeOffset.FromUnixTimeMilliseconds(r.Sys.Sunset).DateTime,
+                    LocalTime = DateTime.UtcNow.AddSeconds(r.Sys.Timezone),
                     Temperature = r.Main.Temp,
                     WeatherType = r.Weather.First().Main,
                     WeatherIcon = r.Weather.First().Icon.TranslateIcon()
@@ -36,41 +37,25 @@ namespace Weather.Extensions
 
         public static string TranslateIcon(this string icon)
         {
-            switch (icon)
+            return icon switch
             {
-                case "11d":
-                    return "thunderstorm.png";
-                case "09d":
-                    return "shower_rain.png";
-                case "10d":
-                    return "rain.png";
-                case "10n":
-                    return "rain.png";
-                case "13d":
-                    return "snow.png";
-                case "50d":
-                    return "mist.png";
-                case "50n":
-                    return "mist.png";
-                case "01d":
-                    return "clear_day.png";
-                case "01n":
-                    return "clear_night.png";
-                case "02d":
-                    return "fewclouds_day.png";
-                case "02n":
-                    return "fewclouds_night.png";
-                case "03d":
-                    return "clouds_day.png";
-                case "03n":
-                    return "clouds_day.png";
-                case "04d":
-                    return "broken_clouds_day.png";
-                case "04n":
-                    return "broken_clouds_day.png";
-                default:
-                    return "";
-            }
+                "11d" => "thunderstorm.png",
+                "09d" => "shower_rain.png",
+                "10d" => "rain.png",
+                "10n" => "rain.png",
+                "13d" => "snow.png",
+                "50d" => "mist.png",
+                "50n" => "mist.png",
+                "01d" => "clear_day.png",
+                "01n" => "clear_night.png",
+                "02d" => "fewclouds_day.png",
+                "02n" => "fewclouds_night.png",
+                "03d" => "clouds_day.png",
+                "03n" => "clouds_day.png",
+                "04d" => "broken_clouds_day.png",
+                "04n" => "broken_clouds_day.png",
+                _ => "",
+            };
         }
     }
 
@@ -84,5 +69,7 @@ namespace Weather.Extensions
         public double Temperature { get; set; }
         public string WeatherType { get; set; }
         public string WeatherIcon { get; set; }
+
+        public DateTime LocalTime { get; set; }
     }
 }
