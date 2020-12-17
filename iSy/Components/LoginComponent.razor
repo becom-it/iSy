@@ -1,0 +1,26 @@
+﻿<div class="login-outer-container">
+    <div class="login-container">
+        <div class="lc-top">
+            <img src="/assets/logos/logo.png" />
+        </div>
+        <div class="lc-main">
+            <div class="lcm-item">
+                <CoolInput Id="login-uname" @bind-BindingValue="Uname" Placeholder="Benutzername" NoIcon="true" />
+            </div>
+            <div class="lcm-item">
+                <CoolInput Id="login-pwd" @bind-BindingValue="Password" Placeholder="Passwort" NoIcon="true" InputType="Password" KeyboardKeyDown="keyDown" />
+            </div>
+            @if (!String.IsNullOrEmpty(LogonError))
+            {
+            <div class="lcm-error">
+                @LogonError
+            </div>
+            }
+        </div>
+        <div class="lc-bottom">
+            <div class="lcb-buttons">
+                <a class="a-btn" @onclick="login">Login</a>
+            </div>
+        </div>
+    </div>
+</div>

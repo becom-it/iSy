@@ -29,7 +29,14 @@ namespace FlintSoft.Ldap
                     try
                     {
                         var empid = nextEntry.GetAttribute("initials").StringValue;
-                        if (employeeIds.Contains(Convert.ToInt32(empid)))
+                        if (employeeIds != null)
+                        {
+                            if (employeeIds.Contains(Convert.ToInt32(empid)))
+                            {
+                                var x = ConvertLdapEntry<T>(logger, nextEntry, retrieveValue);
+                                ret.Add(x);
+                            }
+                        } else
                         {
                             var x = ConvertLdapEntry<T>(logger, nextEntry, retrieveValue);
                             ret.Add(x);

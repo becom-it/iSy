@@ -1,0 +1,65 @@
+﻿@import "variables";
+
+.login-outer-container {
+    width: 100%;
+    padding-top: 10%;
+
+    .login-container {
+        display: flex;
+        flex-direction: column;
+        border-radius: 10px;
+        width: 30%;
+        height: 30%;
+        margin: auto;
+        background-color: $white;
+        padding: 1%;
+        overflow: hidden;
+
+        .lc-top {
+            img {
+                width: 40%;
+            }
+        }
+
+        .lc-main {
+            margin: auto;
+            width: 60%;
+
+            .lcm-item {
+                margin-bottom: 3%;
+            }
+
+            .lcm-error {
+                color: $red;
+            }
+        }
+
+        .lc-bottom {
+            margin-top: 5%;
+
+            .lcb-buttons {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+
+                .a-btn {
+                    text-decoration: none;
+                    border-radius: 10px;
+                    height: auto;
+                    width: 30%;
+                    font-size: 1.3em;
+                    background-color: $lightblue;
+                    border: 2px solid $white;
+                    color: $white;
+                    padding: 2%;
+                    text-align: center;
+                    transition: all 0.2s linear 0s;
+                }
+
+                .a-btn:hover {
+                    background-color: $darkblue;
+                }
+            }
+        }
+    }
+}

@@ -1,3 +1,16 @@
-﻿@page "/"
-
+﻿@using Services
+@page "/"
+@layout MainLayout
+@attribute [Authorize]
 <EmployeeInfoPage />
+
+@code {
+
+    [Inject]
+    public IAuthenticationService authService { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var user = await authService.Login("mprattinge", "M_P2ttix");
+    }
+} 

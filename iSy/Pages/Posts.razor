@@ -1,11 +1,12 @@
 ﻿@page "/posts/{cat}"
 @page "/posts/{cat}/{Paging}"
-
+@layout MainLayout
+@attribute [Authorize]
 @if (Info != null)
 {
     <div class="posts-container">
         <div class="post-list">
-            <PostListContainer Category="@Cat" PostCount="@Info.PostCount" After="@After" Before="@Before"/>
+            <PostListContainer Category="@Cat" PostCount="@Info.PostCount" After="@After" Before="@Before" />
         </div>
         <div class="sidebar">
             <Sidebar Info="@Info" />

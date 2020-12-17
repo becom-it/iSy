@@ -20,12 +20,7 @@ namespace FlintSoft.Ldap.Services
             _config = config;
         }
 
-        //public async Task LoadData()
-        //{
-
-        //}
-
-        public async Task<List<T>> Search<T>(string filter, IEnumerable<int> employeeIds, string path = "")
+        public async Task<List<T>> Search<T>(string filter, IEnumerable<int> employeeIds = null, string path = "")
         {
             return await Task.Run(() =>
             {
@@ -61,11 +56,48 @@ namespace FlintSoft.Ldap.Services
             });
         }
 
+        public async Task<List<T>> CustomSearch<T>(ILdapConnection conn, string filter, IEnumerable<int> employeeIds = null, string path = "")
+        {
+            return await Task.Run(() =>
+            {
+                var searchPath = string.Empty;
+                if (string.IsNullOrEmpty(path))
+                {
+                    searchPath = _config.Path;
+                }
+                else
+                {
+                    searchPath = path;
+                }
+
+                var attrs = LdapHelper.GetLdapAttributes<T>().ToArray();
+                var search = conn.Search(searchPath, LdapConnection.ScopeSub, filter, attrs, false);
+
+                return LdapHelper.ConvertLdapResult<T>(_logger, search, employeeIds, (propName, attr) =>
+                {
+                    if (propName == "Photo")
+                    {
+                        byte[] picData = (byte[])(Array)attr.ByteValue;
+                        return Convert.ToBase64String(picData);
+                    }
+                    else
+                    {
+                        if (attr.StringValueArray.Length > 1)
+                        {
+                            return attr.StringValueArray.ToList();
+                        }
+                        else
+                        {
+                            return attr.StringValue;
+                        }
+                    }
+                });
+            });
+        }
+
         private static ILdapConnection getLdapConnection(LDAPConfiguration configuration)
         {
-            LdapConnection ldapConn = _conn as LdapConnection;
-
-            if (ldapConn == null)
+            if (!(_conn is LdapConnection ldapConn))
             {
                 // Creating an LdapConnection instance 
                 ldapConn = new LdapConnection()
@@ -81,10 +113,20 @@ namespace FlintSoft.Ldap.Services
 
             return ldapConn;
         }
+
+        public ILdapConnection GetCustomLdapConnection(string uname, string password)
+        {
+            var ldapConn = new LdapConnection() { SecureSocketLayer = true };
+            ldapConn.Connect(_config.Server, LdapConnection.DefaultSslPort);
+            ldapConn.Bind($"{uname}@ad.becom.at", password);
+            return ldapConn;
+        }
     }
 
     public interface ILdapService
     {
-        Task<List<T>> Search<T>(string filter, IEnumerable<int> employeeIds, string path = "");
+        Task<List<T>> Search<T>(string filter, IEnumerable<int> employeeIds = null, string path = "");
+        ILdapConnection GetCustomLdapConnection(string uname, string password);
+        Task<List<T>> CustomSearch<T>(ILdapConnection conn, string filter, IEnumerable<int> employeeIds = null, string path = "");
     }
 }

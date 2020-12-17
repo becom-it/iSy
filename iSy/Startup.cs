@@ -10,6 +10,9 @@ using FlintSoft.Ldap.Extensions;
 using iSy.Wordpress.Extensions;
 using Becom.EDI.PersonalDataExchange.Extensions;
 using EmployeeData.Extensions;
+using iSy.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 
 namespace iSy
 {
@@ -26,12 +29,19 @@ namespace iSy
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.None;
+            });
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+
             services.AddMemoryCache();
 
             services.AddRazorPages();
             services.AddServerSideBlazor();
             
-            services.AddSingleton<WeatherForecastService>();
+            //services.AddSingleton<WeatherForecastService>();
             services.AddWeatherConfig(Configuration);
             
             services.AddEmployeeData();
@@ -39,6 +49,10 @@ namespace iSy
             services.AddPersonalDataExchange(Configuration);
 
             services.AddLdap(Configuration);
+            services.AddScoped<IAuthenticationService, LdapAuthenticationService>();
+
+            services.AddHttpContextAccessor();
+            services.AddScoped<HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,8 +74,13 @@ namespace iSy
 
             app.UseRouting();
 
+            app.UseCookiePolicy();
+            app.UseAuthentication();
+
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });

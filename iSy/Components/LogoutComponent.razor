@@ -1,0 +1,31 @@
+﻿@*@inject AuthenticationStateProvider AuthenticationStateProvider*@
+
+<div class="logout-container">
+    <p>Guten Tag, Michael Prattinger</p>
+    <a href="/logout?returnUrl=/">Logout</a>
+</div>
+
+@code {
+      
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    public string DisplayName { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        //var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var authState = await authenticationStateTask;
+
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            var claim = user.Claims.Where(x => x.Type == System.Security.Claims.ClaimTypes.Name).FirstOrDefault();
+            if (claim != null)
+            {
+                DisplayName = claim.Value;
+            }
+        }
+    }
+}

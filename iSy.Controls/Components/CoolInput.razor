@@ -1,8 +1,11 @@
 ﻿<div class="cool-input">
     <label>
-        <input required @bind-value="BindingValue"/>
-        <span class="placeholder">@Placeholder</span>
-        <i class="fa fa-user icon"></i>
+        <input id="@Id" required @bind="BindingValue" @bind:event="oninput" type="@InputType" @onkeypress="keyDown"/>
+        <span class="@(NoIcon == true ? "noicon" : "") placeholder">@Placeholder</span>
+        @if (!NoIcon)
+        {
+            <i class="fa @FaIcon icon"></i>
+        }
     </label>
 </div>
 @code {
@@ -25,4 +28,31 @@
 
     [Parameter]
     public EventCallback<string> BindingValueChanged { get; set; }
+
+    [Parameter]
+    public string FaIcon { get; set; } = "fa-user";
+
+    [Parameter]
+    public bool NoIcon { get; set; } = false;
+
+    [Parameter]
+    public string InputType { get; set; } = "text";
+
+    [Parameter]
+    public string Id { get; set; }
+
+    [Parameter]
+    public EventCallback<string> KeyboardKeyDown { get; set; }
+
+    protected override void OnInitialized()
+    {
+        if(string.IsNullOrEmpty(Id))
+        {
+            Id = Guid.NewGuid().ToString();
+        }
+    }
+
+    async Task keyDown(KeyboardEventArgs evt) {
+        await KeyboardKeyDown.InvokeAsync(evt.Key);
+    }
 }

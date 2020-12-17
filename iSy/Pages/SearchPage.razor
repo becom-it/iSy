@@ -1,5 +1,6 @@
 ﻿@page "/search/{searchText}"
-
+@layout MainLayout
+@attribute [Authorize]
 <div class="search-container">
     <div class="result-list">
         <iSy.Wordpress.Components.PostList Posts="@Posts" IsSticky="false" />
@@ -8,11 +9,11 @@
 
 @code {
 
-        [Inject]
-        public iSy.Wordpress.Services.IWordpressService WordpressService { get; set; }
+    [Inject]
+    public iSy.Wordpress.Services.IWordpressService WordpressService { get; set; }
 
-        [Parameter]
-        public string SearchText { get; set; } = "";
+    [Parameter]
+    public string SearchText { get; set; } = "";
 
     public List<Wordpress.Models.Post.PostOverview> Posts { get; set; }
 
