@@ -33,9 +33,9 @@ namespace Weather.Services
         public async Task<(List<WeatherViewModel> vm, bool fromCache)> LoadWeather()
         {
             _logger.LogInformation("Retrieving weather data...");
-            var rawWeather = await loadData();
+            var (data, fromCache) = await loadData();
             _logger.LogInformation("Mapping weather data to view model...");
-            return (rawWeather.data.MapToViewModel(_config), rawWeather.fromCache);
+            return (data.MapToViewModel(_config), fromCache);
         }
 
         private async Task<(OpenWeatherResponse data, bool fromCache)> loadData()
