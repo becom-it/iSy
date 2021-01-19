@@ -132,6 +132,7 @@ namespace EmployeeData.Services
                         throw new Exception($"Error loading the manager! (Found no manager)");
                     }
                 }
+                               
 
                 //Surrogates laden
                 if (emp.DirectReportPaths.Count == 0)
@@ -140,17 +141,30 @@ namespace EmployeeData.Services
                     emp.Manager.DirectReports.Clear();
                     foreach (var dp in emp.Manager.DirectReportPaths)
                     {
+                        if (dp.Contains("OU=Z_Obsolete User") || dp.Contains("OU=BECOM HU")) continue;
                         if (emp.DistinguishedName != dp)
                         {
-                            var e = await LoadEmployeeWithPath(dp, true);
-                            if (e != null)
+                            try
                             {
-                                emp.Manager.DirectReports.Add(e);
+                                var e = await LoadEmployeeWithPath(dp, true);
+                                if (e != null)
+                                {
+                                    emp.Manager.DirectReports.Add(e);
+                                }
                             }
-                            else
+                            catch (Exception ex)
                             {
-                                throw new Exception($"Error loading the direct report employee! (Found no employee)");
+                                _logger.LogError($"Error loading the direct report employee! (Found no employee) for path {dp}: {ex.Message}");
                             }
+                            //var e = await LoadEmployeeWithPath(dp, true);
+                            //if (e != null)
+                            //{
+                            //    emp.Manager.DirectReports.Add(e);
+                            //}
+                            //else
+                            //{
+                            //    throw new Exception($"Error loading the direct report employee! (Found no employee)");
+                            //}
                         }
                         else
                         {
@@ -171,18 +185,35 @@ namespace EmployeeData.Services
                 }
                 else
                 {
+                    emp.DirectReports.Clear();
+
                     //Die Mitarbeiter des Mitarbeiter laden
                     foreach (var dp in emp.DirectReportPaths)
                     {
-                        var e = await LoadEmployeeWithPath(dp, true);
-                        if (e != null)
+                        if (dp.Contains("OU=Z_Obsolete User") || dp.Contains("OU=BECOM HU")) continue;
+
+                        try
                         {
-                            emp.Manager.DirectReports.Add(e);
+                            var e = await LoadEmployeeWithPath(dp, true);
+                            if (e != null)
+                            {
+                                emp.DirectReports.Add(e);
+                            }
                         }
-                        else
+                        catch (Exception ex)
                         {
-                            throw new Exception($"Error loading the direct report employee! (Found no employee)");
+                            _logger.LogError($"Error loading the direct report employee! (Found no employee) for path {dp}: {ex.Message}");
                         }
+
+                        //var e = await LoadEmployeeWithPath(dp, true);
+                        //if (e != null)
+                        //{
+                        //    emp.DirectReports.Add(e);
+                        //}
+                        //else
+                        //{
+                        //    throw new Exception($"Error loading the direct report employee! (Found no employee)");
+                        //}
                     }
                 }
                 return emp;

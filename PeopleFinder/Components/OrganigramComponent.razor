@@ -1,0 +1,63 @@
+﻿@using  EmployeeData.Models
+@inject EmployeeData.Services.IEmployeeService empService
+@inject Services.PeopleFinderState state
+
+<div class="organigram-container">
+    <div class="row search">
+        <iSy.Controls.Components.InputAutoComplete Placeholder="Mitarbeiter" CurrentText="@SearchTerm" InputChanged="InpChanged" SearchResult="FoundEmployeesDisplay" DebounceTime="500" />
+    </div>
+    <div class="row">
+        <OrganigramTree />
+    </div>
+</div>
+
+@code {
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    //public LdapEmployee CurrentEmployee { get; set; } = null;
+
+    public List<string> FoundEmployeesDisplay { get; set; } = new List<string>();
+
+    public List<LdapEmployee> FoundEmployees { get; set; } = new List<LdapEmployee>();
+
+    public string SearchTerm { get; set; }
+
+    async Task InpChanged(string text)
+    {
+        if (string.IsNullOrEmpty(text) || text.Length < 3) return;
+        if (FoundEmployeesDisplay.Contains(text))
+        {
+            var foundE = FoundEmployees.Where(x => $"{x.FirstName} {x.LastName}" == text).FirstOrDefault();
+            await state.EmployeeSearched(foundE);
+            //await EmployeeSelected.InvokeAsync(CurrentEmployee);
+            return;
+        }
+
+        FoundEmployeesDisplay.Clear();
+        FoundEmployees.Clear();
+        FoundEmployees = await empService.SearchEmployee(text);
+        FoundEmployeesDisplay = FoundEmployees.Select(x => $"{x.FirstName} {x.LastName}").ToList();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationStateTask;
+
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            var claim = user.Claims.Where(x => x.Type == System.Security.Claims.ClaimTypes.NameIdentifier).FirstOrDefault();
+            if (claim != null)
+            {
+                //Aktuellen User laden
+                var emp = await empService.LoadEmployeeWithId(claim.Value);
+                emp.IsCurrent = true;
+                SearchTerm = $"{emp.FirstName} {emp.LastName}";
+                await state.EmployeeSearched(emp);
+            }
+        }
+    }
+}

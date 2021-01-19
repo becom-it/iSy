@@ -1,0 +1,29 @@
+﻿
+@if (Employee != null)
+{
+<div class="ot-empbox-container" @onclick="empClicked">
+    <div class="ot-empbox @( Employee.IsCurrent ? "ot-current" : "" )">
+        <div class="row">
+            <div class="name-col">
+                <strong>@Employee.DisplayName</strong>
+                <div>@Employee.JobTitle</div>
+            </div>
+            <div class="pic-col">
+                <img src="data:image/png;base64, @Employee.Photo" alt="@Employee.DisplayName" /> 
+            </div>
+        </div>
+        @if (Employee.IsCurrent)
+        {
+            <div class="row">
+                <div>@Employee.Phone</div>
+            </div>
+            <div class="row">
+                <div>@Employee.EMail</div>
+            </div>
+            <div class="row">
+                <div>@Employee.EmployeeId</div>
+            </div>
+        }
+    </div>
+</div>
+}

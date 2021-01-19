@@ -1,0 +1,34 @@
+﻿.ot-empbox-container {
+    margin: 1%;
+    width: 23%;
+    height: 180px;
+
+    .ot-empbox {
+        border: 1px solid black;
+        padding: 1%;
+
+        .row {
+            .name-col {
+                width: 80%;
+
+                div {
+                    font-size: 0.7em;
+                }
+            }
+
+            .pic-col {
+                width: 20%;
+
+                img {
+                    clip-path: circle(60px at center);
+                    height: 105px;
+                    max-width: 100%;
+                }
+            }
+        }
+    }
+
+    .ot-current {
+        background-color: lightblue;
+    }
+}

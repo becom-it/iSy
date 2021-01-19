@@ -1,0 +1,11 @@
+﻿.o-tree {
+  display: flex;
+  flex-direction: column;
+  width: 100%; }
+  .o-tree .row {
+    width: 100%;
+    justify-content: center; }
+  .o-tree .emp-row {
+    width: 100%;
+    display: flex;
+    flex-direction: row; }

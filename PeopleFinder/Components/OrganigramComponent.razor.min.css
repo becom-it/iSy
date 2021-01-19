@@ -1,0 +1,1 @@
+﻿.organigram-container{display:flex;flex-direction:column;height:100%;background-color:#fff;margin-right:1%;padding:1%;}.organigram-container .row{width:100%;}::deep .search{display:flex;flex-direction:row;justify-content:flex-end;}::deep .search .cool-input{width:20%;margin:0;}

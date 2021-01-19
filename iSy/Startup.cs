@@ -13,6 +13,7 @@ using EmployeeData.Extensions;
 using iSy.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
+using PeopleFinder.Extensions;
 
 namespace iSy
 {
@@ -50,6 +51,8 @@ namespace iSy
 
             services.AddLdap(Configuration);
             services.AddScoped<IAuthenticationService, LdapAuthenticationService>();
+
+            services.AddPeopleFinder();
 
             services.AddHttpContextAccessor();
             services.AddScoped<HttpContextAccessor>();

@@ -10,21 +10,26 @@
     <Content Remove="compilerconfig.json" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="compilerconfig.json" />
-  </ItemGroup>
-
   
   <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="5.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EDI.PersonalDataExchange\Becom.EDI.PersonalDataExchange.csproj" />
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="compilerconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EmployeeData\EmployeeData.csproj" />
     <ProjectReference Include="..\iSy.Controls\iSy.Controls.csproj" />
   </ItemGroup>
 

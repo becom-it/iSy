@@ -1,0 +1,17 @@
+﻿@if (Ready)
+{
+    <div class="o-tree">
+        <div class="row">
+            <EmployeeBox Employee="@Manager" />
+        </div>
+        <div class="row">
+            <EmployeeBox Employee="@TeamLead" />
+        </div>
+        <div class="emp-row">
+            @foreach (var e in Employees)
+            {
+                <EmployeeBox Employee="e" />
+            }
+        </div>
+    </div>
+}

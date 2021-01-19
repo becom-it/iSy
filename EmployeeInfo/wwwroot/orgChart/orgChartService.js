@@ -129,6 +129,7 @@ export class OrgChartService {
 
         let empCol = 0;
         let empRow = 0;
+        let lastEmpRow = 0;
         drawPoint.x = 0;
 
         let prevHasPrim = false;
@@ -144,10 +145,16 @@ export class OrgChartService {
             }
 
             drawPoint.x = drawPoint.x + (primInThisRow ? spacing1 : spacing2);
-            drawPoint.y = drawPoint.y + ((prevHasPrim ? nodeDimensions1 : nodeDimensions2).height + this.settings.nodeOffset) * empRow;
+            if (empRow == lastEmpRow) {
+                drawPoint.y = drawPoint.y
+            } else {
+                drawPoint.y = drawPoint.y + ((prevHasPrim ? nodeDimensions1 : nodeDimensions2).height + this.settings.nodeOffset) * empRow;
+            }
 
             let empNode = new EmployeeNode(viewModel.employees[i], this.settings, (viewModel.employees[i].isCurrent ? nodeDimensions1 : nodeDimensions2), drawPoint);
             this.drawableItems = this.drawableItems.concat(empNode.drawMe());
+
+            lastEmpRow = empRow;
 
             drawPoint.x = drawPoint.x + (viewModel.employees[i].isCurrent ? nodeDimensions1 : nodeDimensions2).width;
             empCol++;
@@ -157,6 +164,7 @@ export class OrgChartService {
                 if (hasPrim) prevHasPrim = true;
                 empRow++;
             }
+            
         }
 
         this.drawableItems.forEach(i => i.drawMe(this.settings.context));

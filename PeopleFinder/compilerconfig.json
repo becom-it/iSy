@@ -1,0 +1,14 @@
+﻿[
+  {
+    "outputFile": "Components/OrganigramComponent.razor.css",
+    "inputFile": "Components/OrganigramComponent.razor.scss"
+  },
+  {
+    "outputFile": "Components/EmployeeBox.razor.css",
+    "inputFile": "Components/EmployeeBox.razor.scss"
+  },
+  {
+    "outputFile": "Components/OrganigramTree.razor.css",
+    "inputFile": "Components/OrganigramTree.razor.scss"
+  }
+]
